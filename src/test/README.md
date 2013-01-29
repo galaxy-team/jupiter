@@ -1,1 +1,1 @@
-The `src/tests/` directory contains the source code for jupiter's tests.
+The `src/test/` directory contains the source code for jupiter's tests.
