@@ -3,6 +3,9 @@
 *.lo
 *.o
 
+# Compiled Executables
+*.exe
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
