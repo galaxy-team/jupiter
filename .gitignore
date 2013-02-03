@@ -14,3 +14,11 @@
 *.lai
 *.la
 *.a
+
+# Random other files
+*.lnk
+
+# Code::Blocks projects
+*.cbp
+*.depend
+*.layout
