@@ -24,53 +24,35 @@ file named "LICENSE-LGPL.txt".
 #define LIBJUPITER_HPP
 
 #include <cstdint>
+
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace galaxy {
 	namespace jupiter {
 		/**
-		 * assemble
-		 * 
-		 * @param begin   an iterator pointing to the beginning of a subsequence of a vector<string>
-		 * @param end     an iterator pointing to just past the end of a subsequence of a vector<string>
-		 * 
-		 * assemble takes the iterators defining a sequence [begin, end) of strings, each representing
-		 * a line of DCPU-16 assembly language code.
-		 *
-		 * TODO: generalise to support other containers - list<string>, etc.
+		 * an object_file object represents a relocatable piece of DCPU-16
+		 * assembly code.
 		 */
-		std::vector<std::uint16_t> assemble(
-			std::vector<std::string>::const_iterator begin, 
-			std::vector<std::string>::const_iterator end
-		);
+		struct object_file {
+			/**
+			 * Key=std::string
+			 * this is a map indexed by strings, each representing
+			 *
+			 */
+			std::unordered_map<
+				std::string,							// Key
+				std::vector<std::uint16_t>::size_type	// Value
+			> labels;
+			std::vector<std::uint16_t> object_code;
+		};
 
-
-		/**
-		 * assemble
-		 * 
-		 * @param begin   an iterator pointing to the beginning of a subsequence of a string
-		 * @param end     an iterator pointing to just past the end of a subsequence of a string
-		 * 
-		 * assemble takes the iterators defining a sequence [begin, end) of characters, which
-		 * together represent a line of DCPU-16 ASM code.
-		 *
-		 * assemble returns a vector of uint16_t, representing an instruction (which can be of variable
-		 * length).
-		 */
-		std::vector<std::uint16_t> assemble(
-			std::string::const_iterator begin, 
+		object_file assemble(
+			std::string::const_iterator begin,
 			std::string::const_iterator end
 		);
-
-		#if 0
-		// Not yet implemented.
-		std::vector<std::string> disassemble(
-			std::vector<std::uint16_t>::const_iterator begin, 
-			std::vector<std::uint16_t>::const_iterator end
-		);
-		#endif /* 0 */
 	}
 }
 
-#endif /* LIBJUPITER_HPP */
+#endif

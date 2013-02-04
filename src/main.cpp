@@ -20,14 +20,14 @@ file named "LICENSE.txt".
 
 */
 
-#include "lib/libjupiter.hpp"
-
-#include <cctype>
+#include <cstdint>
 
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "lib/libjupiter.hpp"
 
 int main(int argc, char** argv)
 {
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
         if (argc == 2) {
             // Strip the last file extension, and replace with ".o"
             out = in.substr(0, in.find_last_of('.')) + ".o";
-        } 
+        }
         // Otherwise, we use the second argument as the output filename.
         else {
             out = argv[2];
@@ -60,17 +60,20 @@ int main(int argc, char** argv)
 
     /// READ IN THE INPUT FILE
     std::ifstream inf(in);
-    std::vector<std::string> asm_code;
-    for (std::string s : asm_code) {
-        std::getline(inf, s);
+    std::string asm_code;
+    {
+        char ch;
+        while (inf.read(&ch, 1)) {
+            asm_code.push_back(ch);
+        }
     }
 
     /// ASSEMBLE THE ASM
-    std::vector<std::uint16_t> object_code = galaxy::jupiter::assemble(asm_code.begin(), asm_code.end());
-    
+    galaxy::jupiter::object_file object_code = galaxy::jupiter::assemble(asm_code.begin(), asm_code.end());
+
     /// WRITE OUT TO OUTPUT FILE
     std::ofstream outf(out);
-    for (std::uint16_t word : object_code) {
+    for (std::uint16_t word : object_code.object_code) {
        outf.write(reinterpret_cast<char*>(&word)+1, sizeof (std::uint8_t));
        outf.write(reinterpret_cast<char*>(&word), sizeof (std::uint8_t));
     }
