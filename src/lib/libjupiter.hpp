@@ -64,7 +64,7 @@ namespace galaxy {
              * in DASM-16 code.
              *
              * The are positions mapped to the labels *used in those positions*.
-             * In the actual DASM-16 code, any positions where imported lbaels
+             * In the actual DASM-16 code, any positions where imported labels
              * are used will be set to 0 and will be added to this map.
              */
             std::unordered_map<
