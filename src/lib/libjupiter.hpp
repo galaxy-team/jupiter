@@ -56,7 +56,7 @@ namespace galaxy {
              * and will be added to this set, so they can be moved later
              */
             std::unordered_set<
-                std::uint16_t, // where the number to change is
+                std::uint16_t // where the number to change is
             > used_labels;
 
             /**
