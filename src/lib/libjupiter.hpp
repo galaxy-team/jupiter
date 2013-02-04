@@ -39,9 +39,6 @@ namespace galaxy {
         struct object_file {
             /**
              * this is a map indexed by strings, each representing a label.
-             * examples are:
-             *  @foo (an exported label)
-             *  bar  (an unexported label)
              *
              * The labels are mapped to their *declaration points* in the
              * outputted DASM-16 code.
@@ -65,9 +62,6 @@ namespace galaxy {
             /**
              * this is a map indexed by integers, each representing a location
              * in DASM-16 code.
-             * examples are:
-             *  0x1042 (an exported label)
-             *  0x0032 (an unexported label)
              *
              * The are positions mapped to the labels *used in those positions*.
              * In the actual DASM-16 code, any positions where imported lbaels
