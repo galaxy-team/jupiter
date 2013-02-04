@@ -27,6 +27,7 @@ file named "LICENSE-LGPL.txt".
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace galaxy {
@@ -37,7 +38,6 @@ namespace galaxy {
          */
         struct object_file {
             /**
-             * Key=std::string
              * this is a map indexed by strings, each representing a label.
              * examples are:
              *  @foo (an exported label)
@@ -47,26 +47,38 @@ namespace galaxy {
              * outputted DASM-16 code.
              */
             std::unordered_map<
-                std::string,                            // Key
-                std::vector<std::uint16_t>::size_type   // Value
+                std::string,    // Key
+                std::uint16_t   // Value
             > exported_labels;
 
             /**
-             * Key=std::string
+             * this is a set of locations in DASM-16 assembly code.
+             *
+             * In the actual DASM-16 code, any positions where non-imported labels
+             * are used will be set to the right value for that asm file
+             * and will be added to this set, so they can be moved later
+             */
+            std::unordered_set<
+                std::uint16_t, // where the number to change is
+            > used_labels;
+
+            /**
              * this is a map indexed by integers, each representing a location
              * in DASM-16 code.
              * examples are:
              *  0x1042 (an exported label)
              *  0x0032 (an unexported label)
              *
-             * The labels are mapped to the labels *used in those positions*.
-             * In the actual DASM-16 code, any positions where non-local labels
+             * The are positions mapped to the labels *used in those positions*.
+             * In the actual DASM-16 code, any positions where imported lbaels
              * are used will be set to 0 and will be added to this map.
              */
             std::unordered_map<
-                std::vector<std::uint16_t>::size_type,  // Key
-                std::string                             // Value
-            > used_labels;
+                std::uint16_t,  // Key
+                std::string     // Value
+            > imported_labels;
+
+            /// the machine code.
             std::vector<std::uint16_t> object_code;
         };
 
