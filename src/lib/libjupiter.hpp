@@ -30,29 +30,51 @@ file named "LICENSE-LGPL.txt".
 #include <vector>
 
 namespace galaxy {
-	namespace jupiter {
-		/**
-		 * an object_file object represents a relocatable piece of DCPU-16
-		 * assembly code.
-		 */
-		struct object_file {
-			/**
-			 * Key=std::string
-			 * this is a map indexed by strings, each representing
-			 *
-			 */
-			std::unordered_map<
-				std::string,							// Key
-				std::vector<std::uint16_t>::size_type	// Value
-			> labels;
-			std::vector<std::uint16_t> object_code;
-		};
+    namespace jupiter {
+        /**
+         * an object_file object represents a relocatable piece of DCPU-16
+         * assembly code.
+         */
+        struct object_file {
+            /**
+             * Key=std::string
+             * this is a map indexed by strings, each representing a label.
+             * examples are:
+             *  @foo (an exported label)
+             *  bar  (an unexported label)
+             *
+             * The labels are mapped to their *declaration points* in the
+             * outputted DASM-16 code.
+             */
+            std::unordered_map<
+                std::string,                            // Key
+                std::vector<std::uint16_t>::size_type   // Value
+            > exported_labels;
 
-		object_file assemble(
-			std::string::const_iterator begin,
-			std::string::const_iterator end
-		);
-	}
+            /**
+             * Key=std::string
+             * this is a map indexed by integers, each representing a location
+             * in DASM-16 code.
+             * examples are:
+             *  0x1042 (an exported label)
+             *  0x0032 (an unexported label)
+             *
+             * The labels are mapped to the labels *used in those positions*.
+             * In the actual DASM-16 code, any positions where non-local labels
+             * are used will be set to 0 and will be added to this map.
+             */
+            std::unordered_map<
+                std::vector<std::uint16_t>::size_type,  // Key
+                std::string                             // Value
+            > used_labels;
+            std::vector<std::uint16_t> object_code;
+        };
+
+        object_file assemble(
+            std::string::const_iterator begin,
+            std::string::const_iterator end
+        );
+    }
 }
 
 #endif
