@@ -43,10 +43,7 @@ namespace galaxy {
              * The labels are mapped to their *declaration points* in the
              * outputted DASM-16 code.
              */
-            std::unordered_map<
-                std::string,    // Key
-                std::uint16_t   // Value
-            > exported_labels;
+            std::unordered_map<std::string, std::uint16_t> exported_labels;
 
             /**
              * this is a set of locations in DASM-16 assembly code.
@@ -55,9 +52,7 @@ namespace galaxy {
              * are used will be set to the right value for that asm file
              * and will be added to this set, so they can be moved later
              */
-            std::unordered_set<
-                std::uint16_t // where the number to change is
-            > used_labels;
+            std::unordered_set<std::uint16_t> used_labels;
 
             /**
              * this is a map indexed by integers, each representing a location
@@ -67,10 +62,7 @@ namespace galaxy {
              * In the actual DASM-16 code, any positions where imported labels
              * are used will be set to 0 and will be added to this map.
              */
-            std::unordered_map<
-                std::uint16_t,  // Key
-                std::string     // Value
-            > imported_labels;
+            std::unordered_map<std::uint16_t, std::string> imported_labels;
 
             /// the machine code.
             std::vector<std::uint16_t> object_code;
