@@ -40,6 +40,9 @@ auto galaxy::jupiter::assemble(
 	for(auto iter = tokens.begin(); iter != tokens.end(); ++iter) {
 
 	}
+
+	object_file obj;
+	return obj;
 }
 
 template<typename Iter, typename OutIter>
