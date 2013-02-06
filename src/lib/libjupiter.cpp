@@ -31,28 +31,28 @@ template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest);
 
 auto galaxy::jupiter::assemble(
-	std::string::const_iterator begin,
-	std::string::const_iterator end
+    std::string::const_iterator begin,
+    std::string::const_iterator end
 ) -> object_file
 {
-	std::vector<std::string> tokens;
-	tokenise(begin, end, std::back_inserter(tokens));
-	for(auto iter = tokens.begin(); iter != tokens.end(); ++iter) {
+    std::vector<std::string> tokens;
+    tokenise(begin, end, std::back_inserter(tokens));
+    for(auto iter = tokens.begin(); iter != tokens.end(); ++iter) {
 
-	}
+    }
 
-	object_file obj;
-	return obj;
+    object_file obj;
+    return obj;
 }
 
 template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest)
 {
-	std::stringstream ss;
-	std::copy(begin, end, std::ostream_iterator<char>(ss));
-	std::copy(
-		std::istream_iterator<std::string>(ss),
-		std::istream_iterator<std::string>(),
-		dest
-	);
+    std::stringstream ss;
+    std::copy(begin, end, std::ostream_iterator<char>(ss));
+    std::copy(
+        std::istream_iterator<std::string>(ss),
+        std::istream_iterator<std::string>(),
+        dest
+    );
 }
