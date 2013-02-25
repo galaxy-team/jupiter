@@ -1,0 +1,3 @@
+[submodule "lib/asteroid"]
+	path = lib/asteroid
+	url = git@github.com:galaxy-team/asteroid.git
