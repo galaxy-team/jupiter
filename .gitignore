@@ -3,9 +3,6 @@
 *.lo
 *.o
 
-# Compiled Executables
-*.exe
-
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -15,10 +12,11 @@
 *.la
 *.a
 
-# Random other files
-*.lnk
+# Temporary Files
+*~
 
-# Code::Blocks projects
-*.cbp
-*.depend
-*.layout
+# CMake
+CMakeFiles
+CMakeCache.*
+cmake_install.cmake
+Makefile
