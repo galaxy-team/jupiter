@@ -27,13 +27,15 @@ file named "LICENSE-LGPL.txt".
 #include <sstream>
 #include <vector>
 
+#include <libasteroid.hpp>
+
 template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest);
 
-auto galaxy::jupiter::assemble(
+galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator begin,
     std::string::const_iterator end
-) -> object_file
+)
 {
     std::vector<std::string> tokens;
     tokenise(begin, end, std::back_inserter(tokens));
@@ -41,7 +43,7 @@ auto galaxy::jupiter::assemble(
 
     }
 
-    object_file obj;
+    galaxy::asteroid obj;
     return obj;
 }
 

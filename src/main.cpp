@@ -27,7 +27,8 @@ file named "LICENSE.txt".
 #include <string>
 #include <vector>
 
-#include "lib/libjupiter.hpp"
+#include <libjupiter.hpp>
+#include <libasteroid.hpp>
 
 int main(int argc, char** argv)
 {
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
     /// GET INPUT AND OUTPUT FILENAMES FROM COMMAND LINE ARGUMENTS
     // Test that we have the right number of arguments
     if (argc <= 1 || argc >= 4) {
-        std::cerr << "Error: Invalid usage. Usage is \"jupiter inputfile outputfile\""  << std::endl;
+        std::cerr << "Error: Invalid usage. Usage is `jupiter inputfile outputfile`"  << std::endl;
         return -1;
     } else {
         // The input filename is always the first argument.
@@ -69,12 +70,35 @@ int main(int argc, char** argv)
     }
 
     /// ASSEMBLE THE ASM
-    galaxy::jupiter::object_file object_code = galaxy::jupiter::assemble(asm_code.begin(), asm_code.end());
+    galaxy::asteroid objfile = galaxy::jupiter::assemble(asm_code.begin(), asm_code.end());
 
-    /// WRITE OUT TO OUTPUT FILE
+    /// WRITE OUT TO OUTPUT FILE - sorry about the mess
     std::ofstream outf(out);
-    for (std::uint16_t word : object_code.object_code) {
-       outf.write(reinterpret_cast<char*>(&word)+1, sizeof (std::uint8_t));
-       outf.write(reinterpret_cast<char*>(&word), sizeof (std::uint8_t));
+    unsigned size;
+    // write out object_file.exported_labels
+    size = objfile.exported_labels.size();
+    outf.write(reinterpret_cast<char*>(&size), sizeof unsigned);
+    for (std::pair<std::string, std::uint16_t> pair : objfile.exported_labels) {
+        outf.write(reinterpret_cast<char*>(&pair.first.c_str()), pair.first.size()+1);
+        outf.write(reinterpret_cast<char*>(&pair.second), sizeof std::uint16_t);
+    }
+    // write out object_file.imported_labels
+    size = objfile.imported_labels.size();
+    outf.write(reinterpret_cast<char*>(&size), sizeof unsigned);
+    for (std::pair<std::uint16_t, std::string> pair : objfile.imported_labels) {
+        outf.write(reinterpret_cast<char*>(&pair.second.c_str()), pair.second.size()+1);
+        outf.write(reinterpret_cast<char*>(&pair.first), sizeof std::uint16_t);
+    }
+    // write out object_file.used_labels
+    size = objfile.used_labels.size();
+    outf.write(reinterpret_cast<char*>(&size), sizeof unsigned);
+    for (std::uint16_t address : objfile.used_labels) {
+        outf.write(reinterpret_cast<char*>(&address), sizeof address);
+    }
+    // write out object_file.object_code
+    size = objfile.object_code.size();
+    outf.write(reinterpret_cast<char*>(&size), sizeof unsigned);
+    for (std::uint16_t byte : objfile.object_code) {
+        outf.write(reinterpret_cast<char*>(&byte), sizeof byte);
     }
 }
