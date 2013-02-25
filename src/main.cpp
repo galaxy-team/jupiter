@@ -74,10 +74,10 @@ int main(int argc, char** argv)
 
     /// WRITE OUT TO OUTPUT FILE - sorry about the mess
     std::ofstream outf(out);
-    unsigned size;
+    std::uint16_t size;
     // write out object_file.exported_labels
     size = objfile.exported_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(unsigned));
+    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
     for (std::pair<std::string, std::uint16_t> pair : objfile.exported_labels) {
         const char *s = pair.first.c_str();
         outf.write(s, pair.first.size()+1);
@@ -85,7 +85,7 @@ int main(int argc, char** argv)
     }
     // write out object_file.imported_labels
     size = objfile.imported_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(unsigned));
+    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
     for (std::pair<std::uint16_t, std::string> pair : objfile.imported_labels) {
         const char *s = pair.second.c_str();
         outf.write(s, pair.second.size()+1);
@@ -93,13 +93,13 @@ int main(int argc, char** argv)
     }
     // write out object_file.used_labels
     size = objfile.used_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(unsigned));
+    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
     for (std::uint16_t address : objfile.used_labels) {
         outf.write(reinterpret_cast<char*>(&address), sizeof address);
     }
     // write out object_file.object_code
     size = objfile.object_code.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(unsigned));
+    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
     for (std::uint16_t byte : objfile.object_code) {
         outf.write(reinterpret_cast<char*>(&byte), sizeof byte);
     }
