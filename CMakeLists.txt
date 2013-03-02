@@ -10,6 +10,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
 
 add_executable(jupiter
     src/main.cpp
-    src/lib/libjupiter.hpp
     src/lib/libjupiter.cpp
 )
