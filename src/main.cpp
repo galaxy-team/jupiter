@@ -20,43 +20,50 @@ file named "LICENSE.txt".
 
 */
 
+/* c stdlib */
 #include <cstdint>
 
+/* cpp stdlib */
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 
+/* application specific */
 #include <libjupiter.hpp>
 #include <libasteroid.hpp>
 
+/* third party */
+#include "OptionParser.h"
+
+
 int main(int argc, char** argv)
 {
+   // setup the command line argument parser
+    optparse::OptionParser parser = optparse::OptionParser()
+        .description("Jupiter, Galaxy's assembler")
+        .usage("usage: %prog [options] <input_filename> <output_filename>");
+
+    // parse the buggers - Dom
+    optparse::Values options = parser.parse_args(argc, argv);
+    std::vector<std::string> args = parser.args();
+
     /// DECLARE INPUT AND OUTPUT FILENAMES.
     std::string in;
     std::string out;
 
     /// GET INPUT AND OUTPUT FILENAMES FROM COMMAND LINE ARGUMENTS
     // Test that we have the right number of arguments
-    if (argc <= 1 || argc >= 4) {
-        std::cerr << "Error: Invalid usage. Usage is `jupiter inputfile outputfile`"  << std::endl;
+    if (args.empty()) {
+        // if no positional (required) arguments were provided, print help and exit
+        parser.print_help();
         return -1;
     } else {
         // The input filename is always the first argument.
-        in = argv[1];
+        in = args[0];
 
-        // If the output filename is unspecified, use a modified form of
-        // the input filename.
-        //
-        // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
-        if (argc == 2) {
-            // Strip the last file extension, and replace with ".o"
-            out = in.substr(0, in.find_last_of('.')) + ".o";
-        }
-        // Otherwise, we use the second argument as the output filename.
-        else {
-            out = argv[2];
-        }
+        // We use the second argument as the output filename.
+        out = args[1];
     }
 
     /// READ IN THE INPUT FILE
