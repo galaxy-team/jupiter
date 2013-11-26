@@ -26,35 +26,56 @@ file named "LICENSE-LGPL.txt".
 #include <iterator>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 #include <libasteroid.hpp>
+#include <tokenizer/token.hpp>
+#include <opcodes/opcodes.hpp>
+#include <assembler/assembler.hpp>
 
 template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest);
+
+template<typename Iter, typename OutIter>
+void parse(Iter begin, Iter end, OutIter dest);
+
 
 galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator begin,
     std::string::const_iterator end
 )
 {
-    std::vector<std::string> tokens;
+    std::vector<galaxy::jupiter::Token*> tokens;
+    std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes;
+
     tokenise(begin, end, std::back_inserter(tokens));
-    for(auto iter = tokens.begin(); iter != tokens.end(); ++iter) {
+    parse(tokens.begin(), tokens.end(), std::back_inserter(opcodes));
 
-    }
+    auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
+    return galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
+}
 
-    galaxy::asteroid obj;
-    return obj;
+template<typename Iter, typename OutIter>
+void parse(Iter begin, Iter end, OutIter dest)
+{
+    auto parser = new galaxy::jupiter::parser::Parser(begin, end);
+    auto opcodes = parser->parse();
+    std::copy(
+        opcodes.begin(),
+        opcodes.end(),
+        dest
+    );
 }
 
 template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest)
 {
-    std::stringstream ss;
-    std::copy(begin, end, std::ostream_iterator<char>(ss));
+    auto lexer = new galaxy::jupiter::lexer(begin, end);
+    auto tokens = lexer->lex();
+
     std::copy(
-        std::istream_iterator<std::string>(ss),
-        std::istream_iterator<std::string>(),
+        tokens.begin(),
+        tokens.end(),
         dest
     );
 }
