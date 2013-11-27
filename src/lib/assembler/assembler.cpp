@@ -17,18 +17,18 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
     std::unordered_map<std::string, std::uint16_t> symbol_map = {};
     int location_counter = 0;
 
-    for (auto it = opcodes.begin(); it != opcodes.end(); ++it) {
-        galaxy::jupiter::opcodes::Opcode* opcode = *it;
+    for (auto *it: opcodes) {
+        galaxy::jupiter::opcodes::Opcode* opcode = it;
 
         std::cout << "Opcode: ";
         std::cout << opcode->repr() << std::endl;
 
         if (opcode->getType() == "LabelOpcode"){
-            galaxy::jupiter::opcodes::LabelOpcode* label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(*it);
+            galaxy::jupiter::opcodes::LabelOpcode* label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(it);
             symbol_map[label_opcode->label] = location_counter;
 
         } else if (opcode->getType() == "OrigOpcode"){
-            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*it);
+            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(it);
             location_counter = orig_opcode->location;
 
         } else if (opcode->getType() == "FillOpcode"){
