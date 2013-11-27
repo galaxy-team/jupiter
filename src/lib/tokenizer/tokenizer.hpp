@@ -13,7 +13,7 @@
 #define MFNUMBER_SCI "Malformed number (bad scientific format)."
 #define IN_SET(str,set) (set.count(str.c_str()) > 0)
 #define PEEK_IS(set) (IN_SET(peek(), set))
-#define SET_STR std::unordered_set<std::string>
+#define SET_STR const std::unordered_set<std::string>
 
 namespace galaxy {
     namespace jupiter {
@@ -79,6 +79,7 @@ namespace galaxy {
                 _length = tokens.length();
                 _upto = 0;
             }
+
         };
 
         std::string get_file_contents(std::string path);
