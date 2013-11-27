@@ -157,13 +157,9 @@ std::string galaxy::jupiter::lexer::number() {
 
 galaxy::jupiter::Token* galaxy::jupiter::lexer::value() {
     white();
-    std::string contents,name;
+    std::string contents, name;
 
-    if (peek() == ":") {
-        name = "label";
-        contents = word();
-
-    } else if (IN_SET(peek(), PUNCTUATION)){
+    if (IN_SET(peek(), PUNCTUATION)){
         name = "punctuation";
         contents = punctuation();
 

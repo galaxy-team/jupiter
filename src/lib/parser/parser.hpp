@@ -25,6 +25,7 @@ namespace galaxy {
 
                 std::vector<galaxy::jupiter::opcodes::Opcode*> parse();
             };
+            galaxy::jupiter::opcodes::LabelOpcode* handle_label(HANDLER_SIGNATURE);
         }
     }
 }

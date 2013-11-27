@@ -34,9 +34,9 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         galaxy::jupiter::opcodes::Opcode* op = NULL;
 
         // std::cout << "Parsing token: " << token->repr();
+        if (token->contents == ":"){
+            op = handle_label(token, tokens);
 
-        if (token->name == "label"){
-            op = new galaxy::jupiter::opcodes::LabelOpcode(token->contents);
         } else if (token->name == "word"){
             // TODO: check if it is a valid instruction, and whether it is basic or complex
 
@@ -80,4 +80,13 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         }
     }
     return opcodes;
+}
+galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HANDLER_SIGNATURE) {
+    auto t = pop(tokens);
+
+    if (t->name != "word"){
+        throw galaxy::jupiter::parser::InvalidInstruction("Invalid label name", "");
+    }
+
+    return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
 }
