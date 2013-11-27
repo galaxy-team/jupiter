@@ -30,6 +30,8 @@ namespace galaxy {
             };
             SET_STR WHITESPACE = {"\t", " "};
             SET_STR PUNCTUATION = {",", ".", "\n", ";"};
+            SET_STR BINARY_B = {"b", "B"};
+            SET_STR BINARY_CHARS = {"0", "1"};
             SET_STR HEX_X = {"x", "X"};
             SET_STR HEX_CHARS = {"A","B","C","D","E","F","a","b","c","d","e","f"};
 
@@ -42,6 +44,7 @@ namespace galaxy {
             std::string punctuation();
             std::string digit();
             std::string hex();
+            std::string binary();
             std::string next_digit(std::string err);
             std::string number();
             galaxy::jupiter::Token* value();
