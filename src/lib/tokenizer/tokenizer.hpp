@@ -17,6 +17,13 @@
 
 namespace galaxy {
     namespace jupiter {
+        class TokenError : std::exception {
+        public:
+            TokenError(std::string what) : what(what) {};
+            ~TokenError() {};
+            std::string what;
+        };
+
         class tokenizer {
         private:
             std::string tokens = "";

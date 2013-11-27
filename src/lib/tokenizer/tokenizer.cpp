@@ -8,13 +8,6 @@
 #include "token.hpp"
 #include "tokenizer.hpp"
 
-class ParseError : std::exception {
-public:
-    ParseError(std::string what) : what(what) {};
-    // ~ParseError throw() {};
-    std::string what;
-};
-
 bool galaxy::jupiter::tokenizer::end() {
     return _upto == _length;
 }
@@ -110,7 +103,7 @@ std::string galaxy::jupiter::tokenizer::next_digit(std::string err) {
     step();
 
     if (peek() != "" || (!is_digit())) {
-        throw ParseError(err);
+        throw galaxy::jupiter::TokenError(err);
     }
 
     return n;
