@@ -1,4 +1,5 @@
 #include <string>
+#include <algorithm>
 #include "token.hpp"
 
 std::string galaxy::jupiter::Token::repr(){
@@ -14,4 +15,10 @@ std::string galaxy::jupiter::Token::repr(){
     }
 
     return "<Token:" + name + " \"" + reprd_contents + "\">";
+}
+
+std::string galaxy::jupiter::Token::normalized(){
+    std::string normal = contents;
+    std::transform(normal.begin(), normal.end(), normal.begin(), tolower);
+    return normal;
 }
