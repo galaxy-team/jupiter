@@ -54,7 +54,13 @@ namespace galaxy {
                 std::string repr();
             };
 
+            class DATOpcode : public Opcode {
+                DATOpcode(std::string contents) : contents(contents) {};
+                std::string contents;
 
+                std::string getType();
+                std::string repr();
+            };
         }
     }
 }
