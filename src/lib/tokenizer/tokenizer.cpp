@@ -96,6 +96,14 @@ std::string galaxy::jupiter::lexer::hex() {
     return n;
 }
 
+std::string galaxy::jupiter::tokenizer::binary() {
+    std::string n = "";
+    while (peek() != "" && PEEK_IS(BINARY_CHARS)){
+        n += peek();
+        step();
+    }
+    return n;
+}
 
 std::string galaxy::jupiter::lexer::next_digit(std::string err) {
     std::string n = peek();
@@ -116,10 +124,16 @@ std::string galaxy::jupiter::lexer::number() {
     }
 
     n += digit();
-    if (n == "0" && PEEK_IS(HEX_X)) {
-        n += peek();
-        step();
-        n += hex();
+    if (n == "0"){
+        if (PEEK_IS(HEX_X)) {
+            n += peek();
+            step();
+            n += hex();
+        } else if (PEEK_IS(BINARY_B)){
+            n += peek();
+            step();
+            n += binary();
+        }
     }
     // else {
 
