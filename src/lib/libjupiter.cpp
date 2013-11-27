@@ -70,7 +70,7 @@ void parse(Iter begin, Iter end, OutIter dest)
 template<typename Iter, typename OutIter>
 void tokenise(Iter begin, Iter end, OutIter dest)
 {
-    auto lexer = new galaxy::jupiter::lexer(begin, end);
+    auto lexer = new galaxy::jupiter::tokenizer(begin, end);
     auto tokens = lexer->lex();
 
     std::copy(

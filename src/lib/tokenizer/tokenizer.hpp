@@ -17,7 +17,7 @@
 
 namespace galaxy {
     namespace jupiter {
-        class lexer {
+        class tokenizer {
         private:
             std::string tokens = "";
             int _length;
@@ -49,7 +49,7 @@ namespace galaxy {
         public:
             std::vector<galaxy::jupiter::Token*> lex();
 
-            lexer(std::string tokens) : tokens(tokens) {
+            tokenizer(std::string tokens) : tokens(tokens) {
                 std::cout << "Lexer initialized with: " << std::endl;
                 std::cout << "##########" << std::endl;
                 std::cout << tokens << "##########" << std::endl << std::endl;
@@ -59,8 +59,9 @@ namespace galaxy {
             }
 
             template<typename Iter>
-            lexer(Iter begin, Iter end) {
+            tokenizer(Iter begin, Iter end) {
                 tokens = std::string(begin, end);
+
                 std::cout << "Lexer initialized with: " << std::endl;
                 std::cout << "##########" << std::endl;
                 std::cout << tokens << "##########" << std::endl << std::endl;

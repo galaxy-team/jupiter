@@ -15,11 +15,11 @@ public:
     std::string what;
 };
 
-bool galaxy::jupiter::lexer::end() {
+bool galaxy::jupiter::tokenizer::end() {
     return _upto == _length;
 }
 
-std::string galaxy::jupiter::lexer::peek() {
+std::string galaxy::jupiter::tokenizer::peek() {
     if (end()) {
         return "";
     } else {
@@ -27,18 +27,18 @@ std::string galaxy::jupiter::lexer::peek() {
     }
 }
 
-bool galaxy::jupiter::lexer::is_digit() {
+bool galaxy::jupiter::tokenizer::is_digit() {
     return PEEK_IS(NUMBERS);
 }
 
-void galaxy::jupiter::lexer::step(){
+void galaxy::jupiter::tokenizer::step(){
     if (!end()) {
         _upto += 1;
         // return peek();
     }
 }
 
-void galaxy::jupiter::lexer::white(){
+void galaxy::jupiter::tokenizer::white(){
     while (peek() != "") {
         if (PEEK_IS(WHITESPACE)){
             step();
@@ -48,7 +48,7 @@ void galaxy::jupiter::lexer::white(){
     }
 }
 
-std::string galaxy::jupiter::lexer::word(){
+std::string galaxy::jupiter::tokenizer::word(){
     std::string s = "";
     if (peek() == "\n") {
         return s;
@@ -70,7 +70,7 @@ std::string galaxy::jupiter::lexer::word(){
     return s;
 };
 
-std::string galaxy::jupiter::lexer::punctuation(){
+std::string galaxy::jupiter::tokenizer::punctuation(){
     // we'll only ever get one punctuation thing at a time
     std::string s = peek();
     step();
@@ -78,7 +78,7 @@ std::string galaxy::jupiter::lexer::punctuation(){
 }
 
 
-std::string galaxy::jupiter::lexer::digit() {
+std::string galaxy::jupiter::tokenizer::digit() {
     std::string n = "";
     while (peek() != "" && is_digit()) {
         n += peek();
@@ -87,7 +87,7 @@ std::string galaxy::jupiter::lexer::digit() {
     return n;
 }
 
-std::string galaxy::jupiter::lexer::hex() {
+std::string galaxy::jupiter::tokenizer::hex() {
     std::string n = "";
     while (peek() != "" && (PEEK_IS(HEX_CHARS) || is_digit())){
         n += peek();
@@ -105,7 +105,7 @@ std::string galaxy::jupiter::tokenizer::binary() {
     return n;
 }
 
-std::string galaxy::jupiter::lexer::next_digit(std::string err) {
+std::string galaxy::jupiter::tokenizer::next_digit(std::string err) {
     std::string n = peek();
     step();
 
@@ -116,7 +116,7 @@ std::string galaxy::jupiter::lexer::next_digit(std::string err) {
     return n;
 }
 
-std::string galaxy::jupiter::lexer::number() {
+std::string galaxy::jupiter::tokenizer::number() {
     std::string n = "";
 
     if (peek() == "-") {
@@ -155,7 +155,7 @@ std::string galaxy::jupiter::lexer::number() {
     return n;
 }
 
-galaxy::jupiter::Token* galaxy::jupiter::lexer::value() {
+galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value() {
     white();
     std::string contents, name;
 
@@ -175,7 +175,7 @@ galaxy::jupiter::Token* galaxy::jupiter::lexer::value() {
     return new Token(name, contents);
 }
 
-std::vector<galaxy::jupiter::Token*> galaxy::jupiter::lexer::lex(){
+std::vector<galaxy::jupiter::Token*> galaxy::jupiter::tokenizer::lex(){
     std::vector<galaxy::jupiter::Token*> parsed_tokens;
 
     while (!end()){
