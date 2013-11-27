@@ -20,8 +20,9 @@ std::string galaxy::jupiter::tokenizer::peek() {
     }
 }
 
-bool galaxy::jupiter::tokenizer::is_digit() {
-    return PEEK_IS(NUMBERS);
+char galaxy::jupiter::tokenizer::peek_char() {
+    // peek returns a string one char long, so just grab that char
+    return peek()[0];
 }
 
 void galaxy::jupiter::tokenizer::step(){
@@ -52,7 +53,7 @@ std::string galaxy::jupiter::tokenizer::word(){
     // }
 
     while (peek() != "" && !PEEK_IS(WHITESPACE)){
-        if (PEEK_IS(ALPHANUM)){
+        if (isalnum(peek_char())){
             s += peek();
         } else {
             return s;
@@ -73,7 +74,7 @@ std::string galaxy::jupiter::tokenizer::punctuation(){
 
 std::string galaxy::jupiter::tokenizer::digit() {
     std::string n = "";
-    while (peek() != "" && is_digit()) {
+    while (peek() != "" && isdigit(peek_char())) {
         n += peek();
         step();
     }
@@ -82,7 +83,7 @@ std::string galaxy::jupiter::tokenizer::digit() {
 
 std::string galaxy::jupiter::tokenizer::hex() {
     std::string n = "";
-    while (peek() != "" && (PEEK_IS(HEX_CHARS) || is_digit())){
+    while (peek() != "" && isxdigit(peek_char())){
         n += peek();
         step();
     }
@@ -102,7 +103,7 @@ std::string galaxy::jupiter::tokenizer::next_digit(std::string err) {
     std::string n = peek();
     step();
 
-    if (peek() != "" || (!is_digit())) {
+    if (peek() != "" || (!isdigit(peek_char()))) {
         throw galaxy::jupiter::TokenError(err);
     }
 
@@ -156,7 +157,7 @@ galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value() {
         name = "punctuation";
         contents = punctuation();
 
-    } else if (is_digit()) {
+    } else if (isdigit(peek_char())) {
         name = "number";
         contents = number();
 
