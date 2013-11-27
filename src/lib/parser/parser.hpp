@@ -25,6 +25,16 @@ namespace galaxy {
 
                 std::vector<galaxy::jupiter::opcodes::Opcode*> parse();
             };
+
+
+            // we find a problem, we fix it -.-
+            template<typename T>
+            T pop(std::vector<T>& v){
+                T item = v.front();
+                v.erase(v.begin());
+                return item;
+            }
+
             galaxy::jupiter::opcodes::LabelOpcode* handle_label(HANDLER_SIGNATURE);
         }
     }

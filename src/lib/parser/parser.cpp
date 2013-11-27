@@ -5,19 +5,6 @@
 #include <opcodes/opcodes.hpp>
 #include <opcodes/mappings.hpp>
 
-// template<typename T>
-// T pop_from(std::vector<T> v){
-//     T item = v.front();
-//     v.erase(v.begin());
-//     return item;
-// }
-
-// galaxy::jupiter::Token* pop_from(std::vector<galaxy::jupiter::Token*> v){
-//     galaxy::jupiter::Token* item = v.front();
-//     v.erase(v.begin());
-//     return item;
-// }
-
 
 std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::parse(){
     std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes;
@@ -28,8 +15,7 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
     std::cout << std::endl;
 
     while (!tokens.empty()) {
-        galaxy::jupiter::Token* token = tokens.front();
-        tokens.erase(tokens.begin());
+        auto token = pop(tokens);
 
         galaxy::jupiter::opcodes::Opcode* op = NULL;
 
