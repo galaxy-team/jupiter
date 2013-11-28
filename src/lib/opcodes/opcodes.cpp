@@ -25,7 +25,8 @@ std::string galaxy::jupiter::opcodes::OrigOpcode::repr(){
 
 std::string galaxy::jupiter::opcodes::DATOpcode::getType(){ return "DATOpcode"; }
 std::string galaxy::jupiter::opcodes::DATOpcode::repr(){
-    return makeRepr("contents=" + contents);
+    return makeRepr("contents=\"" + contents + "\"");
+}
 std::vector<std::uint16_t> galaxy::jupiter::opcodes::DATOpcode::format(){
     std::vector<std::uint16_t> v;
     return v;
