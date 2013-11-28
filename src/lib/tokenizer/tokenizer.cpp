@@ -28,7 +28,6 @@ char galaxy::jupiter::tokenizer::peek_char() {
 void galaxy::jupiter::tokenizer::step(){
     if (!end()) {
         _upto += 1;
-        // return peek();
     }
 }
 
@@ -62,7 +61,7 @@ std::string galaxy::jupiter::tokenizer::word(){
     }
 
     return s;
-};
+}
 
 std::string galaxy::jupiter::tokenizer::punctuation(){
     // we'll only ever get one punctuation thing at a time
@@ -178,4 +177,4 @@ std::vector<galaxy::jupiter::Token*> galaxy::jupiter::tokenizer::lex(){
     }
 
     return parsed_tokens;
-};
+}
