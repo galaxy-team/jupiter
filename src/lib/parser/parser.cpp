@@ -56,7 +56,7 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         } else if (token->contents == ";") {
             handle_comments(token, tokens);
         } else {
-            std::cout << "Number? " << token->contents << std::endl;
+            throw InvalidInstruction("Misplaced token: ", token->contents);
         }
 
         if (op != NULL){
