@@ -14,6 +14,28 @@
 namespace galaxy {
     namespace jupiter {
         namespace parser {
+
+            struct ParserError : public std::exception {
+                ParserError() {};
+                virtual ~ParserError() {};
+                ParserError(std::string msg) : msg(msg) {};
+                std::string msg;
+
+                virtual const char* what() const noexcept {
+                    return msg.c_str();
+                }
+            };
+
+            struct InvalidAssembly : public ParserError {
+                // InvalidAssembly() {};
+                InvalidAssembly(std::string msg) : msg(msg) {};
+                std::string msg;
+
+                virtual const char* what() const noexcept {
+                    return msg.c_str();
+                }
+            };
+
             struct InvalidInstruction : ParserError {
                 InvalidInstruction(std::string msg, std::string inst) : msg(msg), inst(inst) {};
                 InvalidInstruction(std::string msg, Token* token) : msg(msg) {
