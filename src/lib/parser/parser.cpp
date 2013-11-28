@@ -38,7 +38,7 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
             if (token->normalized() == "orig"){
                 op = handle_orig(token, tokens);
 
-            } else if (token->contents == "FILL") {
+            } else if (token->normalized() == "fill") {
                 // pass by for the moment
 
             } else if (token->normalized() == "dat"){
