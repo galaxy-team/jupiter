@@ -23,8 +23,8 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         if (token->contents == ":"){
             op = handle_label(token, tokens);
 
-        } else if (token->name == "word"){
-            // TODO: check if it is a valid instruction, and whether it is basic or complex
+        } else if (token->contents == "."){
+            token = pop(tokens);
 
             if (token->contents == "ORIG"){
                 auto mem_loco = tokens.front()->contents;
