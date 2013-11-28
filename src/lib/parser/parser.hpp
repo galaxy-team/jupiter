@@ -35,6 +35,7 @@ namespace galaxy {
                 return item;
             }
 
+            galaxy::jupiter::opcodes::OrigOpcode* handle_orig(HANDLER_SIGNATURE);
             galaxy::jupiter::opcodes::DATOpcode* handle_dat(HANDLER_SIGNATURE);
             galaxy::jupiter::opcodes::LabelOpcode* handle_label(HANDLER_SIGNATURE);
         }

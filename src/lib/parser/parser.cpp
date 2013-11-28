@@ -26,14 +26,17 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         } else if (token->contents == "."){
             token = pop(tokens);
 
-            if (token->contents == "ORIG"){
-                auto mem_loco = tokens.front()->contents;
-                auto location = strtol(mem_loco.c_str(), NULL, 0);
             if (token->normalized() == "dat"){
                 op = handle_dat(token, tokens);
 
-                tokens.erase(tokens.begin());
-                op = new galaxy::jupiter::opcodes::OrigOpcode(location);
+            } else {
+                std::cout << token->repr() << std::endl;
+                throw InvalidInstruction("Unknown instruction", token);
+            }
+
+        } else if (token->name == "word"){
+            if (token->normalized() == "orig"){
+                op = handle_orig(token, tokens);
 
             } else if (token->contents == "FILL") {
                 // pass by for the moment
@@ -69,6 +72,14 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         }
     }
     return opcodes;
+}
+
+galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDLER_SIGNATURE){
+
+    auto mem_loco = pop(tokens)->contents;
+    auto location = strtol(mem_loco.c_str(), NULL, 0);
+
+    return new galaxy::jupiter::opcodes::OrigOpcode(location);
 }
 galaxy::jupiter::opcodes::DATOpcode* galaxy::jupiter::parser::handle_dat(HANDLER_SIGNATURE) {
     std::string contents = "";
