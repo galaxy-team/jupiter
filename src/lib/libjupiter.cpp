@@ -20,62 +20,34 @@ file named "LICENSE-LGPL.txt".
 
 */
 
-#include "libjupiter.hpp"
+#include <libjupiter.hpp>
 
-#include <algorithm>
-#include <iterator>
-#include <sstream>
 #include <vector>
 #include <iostream>
 
 #include <libasteroid.hpp>
-#include <tokenizer/token.hpp>
+#include <tokenizer/tokenizer.hpp>
+#include <parser/parser.hpp>
 #include <opcodes/opcodes.hpp>
 #include <assembler/assembler.hpp>
-
-template<typename Iter, typename OutIter>
-void tokenise(Iter begin, Iter end, OutIter dest);
-
-template<typename Iter, typename OutIter>
-void parse(Iter begin, Iter end, OutIter dest);
-
 
 galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator begin,
     std::string::const_iterator end
 )
 {
-    std::vector<galaxy::jupiter::Token*> tokens;
-    std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes;
+    // the original cannot be a reference; the others must refer to something, after all
+    std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes = {};
 
-    tokenise(begin, end, std::back_inserter(tokens));
-    parse(tokens.begin(), tokens.end(), std::back_inserter(opcodes));
+    auto tokens = (new galaxy::jupiter::tokenizer(begin, end))->lex();
+
+    auto parser = new galaxy::jupiter::parser::Parser(tokens.begin(), tokens.end());
+    parser->parse(opcodes);
+
+    for (auto it = opcodes.begin(); it != opcodes.end(); ++it){
+        std::cout << (**it).repr() << std::endl;
+    }
 
     auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
     return galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
-}
-
-template<typename Iter, typename OutIter>
-void parse(Iter begin, Iter end, OutIter dest)
-{
-    auto parser = new galaxy::jupiter::parser::Parser(begin, end);
-    auto opcodes = parser->parse();
-    std::copy(
-        opcodes.begin(),
-        opcodes.end(),
-        dest
-    );
-}
-
-template<typename Iter, typename OutIter>
-void tokenise(Iter begin, Iter end, OutIter dest)
-{
-    auto lexer = new galaxy::jupiter::tokenizer(begin, end);
-    auto tokens = lexer->lex();
-
-    std::copy(
-        tokens.begin(),
-        tokens.end(),
-        dest
-    );
 }
