@@ -29,6 +29,8 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
             if (token->contents == "ORIG"){
                 auto mem_loco = tokens.front()->contents;
                 auto location = strtol(mem_loco.c_str(), NULL, 0);
+            if (token->normalized() == "dat"){
+                op = handle_dat(token, tokens);
 
                 tokens.erase(tokens.begin());
                 op = new galaxy::jupiter::opcodes::OrigOpcode(location);
@@ -36,7 +38,8 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
             } else if (token->contents == "FILL") {
                 // pass by for the moment
 
-            } else {
+            } else if (token->normalized() == "dat"){
+                op = handle_dat(token, tokens);
 
                 std::string name = token->contents;
                 std::string a = tokens.at(0)->contents;
@@ -67,6 +70,26 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
     }
     return opcodes;
 }
+galaxy::jupiter::opcodes::DATOpcode* galaxy::jupiter::parser::handle_dat(HANDLER_SIGNATURE) {
+    std::string contents = "";
+
+    // pop the opening quote
+    pop(tokens);
+
+    while (tokens.front()->contents != "\"" && (!tokens.size() != 1)) {
+        contents += pop(tokens)->contents;
+    }
+
+    if (tokens.front()->contents != "\""){
+        throw InvalidAssembly(".DAT missing closing quote.");
+    }
+
+    // pop the closing quote
+    pop(tokens);
+
+    return new galaxy::jupiter::opcodes::DATOpcode(contents);
+}
+
 galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HANDLER_SIGNATURE) {
     auto t = pop(tokens);
 
