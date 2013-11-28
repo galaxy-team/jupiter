@@ -37,6 +37,10 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
         } else if (opcode->getType() == "InstructionOpcode"){
             location_counter += 1;
 
+        } else if (opcode->getType() == "DATOpcode") {
+            galaxy::jupiter::opcodes::DATOpcode* dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(it);
+            location_counter += dat_opcode->format().size();
+
         } else {
            throw std::exception();
         }

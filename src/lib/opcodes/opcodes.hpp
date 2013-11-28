@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #ifndef _OPCODES_HPP
 #define _OPCODES_HPP
@@ -55,11 +56,13 @@ namespace galaxy {
             };
 
             class DATOpcode : public Opcode {
+            public:
                 DATOpcode(std::string contents) : contents(contents) {};
                 std::string contents;
 
                 std::string getType();
                 std::string repr();
+                std::vector<std::uint16_t> format();
             };
         }
     }
