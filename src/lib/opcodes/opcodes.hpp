@@ -24,7 +24,7 @@ namespace galaxy {
                 LabelOpcode(std::string _label) {
                     label = _label;
                 };
-                std::string label = "";
+                std::string label;
 
                 std::string getType();
                 std::string repr();
@@ -37,9 +37,9 @@ namespace galaxy {
                     a = _a;
                     b = _b;
                 };
-                std::string name = "";
-                std::string a = "";
-                std::string b = "";
+                std::string name;
+                std::string a;
+                std::string b;
 
                 std::uint16_t assemble();
                 std::string getType();
