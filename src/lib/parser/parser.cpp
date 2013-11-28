@@ -44,11 +44,9 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
             } else if (token->normalized() == "dat"){
                 op = handle_dat(token, tokens);
 
-                std::string name = token->contents;
-                std::string a = tokens.at(0)->contents;
-                std::string b = tokens.at(2)->contents;
-                tokens.erase(tokens.begin(), tokens.begin() + 3);
-                op = new galaxy::jupiter::opcodes::InstructionOpcode(name, a, b);
+            } else {
+                // TODO: check if it is a valid instruction, and whether it is basic or complex
+                op = handle_inst(token, tokens);
             }
         } else if (token->contents == "\n") {
         } else if (token->contents == ";") {
@@ -81,6 +79,31 @@ galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDL
 
     return new galaxy::jupiter::opcodes::OrigOpcode(location);
 }
+
+
+galaxy::jupiter::opcodes::InstructionOpcode* galaxy::jupiter::parser::handle_inst(HANDLER_SIGNATURE) {
+
+    std::string name = token->contents;
+    std::string a = pop(tokens)->contents;
+
+    // std::cout << name << a;
+
+    // at index 1 is the comma... or at least there should be :P
+    if (tokens.front()->contents != ","){
+        throw galaxy::jupiter::parser::InvalidInstruction(
+            "Invalid instruction; ", tokens.front()->repr()
+        );
+    } else {
+        pop(tokens);
+    }
+
+    std::string b = pop(tokens)->contents;
+
+    // if (pop(tokens)->contents)
+
+    return new galaxy::jupiter::opcodes::InstructionOpcode(name, a, b);
+}
+
 galaxy::jupiter::opcodes::DATOpcode* galaxy::jupiter::parser::handle_dat(HANDLER_SIGNATURE) {
     std::string contents = "";
 
