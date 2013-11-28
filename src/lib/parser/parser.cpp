@@ -1,5 +1,8 @@
 #include <vector>
 #include <iostream>
+#include <sstream>
+#include <thread>
+#include <chrono>
 
 #include "parser.hpp"
 #include <opcodes/opcodes.hpp>
@@ -9,8 +12,8 @@
 std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::parse(){
     std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes;
 
-    for (auto it = tokens.begin(); it != tokens.end(); ++it){
-        std::cout << " " << (*it)->repr();
+    for (auto &it: tokens){
+        std::cout << " " << it->repr();
     }
     std::cout << std::endl;
 
@@ -18,8 +21,8 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
         auto token = pop(tokens);
 
         galaxy::jupiter::opcodes::Opcode* op = NULL;
+        // std::cout << "Parsing token: " << token->repr() << std::endl;
 
-        // std::cout << "Parsing token: " << token->repr();
         if (token->contents == ":"){
             op = handle_label(token, tokens);
 

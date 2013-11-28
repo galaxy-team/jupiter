@@ -1,5 +1,6 @@
 // standard library
 #include <vector>
+#include <sstream>
 
 // application specific
 #include "opcodes/opcodes.hpp"
@@ -43,7 +44,7 @@ namespace galaxy {
                 };
                 std::string msg;
                 std::string inst;
-                const char* what(){
+                virtual const char* what() const noexcept {
                     std::stringstream ss;
                     ss << msg << inst;
                     return ss.str().c_str();
