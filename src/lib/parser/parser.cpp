@@ -79,7 +79,7 @@ galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDL
 }
 
 
-galaxy::jupiter::opcodes::InstructionOpcode* galaxy::jupiter::parser::handle_inst(HANDLER_SIGNATURE) {
+galaxy::jupiter::opcodes::BasicOpcode* galaxy::jupiter::parser::handle_inst(HANDLER_SIGNATURE) {
 
     std::string name = token->contents;
     std::string a = pop(tokens)->contents;
@@ -99,7 +99,7 @@ galaxy::jupiter::opcodes::InstructionOpcode* galaxy::jupiter::parser::handle_ins
 
     // if (pop(tokens)->contents)
 
-    return new galaxy::jupiter::opcodes::InstructionOpcode(name, a, b);
+    return new galaxy::jupiter::opcodes::BasicOpcode(name, a, b);
 }
 
 void galaxy::jupiter::parser::handle_comments(HANDLER_SIGNATURE) {

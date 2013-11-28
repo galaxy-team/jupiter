@@ -76,7 +76,7 @@ namespace galaxy {
             }
 
             galaxy::jupiter::opcodes::OrigOpcode* handle_orig(HANDLER_SIGNATURE);
-            galaxy::jupiter::opcodes::InstructionOpcode* handle_inst(HANDLER_SIGNATURE);
+            galaxy::jupiter::opcodes::BasicOpcode* handle_inst(HANDLER_SIGNATURE);
             void handle_comments(HANDLER_SIGNATURE);
             galaxy::jupiter::opcodes::DATOpcode* handle_dat(HANDLER_SIGNATURE);
             galaxy::jupiter::opcodes::LabelOpcode* handle_label(HANDLER_SIGNATURE);

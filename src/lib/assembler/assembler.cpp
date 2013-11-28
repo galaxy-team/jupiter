@@ -34,7 +34,7 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
         } else if (opcode->getType() == "FillOpcode"){
             location_counter += 1;
 
-        } else if (opcode->getType() == "InstructionOpcode"){
+        } else if ((*opcode)->getType() == "BasicOpcode"){
             location_counter += 1;
 
         } else if (opcode->getType() == "DATOpcode") {
@@ -77,9 +77,10 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(std::vector<galaxy::jupite
             //objectfile.add_notes("Initialize Mem", location_counter, opcode->size);
             location_counter += 1;
 
-        } else if (opcode->getType() == "InstructionOpcode"){
-            galaxy::jupiter::opcodes::InstructionOpcode* instruction_opcode = dynamic_cast<galaxy::jupiter::opcodes::InstructionOpcode*>(opcode);
-            double mach_inst = instruction_opcode->assemble();
+        } else if ((*opcode)->getType() == "BasicOpcode"){
+            galaxy::jupiter::opcodes::BasicOpcode* instruction_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
+            std::uint16_t mach_inst = instruction_opcode->assemble();
+            objectfile.object_code.push_back(mach_inst);
             //objectfile.add_instr(location_counter, mach_inst);
             location_counter += 1;
 

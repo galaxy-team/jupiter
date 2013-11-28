@@ -12,9 +12,9 @@ std::string galaxy::jupiter::opcodes::LabelOpcode::repr(){
     return makeRepr("label=" + label);
 }
 
-std::uint16_t galaxy::jupiter::opcodes::InstructionOpcode::assemble(){ return 0;}
-std::string galaxy::jupiter::opcodes::InstructionOpcode::getType(){ return "InstructionOpcode"; }
-std::string galaxy::jupiter::opcodes::InstructionOpcode::repr(){
+std::uint16_t galaxy::jupiter::opcodes::BasicOpcode::assemble(){ return 0;}
+std::string galaxy::jupiter::opcodes::BasicOpcode::getType(){ return "BasicOpcode"; }
+std::string galaxy::jupiter::opcodes::BasicOpcode::repr(){
     return makeRepr("name=\"" + name + "\",a=\"" + a + "\",b=\"" + b + "\"");
 }
 

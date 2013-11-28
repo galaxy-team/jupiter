@@ -30,16 +30,15 @@ namespace galaxy {
                 std::string repr();
             };
 
-            class InstructionOpcode : public Opcode {
+            class BasicOpcode : public Opcode {
             public:
-                InstructionOpcode(std::string _name, std::string _a, std::string _b) {
-                    name = _name;
-                    a = _a;
-                    b = _b;
-                };
+                BasicOpcode(std::string name, std::string a, std::string b) : name(name), a(a), b(b) {};
                 std::string name;
                 std::string a;
                 std::string b;
+
+                virtual ~BasicOpcode() {};
+                std::string getB() { return b; }
 
                 std::uint16_t assemble();
                 std::string getType();
