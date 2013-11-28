@@ -49,17 +49,12 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
                 op = handle_inst(token, tokens);
             }
         } else if (token->contents == "\n") {
-        } else if (token->contents == ";") {
-            std::cout << " ; ";
-            // nuke comments
-            int newline_index = 0;
-            do {
-                newline_index += 1;
-                std::cout << " >" << tokens.at(newline_index)->contents << "< ";
-            } while (tokens.at(newline_index)->contents != "\n");
-            tokens.erase(tokens.begin(), tokens.begin() + newline_index);
-            std::cout << std::endl;
+            // just ignore newlines. this could admittely mean that you can have something like this;
+            // ADD a,1 SUB a,1
+            // and it would work fine...
 
+        } else if (token->contents == ";") {
+            handle_comments(token, tokens);
         } else {
             std::cout << "Number? " << token->contents << std::endl;
         }
@@ -102,6 +97,13 @@ galaxy::jupiter::opcodes::InstructionOpcode* galaxy::jupiter::parser::handle_ins
     // if (pop(tokens)->contents)
 
     return new galaxy::jupiter::opcodes::InstructionOpcode(name, a, b);
+}
+
+void galaxy::jupiter::parser::handle_comments(HANDLER_SIGNATURE) {
+    // nukes comments
+    do {
+        pop(tokens);
+    } while (tokens.front()->contents != "\n");
 }
 
 galaxy::jupiter::opcodes::DATOpcode* galaxy::jupiter::parser::handle_dat(HANDLER_SIGNATURE) {
