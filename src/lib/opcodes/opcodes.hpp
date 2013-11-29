@@ -7,81 +7,76 @@
 
 #define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>&
 
+namespace galaxy { namespace jupiter { namespace opcodes {
+    class Opcode {
+    public:
+        Opcode() {};
 
-namespace galaxy {
-    namespace jupiter {
-        namespace opcodes {
-            class Opcode {
-            public:
-                Opcode() {};
+        virtual ~Opcode() {}
+        virtual std::string getType() = 0;
+        virtual std::string repr() = 0;
 
-                virtual ~Opcode() {}
-                virtual std::string getType() = 0;
-                virtual std::string repr() = 0;
+        std::string makeRepr(std::string vars);
+    };
 
-                std::string makeRepr(std::string vars);
-            };
+    class LabelOpcode : public Opcode {
+    public:
+        LabelOpcode(std::string label) : label(label) {};
+        std::string label;
 
-            class LabelOpcode : public Opcode {
-            public:
-                LabelOpcode(std::string label) : label(label) {};
-                std::string label;
+        virtual ~LabelOpcode() {};
 
-                virtual ~LabelOpcode() {};
+        std::string getType();
+        std::string repr();
+    };
 
-                std::string getType();
-                std::string repr();
-            };
+    class SpecialOpcode : public Opcode {
+    public:
+        SpecialOpcode(std::string name, std::string a) : name(name), a(a) {};
+        std::string name;
+        std::string a;
 
-            class SpecialOpcode : public Opcode {
-            public:
-                SpecialOpcode(std::string name, std::string a) : name(name), a(a) {};
-                std::string name;
-                std::string a;
+        std::uint16_t assemble();
+        std::string getType();
+        std::string repr();
+    };
 
-                std::uint16_t assemble();
-                std::string getType();
-                std::string repr();
-            };
+    class BasicOpcode : public Opcode {
+    public:
+        BasicOpcode(std::string name, std::string a, std::string b) : name(name), a(a), b(b) {};
+        std::string name;
+        std::string a;
+        std::string b;
 
-            class BasicOpcode : public Opcode {
-            public:
-                BasicOpcode(std::string name, std::string a, std::string b) : name(name), a(a), b(b) {};
-                std::string name;
-                std::string a;
-                std::string b;
+        virtual ~BasicOpcode() {};
 
-                virtual ~BasicOpcode() {};
+        std::uint16_t assemble();
+        std::string getType();
+        std::string repr();
+    };
 
-                std::uint16_t assemble();
-                std::string getType();
-                std::string repr();
-            };
+    class OrigOpcode : public Opcode {
+    public:
+        OrigOpcode(int location) : location(location) {};
+        int location;
 
-            class OrigOpcode : public Opcode {
-            public:
-                OrigOpcode(int location) : location(location) {};
-                int location;
+        virtual ~OrigOpcode() {};
 
-                virtual ~OrigOpcode() {};
+        std::string getType();
+        std::string repr();
+    };
 
-                std::string getType();
-                std::string repr();
-            };
+    class DATOpcode : public Opcode {
+    public:
+        DATOpcode(std::string contents) : contents(contents) {};
+        std::string contents;
 
-            class DATOpcode : public Opcode {
-            public:
-                DATOpcode(std::string contents) : contents(contents) {};
-                std::string contents;
+        virtual ~DATOpcode() {};
 
-                virtual ~DATOpcode() {};
-
-                std::string getType();
-                std::string repr();
-                std::vector<std::uint16_t> format();
-            };
-        }
-    }
-}
+        std::string getType();
+        std::string repr();
+        std::vector<std::uint16_t> format();
+        };
+}}}
 
 #endif
