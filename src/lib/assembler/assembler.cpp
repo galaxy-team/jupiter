@@ -41,7 +41,7 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
             location_counter += dat_opcode->format().size();
 
         } else {
-           throw std::exception();
+           throw UnknownOpcode((*opcode)->getType());
         }
     }
     return symbol_map;
@@ -91,7 +91,7 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
             // objectfile.add_instr(location_counter)
 
         } else {
-            throw std::exception();
+            throw UnknownOpcode((*opcode)->getType());
         }
     }
 
