@@ -5,6 +5,9 @@
 #ifndef _OPCODES_HPP
 #define _OPCODES_HPP
 
+#define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>&
+
+
 namespace galaxy {
     namespace jupiter {
         namespace opcodes {
