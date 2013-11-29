@@ -11,34 +11,33 @@
 
 #include "assembler.hpp"
 
-std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes){
+std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(OPCODE_VECTOR opcodes){
     std::cout << "First pass" << std::endl;
 
     std::unordered_map<std::string, std::uint16_t> symbol_map = {};
     int location_counter = 0;
 
-    for (auto *it: opcodes) {
-        galaxy::jupiter::opcodes::Opcode* opcode = it;
+    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
 
         std::cout << "Opcode: ";
-        std::cout << opcode->repr() << std::endl;
+        std::cout << (*opcode)->repr() << std::endl;
 
-        if (opcode->getType() == "LabelOpcode"){
-            galaxy::jupiter::opcodes::LabelOpcode* label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(it);
+        if ((*opcode)->getType() == "LabelOpcode"){
+            galaxy::jupiter::opcodes::LabelOpcode* label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(*opcode);
             symbol_map[label_opcode->label] = location_counter;
 
-        } else if (opcode->getType() == "OrigOpcode"){
-            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(it);
+        } else if ((*opcode)->getType() == "OrigOpcode"){
+            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
             location_counter = orig_opcode->location;
 
-        } else if (opcode->getType() == "FillOpcode"){
+        } else if ((*opcode)->getType() == "FillOpcode"){
             location_counter += 1;
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
             location_counter += 1;
 
-        } else if (opcode->getType() == "DATOpcode") {
-            galaxy::jupiter::opcodes::DATOpcode* dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(it);
+        } else if ((*opcode)->getType() == "DATOpcode") {
+            galaxy::jupiter::opcodes::DATOpcode* dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
             location_counter += dat_opcode->format().size();
 
         } else {
@@ -48,7 +47,11 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
     return symbol_map;
 }
 
-galaxy::asteroid galaxy::jupiter::assembler::pass_two(std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes, std::unordered_map<std::string, std::uint16_t> symbol_map){
+
+galaxy::asteroid galaxy::jupiter::assembler::pass_two(
+        OPCODE_VECTOR opcodes,
+        std::unordered_map<std::string, std::uint16_t> symbol_map){
+
     std::cout << "Second pass" << std::endl;
 
     int location_counter;
@@ -59,22 +62,21 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(std::vector<galaxy::jupite
         // objectfile.used_labels.emplace((*it).first);
     }
 
-    for (auto it = opcodes.begin(); it != opcodes.end(); ++it) {
-        galaxy::jupiter::opcodes::Opcode* opcode = *it;
+    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
 
         std::cout << "Opcode: ";
-        std::cout << opcode->repr() << std::endl;
+        std::cout << (*opcode)->repr() << std::endl;
 
-        if (opcode->getType() == "LabelOpcode"){
+        if ((*opcode)->getType() == "LabelOpcode"){
             continue;
 
-        } else if (opcode->getType() == "OrigOpcode"){
-            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(opcode);
+        } else if ((*opcode)->getType() == "OrigOpcode"){
+            galaxy::jupiter::opcodes::OrigOpcode* orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
             location_counter = orig_opcode->location;
         //    objectfile.add_notes("Load Address", location_counter);
 
-        } else if (opcode->getType() == "FillOpcode"){
-            //objectfile.add_notes("Initialize Mem", location_counter, opcode->size);
+        } else if ((*opcode)->getType() == "FillOpcode"){
+            //objectfile.add_notes("Initialize Mem", location_counter, (*opcode)->size);
             location_counter += 1;
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
