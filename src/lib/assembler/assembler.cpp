@@ -86,6 +86,10 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
             //objectfile.add_instr(location_counter, mach_inst);
             location_counter += 1;
 
+        } else if ((*opcode)->getType() == "DATOpcode") {
+            // std::uint16_t data = (*opcode)->original()->format();
+            // objectfile.add_instr(location_counter)
+
         } else {
             throw std::exception();
         }
