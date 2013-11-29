@@ -172,6 +172,7 @@ std::vector<galaxy::jupiter::Token*> galaxy::jupiter::tokenizer::lex(){
     std::vector<galaxy::jupiter::Token*> parsed_tokens;
 
     while (!end()){
+        white();
         parsed_tokens.push_back(value());
         // std::cout << "Token: " << parsed_tokens.back()->repr() << "PEEK: " << peek() << std::endl;
     }
