@@ -7,7 +7,7 @@ std::string galaxy::jupiter::opcodes::Opcode::makeRepr(std::string vars){
     return "<" + getType() + " " + vars + ">";
 }
 
-std::string galaxy::jupiter::opcodes::LabelOpcode::getType(){ return "LabelOpcode"; };
+std::string galaxy::jupiter::opcodes::LabelOpcode::getType(){ return "LabelOpcode"; }
 std::string galaxy::jupiter::opcodes::LabelOpcode::repr(){
     return makeRepr("label=" + label);
 }
@@ -27,6 +27,7 @@ std::string galaxy::jupiter::opcodes::DATOpcode::getType(){ return "DATOpcode"; 
 std::string galaxy::jupiter::opcodes::DATOpcode::repr(){
     return makeRepr("contents=\"" + contents + "\"");
 }
+
 std::vector<std::uint16_t> galaxy::jupiter::opcodes::DATOpcode::format(){
     std::vector<std::uint16_t> v;
     return v;

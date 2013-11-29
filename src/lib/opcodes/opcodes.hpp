@@ -8,8 +8,6 @@
 namespace galaxy {
     namespace jupiter {
         namespace opcodes {
-            // std::unordered_map<std::string,int> galaxy::jupiter::opcodes::basic_opcodes;
-
             class Opcode {
             public:
                 Opcode() {};
@@ -51,7 +49,6 @@ namespace galaxy {
                 std::string b;
 
                 virtual ~BasicOpcode() {};
-                std::string getB() { return b; }
 
                 std::uint16_t assemble();
                 std::string getType();
