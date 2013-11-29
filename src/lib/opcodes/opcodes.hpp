@@ -12,6 +12,8 @@ namespace galaxy {
 
             class Opcode {
             public:
+                Opcode() {};
+
                 virtual ~Opcode() {}
                 virtual std::string getType() = 0;
                 virtual std::string repr() = 0;
@@ -21,10 +23,10 @@ namespace galaxy {
 
             class LabelOpcode : public Opcode {
             public:
-                LabelOpcode(std::string _label) {
-                    label = _label;
-                };
+                LabelOpcode(std::string label) : label(label) {};
                 std::string label;
+
+                virtual ~LabelOpcode() {};
 
                 std::string getType();
                 std::string repr();
@@ -50,6 +52,8 @@ namespace galaxy {
                 OrigOpcode(int location) : location(location) {};
                 int location;
 
+                virtual ~OrigOpcode() {};
+
                 std::string getType();
                 std::string repr();
             };
@@ -58,6 +62,8 @@ namespace galaxy {
             public:
                 DATOpcode(std::string contents) : contents(contents) {};
                 std::string contents;
+
+                virtual ~DATOpcode() {};
 
                 std::string getType();
                 std::string repr();
