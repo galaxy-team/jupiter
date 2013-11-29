@@ -93,31 +93,4 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(std::vector<galaxy::jupite
 }
 
 
-// int main(int argv, char *argc[]) {
-//     std::string filename("test.dasm");
-//     std::string file_contents;
-//     Lexer* lexer;
-//     Parser* parser;
-//     std::vector<Token*> tokens;
 
-//     file_contents = get_file_contents(filename);
-//     lexer = new Lexer(file_contents);
-//     tokens = lexer->lex();
-
-//     parser = new Parser(tokens);
-
-
-//     for (auto it = tokens.begin(); it != tokens.end(); ++it){
-//         std::cout << "Token: " << (*it)->repr() << std::endl;
-//     }
-
-//     std::cout << std::endl;
-
-//     std::vector<Opcode*> opcodes;
-//     opcodes.push_back(new LabelOpcode("loop"));
-//     opcodes.push_back(new InstructionOpcode("ADD", "A", "0"));
-
-//     std::unordered_map<std::string, std::uint16_t> symbol_map = find_symbols(opcodes);
-
-//     galaxy::asteroid objectfile = pass_two(opcodes, symbol_map);
-// }
