@@ -6,8 +6,6 @@
 
 #include "parser.hpp"
 #include <opcodes/opcodes.hpp>
-#include <opcodes/mappings.hpp>
-
 
 
 void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){

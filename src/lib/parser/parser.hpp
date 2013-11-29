@@ -28,7 +28,7 @@ namespace galaxy {
             };
 
             struct InvalidAssembly : public ParserError {
-                // InvalidAssembly() {};
+                virtual ~InvalidAssembly() {};
                 InvalidAssembly(std::string msg) : msg(msg) {};
                 std::string msg;
 
@@ -61,11 +61,10 @@ namespace galaxy {
                 template<typename Iter>
                 Parser(Iter begin, Iter end) {
                     tokens = std::vector<galaxy::jupiter::Token*>(begin, end);
-                };
+                }
 
                 void parse(OPCODE_VECTOR opcodes);
             };
-
 
             // we find a problem, we fix it -.-
             template<typename T>
