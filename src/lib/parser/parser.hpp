@@ -63,7 +63,7 @@ namespace galaxy {
                     tokens = std::vector<galaxy::jupiter::Token*>(begin, end);
                 };
 
-                std::vector<galaxy::jupiter::opcodes::Opcode*> parse();
+                void parse(OPCODE_VECTOR opcodes);
             };
 
 

@@ -9,8 +9,9 @@
 #include <opcodes/mappings.hpp>
 
 
-std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::parse(){
-    std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes;
+
+void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
+    // parse takes an reference to an empty std::vector<Opcode>, and returns nothing
 
     for (auto &it: tokens){
         std::cout << " " << it->repr();
@@ -67,7 +68,6 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::parser::Parser::
             opcodes.push_back(op);
         }
     }
-    return opcodes;
 }
 
 galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDLER_SIGNATURE){
