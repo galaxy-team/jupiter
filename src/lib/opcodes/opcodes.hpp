@@ -5,6 +5,8 @@
 #ifndef _OPCODES_HPP
 #define _OPCODES_HPP
 
+#include "tokenizer/token.hpp"
+
 #define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>&
 
 namespace galaxy { namespace jupiter { namespace opcodes {
@@ -17,6 +19,22 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         virtual std::string repr() = 0;
 
         std::string makeRepr(std::string vars);
+    };
+
+    class Part {
+    public:
+        virtual ~Part() {};
+        Part(std::vector<galaxy::jupiter::Token*> sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
+        std::vector<galaxy::jupiter::Token*> sub_tokens;
+        bool is_reference;
+
+        std::string repr() {
+            std::string return_val;
+            for (auto it: sub_tokens){
+                return_val += it->repr() + ", ";
+            }
+            return return_val.substr(0, return_val.length() - 2);
+        }
     };
 
     class LabelOpcode : public Opcode {
@@ -32,9 +50,9 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
     class SpecialOpcode : public Opcode {
     public:
-        SpecialOpcode(std::string name, std::string a) : name(name), a(a) {};
+        SpecialOpcode(std::string name, Part* a) : name(name), a(a) {};
         std::string name;
-        std::string a;
+        Part* a;
 
         std::uint16_t assemble();
         std::string getType();
@@ -43,10 +61,10 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
     class BasicOpcode : public Opcode {
     public:
-        BasicOpcode(std::string name, std::string a, std::string b) : name(name), a(a), b(b) {};
+        BasicOpcode(std::string name, Part* a, Part* b) : name(name), a(a), b(b) {};
         std::string name;
-        std::string a;
-        std::string b;
+        Part* a;
+        Part* b;
 
         virtual ~BasicOpcode() {};
 

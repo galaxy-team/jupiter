@@ -15,7 +15,12 @@ std::string galaxy::jupiter::opcodes::LabelOpcode::repr(){
 std::uint16_t galaxy::jupiter::opcodes::BasicOpcode::assemble(){ return 0;}
 std::string galaxy::jupiter::opcodes::BasicOpcode::getType(){ return "BasicOpcode"; }
 std::string galaxy::jupiter::opcodes::BasicOpcode::repr(){
-    return makeRepr("name=\"" + name + "\",a=\"" + a + "\",b=\"" + b + "\"");
+    return makeRepr(
+        "name=\"" + name +
+        "\",a=\"" + a->repr() +
+        "\",b=\"" + b->repr() +
+        "\""
+    );
 }
 
 std::string galaxy::jupiter::opcodes::OrigOpcode::getType(){ return "OrigOpcode"; }
