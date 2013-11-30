@@ -22,7 +22,10 @@ void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
         galaxy::jupiter::opcodes::Opcode* op = NULL;
         // std::cout << "Parsing token: " << token->repr() << std::endl;
 
-        if (token->contents == ":"){
+        if (token->normalized() == "export") {
+            op = handle_export(token, tokens);
+
+        } else if (token->contents == ":"){
             op = handle_label(token, tokens);
 
         } else if (token->contents == "."){
@@ -135,4 +138,19 @@ galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HAN
     }
 
     return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
+}
+
+galaxy::jupiter::opcodes::ExportOpcode* galaxy::jupiter::parser::handle_export(HANDLER_SIGNATURE) {
+    std::vector<std::string> label_names;
+
+    do {
+        Token* t = pop(tokens);
+        if (t->name == "word") {
+            label_names.push_back(t->contents);
+        }
+
+    } while (tokens.front()->contents != "\n" && tokens.front()->contents != ";");
+
+
+    return new galaxy::jupiter::opcodes::ExportOpcode(label_names);
 }
