@@ -36,7 +36,10 @@ namespace galaxy { namespace jupiter {
         int _upto;
 
         SET_STR WHITESPACE = {"\t", " ", "\r"};
-        SET_STR PUNCTUATION = {",", ".", "\n", ";", "\"", "[", "]"};
+        SET_STR PUNCTUATION = {
+            ",", ".", "\n", ";", ":", "\"", "[", "]",
+            "+", "-"
+        };
         SET_STR BINARY_B = {"b", "B"};
         SET_STR BINARY_CHARS = {"0", "1"};
         SET_STR HEX_X = {"x", "X"};
