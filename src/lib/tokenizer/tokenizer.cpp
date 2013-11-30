@@ -25,6 +25,21 @@ char galaxy::jupiter::tokenizer::peek_char() {
     return peek()[0];
 }
 
+std::string galaxy::jupiter::tokenizer::peek_repr() {
+    std::string p = peek();
+    return galaxy::jupiter::char_repr(p);
+}
+
+std::string galaxy::jupiter::char_repr(std::string p){
+    if (p == "\n"){
+        p = "\\n";
+    } else if (p == "\r"){
+        p = "\\r";
+    }
+    return p;
+}
+
+
 void galaxy::jupiter::tokenizer::step(){
     if (!end()) {
         _upto += 1;

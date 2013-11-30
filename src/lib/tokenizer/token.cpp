@@ -1,16 +1,14 @@
 #include <string>
 #include <algorithm>
 #include "token.hpp"
+#include "tokenizer.hpp"
 
 std::string galaxy::jupiter::Token::repr(){
-    std::string reprd_contents = contents;
-
-
-    if (reprd_contents == "\n"){
-        reprd_contents = "\\n";
-    }
-
-    return "<Token:" + name + " \"" + reprd_contents + "\">";
+    return (
+        "<Token:" + name + " \"" +
+        galaxy::jupiter::char_repr(contents)
+        + "\">"
+    );
 }
 
 std::string galaxy::jupiter::Token::normalized(){

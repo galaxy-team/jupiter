@@ -27,6 +27,8 @@ namespace galaxy { namespace jupiter {
         }
     };
 
+    std::string char_repr(std::string);
+
     class tokenizer {
     private:
         std::string tokens = "";
