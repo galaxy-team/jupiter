@@ -167,7 +167,7 @@ galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value() {
     white();
     std::string contents, name;
 
-    if (IN_SET(peek(), PUNCTUATION)){
+    if (PEEK_IS(PUNCTUATION)){
         name = "punctuation";
         contents = punctuation();
 

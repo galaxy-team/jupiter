@@ -3,6 +3,7 @@
 #include <sstream>
 #include <thread>
 #include <chrono>
+#include <unordered_set>
 
 #include "parser.hpp"
 #include <opcodes/opcodes.hpp>
@@ -152,14 +153,14 @@ galaxy::jupiter::opcodes::Part* galaxy::jupiter::parser::grab_part(TOKEN_VECTOR 
 
 galaxy::jupiter::opcodes::ExportOpcode* galaxy::jupiter::parser::handle_export(HANDLER_SIGNATURE) {
     std::vector<std::string> label_names;
+    const std::unordered_set<std::string> OPCODE_END({"\n", ";"});
 
     do {
         Token* t = pop(tokens);
         if (t->name == "word") {
             label_names.push_back(t->contents);
         }
-
-    } while (tokens.front()->contents != "\n" && tokens.front()->contents != ";");
+    } while (OPCODE_END.find(tokens.front()->contents) == OPCODE_END.end());
 
 
     return new galaxy::jupiter::opcodes::ExportOpcode(label_names);

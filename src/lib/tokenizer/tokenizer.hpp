@@ -11,8 +11,7 @@
 #define MFNUMBER_MINUS "Malformed number (no digits after initial minus)."
 #define MFNUMBER_DEC_POINT "Malformed number (no digits after decimal point)."
 #define MFNUMBER_SCI "Malformed number (bad scientific format)."
-#define IN_SET(str,set) (set.count(str.c_str()) > 0)
-#define PEEK_IS(set) (IN_SET(peek(), set))
+#define PEEK_IS(set) (set.find(peek().c_str()) != set.end())
 #define SET_STR const std::unordered_set<std::string>
 
 namespace galaxy { namespace jupiter {
