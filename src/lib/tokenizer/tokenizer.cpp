@@ -194,3 +194,14 @@ std::vector<galaxy::jupiter::Token*> galaxy::jupiter::tokenizer::lex(){
 
     return parsed_tokens;
 }
+
+void galaxy::jupiter::tokenizer::load_token_string(std::string _tokens){
+    std::cout << "Lexer initialized with: " << std::endl;
+    std::cout << "##########" << std::endl;
+    std::cout << _tokens;
+    std::cout << "##########" << std::endl << std::endl;
+
+    tokens = _tokens;
+    _length = tokens.length();
+    _upto = 0;
+}

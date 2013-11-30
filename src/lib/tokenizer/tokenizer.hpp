@@ -58,15 +58,7 @@ namespace galaxy { namespace jupiter {
 
     public:
         std::vector<galaxy::jupiter::Token*> lex();
-
-        void load_token_string(std::string tokens){
-            std::cout << "Lexer initialized with: " << std::endl;
-            std::cout << "##########" << std::endl;
-            std::cout << tokens << "##########" << std::endl << std::endl;
-
-            _length = tokens.length();
-            _upto = 0;
-        }
+        void load_token_string(std::string _tokens);
 
         tokenizer(std::string tokens) {
             load_token_string(tokens);
