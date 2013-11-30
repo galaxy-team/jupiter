@@ -40,6 +40,9 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
             galaxy::jupiter::opcodes::DATOpcode* dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
             location_counter += dat_opcode->format().size();
 
+        } else if ((*opcode)->getType() == "ExportOpcode"){
+            continue;
+
         } else {
            throw UnknownOpcode((*opcode)->getType());
         }
@@ -89,6 +92,17 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
         } else if ((*opcode)->getType() == "DATOpcode") {
             // std::uint16_t data = (*opcode)->original()->format();
             // objectfile.add_instr(location_counter)
+
+        } else if ((*opcode)->getType() == "ExportOpcode"){
+            auto export_opcode = dynamic_cast<galaxy::jupiter::opcodes::ExportOpcode*>(*opcode);
+
+            for (auto label_name: export_opcode->label_names) {
+                std::pair<std::string, std::uint16_t> pair;
+                pair.first = label_name;
+                pair.second = symbol_map[label_name];
+                std::cout << pair.first << " -> " << pair.second << std::endl;
+                objectfile.exported_labels.insert(pair);
+            }
 
         } else {
             throw UnknownOpcode((*opcode)->getType());
