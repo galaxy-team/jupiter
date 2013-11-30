@@ -83,9 +83,7 @@ galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDL
 galaxy::jupiter::opcodes::BasicOpcode* galaxy::jupiter::parser::handle_inst(HANDLER_SIGNATURE) {
 
     std::string name = token->contents;
-    std::string a = pop(tokens)->contents;
-
-    // std::cout << name << a;
+    galaxy::jupiter::opcodes::Part* a = grab_part(tokens);
 
     // at index 1 is the comma... or at least there should be :P
     if (tokens.front()->contents != ","){
@@ -96,7 +94,7 @@ galaxy::jupiter::opcodes::BasicOpcode* galaxy::jupiter::parser::handle_inst(HAND
         pop(tokens);
     }
 
-    std::string b = pop(tokens)->contents;
+    galaxy::jupiter::opcodes::Part* b = grab_part(tokens);
 
     // if (pop(tokens)->contents)
 
@@ -138,6 +136,23 @@ galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HAN
     }
 
     return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
+}
+
+// we return a subset of the given tokens
+galaxy::jupiter::opcodes::Part* galaxy::jupiter::parser::grab_part(TOKEN_VECTOR &tokens) {
+    std::vector<galaxy::jupiter::Token*> new_tokens;
+    bool is_reference = false;
+
+    new_tokens.push_back(pop(tokens));
+
+    if (new_tokens.at(0)->contents == "[") {
+        is_reference = true;
+        do {
+            new_tokens.push_back(pop(tokens));
+        } while (tokens.at(0)->contents != "]");
+    }
+
+    return new galaxy::jupiter::opcodes::Part(new_tokens, is_reference);
 }
 
 galaxy::jupiter::opcodes::ExportOpcode* galaxy::jupiter::parser::handle_export(HANDLER_SIGNATURE) {
