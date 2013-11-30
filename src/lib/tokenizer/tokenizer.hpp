@@ -73,8 +73,6 @@ namespace galaxy { namespace jupiter {
         }
 
     };
-
-    std::string get_file_contents(std::string path);
 }}
 
 #endif

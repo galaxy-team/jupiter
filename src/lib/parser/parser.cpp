@@ -11,11 +11,6 @@
 void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
     // parse takes an reference to an empty std::vector<Opcode>, and returns nothing
 
-    for (auto &it: tokens){
-        std::cout << " " << it->repr();
-    }
-    std::cout << std::endl;
-
     while (!tokens.empty()) {
         auto token = pop(tokens);
 

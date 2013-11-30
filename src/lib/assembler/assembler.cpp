@@ -2,12 +2,11 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
-#include <fstream>
 
 #include <libasteroid.hpp>
-#include "opcodes/opcodes.hpp"
-#include "tokenizer/tokenizer.hpp"
-#include "parser/parser.hpp"
+#include <opcodes/opcodes.hpp>
+#include <tokenizer/tokenizer.hpp>
+#include <parser/parser.hpp>
 
 #include "assembler.hpp"
 
@@ -59,11 +58,6 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
 
     int location_counter;
     galaxy::asteroid objectfile;
-
-    for (auto it = symbol_map.begin(); it != symbol_map.end(); ++it){
-        std::cout << "Label:" << std::string((*it).first) << std::endl;
-        // objectfile.used_labels.emplace((*it).first);
-    }
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
 
