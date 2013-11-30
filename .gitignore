@@ -15,6 +15,7 @@
 # Temporary Files
 *~
 *.swp
+build
 
 # CMake
 CMakeFiles
