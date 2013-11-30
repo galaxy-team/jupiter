@@ -94,7 +94,19 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string getType();
         std::string repr();
         std::vector<std::uint16_t> format();
-        };
+    };
+
+    class ExportOpcode : public Opcode {
+    public:
+        ExportOpcode(std::vector<std::string> label_names) : label_names(label_names) {};
+        std::vector<std::string> label_names;
+
+        virtual ~ExportOpcode() {};
+
+        std::string getType();
+        std::string repr();
+        std::vector<std::uint16_t> format();
+    };
 }}}
 
 #endif

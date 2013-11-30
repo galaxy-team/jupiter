@@ -37,3 +37,12 @@ std::vector<std::uint16_t> galaxy::jupiter::opcodes::DATOpcode::format(){
     std::vector<std::uint16_t> v;
     return v;
 }
+
+std::string galaxy::jupiter::opcodes::ExportOpcode::getType(){ return "ExportOpcode"; }
+std::string galaxy::jupiter::opcodes::ExportOpcode::repr(){
+    std::string str_contents;
+    for (auto it: label_names){
+        str_contents += it + ", ";
+    }
+    return makeRepr("contents=\"" + str_contents.substr(0, str_contents.length() - 2) + "\"");
+}
