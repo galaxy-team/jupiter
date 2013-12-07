@@ -27,6 +27,8 @@ namespace galaxy {
                 std::unordered_map<std::string,
                 std::uint16_t> symbol_map
             );
+
+            extern const std::unordered_map<std::string, std::uint16_t> basic_opcodes;
         }
     }
 }

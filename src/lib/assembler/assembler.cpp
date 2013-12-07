@@ -107,4 +107,16 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
 }
 
 
-
+const std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::basic_opcodes ({
+    {"SET", 0x01}, {"ADD", 0x02}, {"SUB", 0x03},
+    {"MUL", 0x04}, {"MLI", 0x05}, {"DIV", 0x06},
+    {"DVI", 0x07}, {"MOD", 0x08}, {"MDI", 0x09},
+    {"AND", 0x0a}, {"BOR", 0x0b}, {"XOR", 0x0c},
+    {"SHR", 0x0d}, {"ASR", 0x0e}, {"SHL", 0x0f},
+    {"IFB", 0x10}, {"IFC", 0x11}, {"IFE", 0x12},
+    {"IFN", 0x13}, {"IFG", 0x14}, {"IFA", 0x15},
+    {"IFL", 0x16}, {"IFU", 0x17}, {"NOP", 0x18},
+    {"NOP", 0x19}, {"ADX", 0x1a}, {"SBX", 0x1b},
+    {"NOP", 0x1c}, {"NOP", 0x1d}, {"STI", 0x1e},
+    {"STD", 0x1f}
+});
