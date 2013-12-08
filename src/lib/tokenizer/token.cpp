@@ -17,3 +17,7 @@ std::string galaxy::jupiter::Token::normalized(){
     std::transform(normal.begin(), normal.end(), normal.begin(), tolower);
     return normal;
 }
+
+std::uint16_t galaxy::jupiter::Token::to_uint16_t() {
+    return strtol(contents.c_str(), NULL, 0);
+}

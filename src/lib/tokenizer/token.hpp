@@ -11,6 +11,7 @@ namespace galaxy {
 
             std::string repr();
             std::string normalized();
+            std::uint16_t to_uint16_t();
         };
     }
 }
