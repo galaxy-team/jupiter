@@ -1,6 +1,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <sstream>
 
 #include <libasteroid.hpp>
 
@@ -14,7 +15,9 @@ namespace galaxy {
                 std::string msg;
 
                 virtual const char* what() const noexcept {
-                    return msg.c_str();
+                    std::stringstream ss;
+                    ss << "No such opcode: " << msg;
+                    return ss.str().c_str();
                 }
             };
 
