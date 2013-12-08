@@ -44,6 +44,7 @@ namespace galaxy { namespace jupiter {
         SET_STR HEX_X = {"x", "X"};
 
         std::string peek();
+        std::string peek_repr();
         char peek_char();
         bool end();
         bool is_digit();
@@ -71,6 +72,7 @@ namespace galaxy { namespace jupiter {
             load_token_string(std::string(begin, end));
         }
 
+        virtual ~tokenizer() {};
     };
 }}
 
