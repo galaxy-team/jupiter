@@ -14,7 +14,7 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
     std::cout << "First pass" << std::endl;
 
     std::unordered_map<std::string, std::uint16_t> symbols = {};
-    int location_counter = 0;
+    int address = 0;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
 
@@ -23,23 +23,23 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
 
         if ((*opcode)->getType() == "LabelOpcode"){
             auto label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(*opcode);
-            symbols[label_opcode->label] = location_counter;
+            symbols[label_opcode->label] = address;
 
         } else if ((*opcode)->getType() == "OrigOpcode"){
             auto orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
-            location_counter = orig_opcode->location;
+            address = orig_opcode->location;
 
         } else if ((*opcode)->getType() == "FillOpcode"){
             auto fill_opcode = dynamic_cast<galaxy::jupiter::opcodes::FillOpcode*>(*opcode);
-            location_counter += fill_opcode->size();
+            address += fill_opcode->size();
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
             auto basic_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
-            location_counter += basic_opcode->assemble(symbols)->size();
+            address += basic_opcode->assemble(symbols)->size();
 
         } else if ((*opcode)->getType() == "DATOpcode") {
             auto dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
-            location_counter += dat_opcode->format()->contents.size();
+            address += dat_opcode->format()->contents.size();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
             continue;
