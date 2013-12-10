@@ -44,7 +44,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         virtual ~LabelOpcode() {};
 
-        std::string getType();
+        std::string getType(){ return "LabelOpcode"; }
         std::string repr();
     };
 
@@ -55,7 +55,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         Part* a;
 
         std::uint16_t assemble();
-        std::string getType();
+        std::string getType(){ return "SpecialOpcode"; }
         std::string repr();
     };
 
@@ -69,7 +69,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         virtual ~BasicOpcode() {};
 
         std::uint16_t assemble();
-        std::string getType();
+        std::string getType(){ return "BasicOpcode"; }
         std::string repr();
     };
 
@@ -80,7 +80,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         virtual ~OrigOpcode() {};
 
-        std::string getType();
+        std::string getType(){ return "OrigOpcode"; }
         std::string repr();
     };
 
@@ -91,7 +91,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         virtual ~DATOpcode() {};
 
-        std::string getType();
+        std::string getType(){ return "DATOpcode"; }
         std::string repr();
         std::vector<std::uint16_t> format();
     };
@@ -103,7 +103,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         virtual ~ExportOpcode() {};
 
-        std::string getType();
+        std::string getType(){ return "ExportOpcode"; }
         std::string repr();
         std::vector<std::uint16_t> format();
     };
