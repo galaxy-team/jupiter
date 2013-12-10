@@ -163,7 +163,7 @@ std::string galaxy::jupiter::tokenizer::number() {
     return n;
 }
 
-galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value() {
+galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value(std::uint16_t guid) {
     white();
     std::string contents, name;
 
@@ -180,16 +180,22 @@ galaxy::jupiter::Token* galaxy::jupiter::tokenizer::value() {
         contents = word();
     }
 
-    return new Token(name, contents);
+    return new Token(name, contents, guid);
 }
 
-std::vector<galaxy::jupiter::Token*> galaxy::jupiter::tokenizer::lex(){
-    std::vector<galaxy::jupiter::Token*> parsed_tokens;
+token_vector galaxy::jupiter::tokenizer::lex(){
+    token_vector parsed_tokens;
+    std::uint16_t line_no = 1;
+    std::uint16_t guid = 0;
 
     while (!end()){
         white();
-        parsed_tokens.push_back(value());
-        // std::cout << "Token: " << parsed_tokens.back()->repr() << "PEEK: " << peek() << std::endl;
+        parsed_tokens.push_back(value(guid++));
+        parsed_tokens.back()->line_no = line_no;
+
+        if (parsed_tokens.back()->contents == "\n") {
+            line_no++;
+        }
     }
 
     return parsed_tokens;

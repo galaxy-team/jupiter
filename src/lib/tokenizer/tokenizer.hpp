@@ -53,10 +53,10 @@ namespace galaxy { namespace jupiter {
         std::string binary();
         std::string next_digit(std::string err);
         std::string number();
-        galaxy::jupiter::Token* value();
+        galaxy::jupiter::Token* value(std::uint16_t guid);
 
     public:
-        std::vector<galaxy::jupiter::Token*> lex();
+        token_vector lex();
         void load_token_string(std::string _tokens);
 
         tokenizer(std::string tokens) {

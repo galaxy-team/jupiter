@@ -1,14 +1,16 @@
 #include <string>
+#include <sstream>
 #include <algorithm>
 #include "token.hpp"
 #include "tokenizer.hpp"
 
 std::string galaxy::jupiter::Token::repr(){
-    return (
-        "<Token:" + name + " \"" +
-        galaxy::jupiter::char_repr(contents)
-        + "\">"
-    );
+    std::stringstream ss;
+    ss << "<Token:" << name;
+    ss << " on line " << line_no;
+    ss << " \"" << galaxy::jupiter::char_repr(contents) << "\"";
+    ss << ">";
+    return ss.str();
 }
 
 std::string galaxy::jupiter::Token::normalized(){

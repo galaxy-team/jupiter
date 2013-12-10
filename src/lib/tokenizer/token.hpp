@@ -9,7 +9,10 @@ namespace galaxy {
         public:
             std::string contents = "";
             std::string name;
-            Token(std::string name, std::string contents) : contents(contents), name(name) {};
+            std::uint16_t line_no;
+            std::uint16_t guid;
+            Token(std::string name, std::string contents) : contents(contents), name(name), line_no(0) {};
+            Token(std::string name, std::string contents, std::uint16_t guid) : contents(contents), name(name), guid(guid) {};
 
             std::string repr();
             std::string normalized();
