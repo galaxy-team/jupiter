@@ -107,6 +107,27 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string repr();
         std::vector<std::uint16_t> format();
     };
+
+    class FillOpcode : public Opcode {
+    public:
+        FillOpcode(std::uint16_t contents, std::uint16_t length) : length(length), contents(contents) {};
+        std::uint16_t length;
+        std::uint16_t contents;
+
+        virtual ~FillOpcode() {};
+
+        std::string getType() { return "FillOpcode"; }
+        std::string repr() {
+            std::stringstream ss;
+            ss << "of " << length << " for \"" << contents << "\"";
+            return makeRepr(ss.str());
+        }
+
+        // if fill just generates a sequence of sixteen bit numbers,
+        // then the size is just the length
+        std::uint16_t size() { return length; }
+        LiteralOpcode* format();
+    };
 }}}
 
 #endif

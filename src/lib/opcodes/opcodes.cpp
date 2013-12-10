@@ -46,3 +46,11 @@ std::string galaxy::jupiter::opcodes::ExportOpcode::repr(){
     }
     return makeRepr("contents=\"" + str_contents.substr(0, str_contents.length() - 2) + "\"");
 }
+
+galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::FillOpcode::format(){
+    std::vector<std::uint16_t> v;
+    for(std::uint16_t i=0; i<length; i++) {
+        v.push_back(contents);
+    }
+    return new LiteralOpcode(v, this);
+}
