@@ -22,13 +22,11 @@ file named "LICENSE-LGPL.txt".
 
 #include <libjupiter.hpp>
 
-#include <vector>
 #include <iostream>
 
 #include <libasteroid.hpp>
 #include <tokenizer/tokenizer.hpp>
 #include <parser/parser.hpp>
-#include <opcodes/opcodes.hpp>
 #include <assembler/assembler.hpp>
 
 galaxy::asteroid galaxy::jupiter::assemble(
