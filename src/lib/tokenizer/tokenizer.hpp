@@ -6,11 +6,7 @@
 #ifndef _TOKENISER_HPP
 #define _TOKENISER_HPP
 
-// #define UNEXP_END_STRING "Unexpected end of string while parsing Lua string."
-// #define UNEXP_END_TABLE "Unexpected end of table while parsing Lua string."
 #define MFNUMBER_MINUS "Malformed number (no digits after initial minus)."
-#define MFNUMBER_DEC_POINT "Malformed number (no digits after decimal point)."
-#define MFNUMBER_SCI "Malformed number (bad scientific format)."
 #define PEEK_IS(set) (set.find(peek().c_str()) != set.end())
 #define SET_STR const std::unordered_set<std::string>
 
