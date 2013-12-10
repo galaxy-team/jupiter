@@ -144,7 +144,7 @@ galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HAN
     auto t = pop(tokens);
 
     if (t->name != "word"){
-        throw galaxy::jupiter::parser::InvalidInstruction("Invalid label name", "");
+        throw galaxy::jupiter::parser::InvalidInstruction("Invalid label name", t);
     }
 
     return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
