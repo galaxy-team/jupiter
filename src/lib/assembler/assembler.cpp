@@ -10,14 +10,12 @@
 
 #include "assembler.hpp"
 
-std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(OPCODE_VECTOR opcodes){
-    std::cout << "First pass" << std::endl;
 
+std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(OPCODE_VECTOR opcodes){
     std::unordered_map<std::string, std::uint16_t> symbols = {};
     int address = 0;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
-
         std::cout << "Opcode: ";
         std::cout << (*opcode)->repr() << std::endl;
 
@@ -55,8 +53,6 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
 galaxy::asteroid galaxy::jupiter::assembler::pass_two(
         OPCODE_VECTOR opcodes,
         std::unordered_map<std::string, std::uint16_t> symbol_map){
-
-    std::cout << "Second pass" << std::endl;
 
     int location_counter;
     galaxy::asteroid objectfile;
@@ -107,6 +103,9 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
 
     return objectfile;
 }
+
+
+
 
 
 const std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::basic_opcodes ({
