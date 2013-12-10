@@ -132,9 +132,6 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
 }
 
 
-
-
-
 const std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::basic_opcodes ({
     {"SET", 0x01}, {"ADD", 0x02}, {"SUB", 0x03},
     {"MUL", 0x04}, {"MLI", 0x05}, {"DIV", 0x06},

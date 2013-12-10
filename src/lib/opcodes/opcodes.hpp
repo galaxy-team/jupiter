@@ -144,7 +144,6 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         std::string getType(){ return "ExportOpcode"; }
         std::string repr();
-        std::vector<std::uint16_t> format();
     };
 
     class FillOpcode : public Opcode {
