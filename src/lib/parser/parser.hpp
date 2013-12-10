@@ -71,6 +71,8 @@ namespace galaxy { namespace jupiter { namespace parser {
             v.erase(v.begin());
         return item;
     }
+    galaxy::jupiter::opcodes::Opcode* handle_punctuation(HANDLER_SIGNATURE);
+    galaxy::jupiter::opcodes::Opcode* handle_word(HANDLER_SIGNATURE);
 
     galaxy::jupiter::opcodes::OrigOpcode* handle_orig(HANDLER_SIGNATURE);
     galaxy::jupiter::opcodes::BasicOpcode* handle_inst(HANDLER_SIGNATURE);
@@ -81,6 +83,7 @@ namespace galaxy { namespace jupiter { namespace parser {
     galaxy::jupiter::opcodes::FillOpcode* handle_fill(HANDLER_SIGNATURE);
 
     galaxy::jupiter::opcodes::Part* grab_part(TOKEN_VECTOR &tokens);
+    TOKEN_VECTOR grab_quoted(TOKEN_VECTOR &tokens);
 }}}
 
 #endif

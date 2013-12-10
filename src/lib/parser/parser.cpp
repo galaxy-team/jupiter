@@ -17,47 +17,14 @@ OPCODE_VECTOR galaxy::jupiter::parser::Parser::parse(){
         auto token = pop(tokens);
 
         galaxy::jupiter::opcodes::Opcode* op = NULL;
-        // std::cout << "Parsing token: " << token->repr() << std::endl;
+        std::cout << "Parsing token: " << token->repr() << std::endl;
 
-        if (token->normalized() == "export") {
-            op = handle_export(token, tokens);
-
-        } else if (token->contents == ":"){
-            op = handle_label(token, tokens);
-
-        } else if (token->contents == "."){
-            token = pop(tokens);
-
-            if (token->normalized() == "dat"){
-                op = handle_dat(token, tokens);
-
-            } else {
-                std::cout << token->repr() << std::endl;
-                throw InvalidInstruction("Unknown instruction", token);
-            }
+        if (token->name == "punctuation") {
+            op = handle_punctuation(token, tokens);
 
         } else if (token->name == "word"){
-            if (token->normalized() == "orig"){
-                op = handle_orig(token, tokens);
+            op = handle_word(token, tokens);
 
-            } else if (token->normalized() == "fill") {
-                op = handle_fill(token, tokens);
-                // pass by for the moment
-
-            } else if (token->normalized() == "dat"){
-                op = handle_dat(token, tokens);
-
-            } else {
-                // TODO: check if it is a valid instruction, and whether it is basic or complex
-                op = handle_inst(token, tokens);
-            }
-        } else if (token->contents == "\n") {
-            // just ignore newlines. this could admittely mean that you can have something like this;
-            // ADD a,1 SUB a,1
-            // and it would work fine...
-
-        } else if (token->contents == ";") {
-            handle_comments(token, tokens);
         } else {
             throw InvalidInstruction("Misplaced token: ", token->contents);
         }
@@ -70,8 +37,63 @@ OPCODE_VECTOR galaxy::jupiter::parser::Parser::parse(){
     return opcodes;
 }
 
-galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDLER_SIGNATURE){
+galaxy::jupiter::opcodes::Opcode* galaxy::jupiter::parser::handle_punctuation(HANDLER_SIGNATURE) {
+    galaxy::jupiter::opcodes::Opcode* op = NULL;
 
+    if (token->contents == ":"){
+        std::cout << "Semicolon so label" << std::endl;
+        op = handle_label(token, tokens);
+
+    } else if (token->contents == "."){
+        token = pop(tokens);
+
+        if (token->normalized() == "dat"){
+            op = handle_dat(token, tokens);
+
+        } else {
+            std::cout << token->repr() << std::endl;
+            throw InvalidInstruction("Unknown instruction", token);
+        }
+
+    } else if (token->contents == "\n") {
+        // just ignore newlines. this could admittely mean that you can have something like this;
+        // ADD a,1 SUB a,1
+        // and it would work fine...
+
+    } else if (token->contents == ";") {
+        handle_comments(token, tokens);
+
+    } else {
+        throw InvalidInstruction("Misplaced punctuation", token);
+    }
+
+    return op;
+}
+
+galaxy::jupiter::opcodes::Opcode* galaxy::jupiter::parser::handle_word(HANDLER_SIGNATURE) {
+    galaxy::jupiter::opcodes::Opcode* op = NULL;
+
+    if (token->normalized() == "export") {
+        op = handle_export(token, tokens);
+
+    } else if (token->normalized() == "orig"){
+        op = handle_orig(token, tokens);
+
+    } else if (token->normalized() == "fill") {
+        op = handle_fill(token, tokens);
+
+    } else if (token->normalized() == "dat"){
+        op = handle_dat(token, tokens);
+
+    } else {
+        // TODO: check if it is a valid instruction, and whether it is basic or complex
+        op = handle_inst(token, tokens);
+    }
+    return op;
+}
+
+
+galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDLER_SIGNATURE){
     auto mem_loco = pop(tokens)->contents;
     auto location = strtol(mem_loco.c_str(), NULL, 0);
 
@@ -108,21 +130,12 @@ void galaxy::jupiter::parser::handle_comments(HANDLER_SIGNATURE) {
 }
 
 galaxy::jupiter::opcodes::DATOpcode* galaxy::jupiter::parser::handle_dat(HANDLER_SIGNATURE) {
+    auto contained = grab_quoted(tokens);
+
     std::string contents = "";
-
-    // pop the opening quote
-    pop(tokens);
-
-    while (tokens.front()->contents != "\"" && (!tokens.size() != 1)) {
-        contents += pop(tokens)->contents;
+    for(auto it: contained) {
+        contents += it->contents;
     }
-
-    if (tokens.front()->contents != "\""){
-        throw InvalidAssembly(".DAT missing closing quote.");
-    }
-
-    // pop the closing quote
-    pop(tokens);
 
     return new galaxy::jupiter::opcodes::DATOpcode(contents);
 }
@@ -136,6 +149,26 @@ galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HAN
 
     return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
 }
+
+TOKEN_VECTOR galaxy::jupiter::parser::grab_quoted(TOKEN_VECTOR &tokens) {
+    TOKEN_VECTOR contained_tokens;
+    // pop the opening quote
+    pop(tokens);
+
+    while (tokens.front()->contents != "\"" && (!tokens.size() != 1)) {
+        contained_tokens.push_back(pop(tokens));
+    }
+
+    if (tokens.front()->contents != "\""){
+        throw InvalidAssembly(".DAT missing closing quote.");
+    }
+
+    // pop the closing quote
+    pop(tokens);
+
+    return contained_tokens;
+}
+
 
 // we return a subset of the given tokens
 galaxy::jupiter::opcodes::Part* galaxy::jupiter::parser::grab_part(TOKEN_VECTOR &tokens) {
