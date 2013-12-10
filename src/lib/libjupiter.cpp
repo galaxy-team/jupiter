@@ -34,12 +34,14 @@ galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator end
 )
 {
-    auto tokens = (new galaxy::jupiter::tokenizer(begin, end))->lex();
+    opcode_vector opcodes;
+    token_vector tokens = (new galaxy::jupiter::tokenizer(begin, end))->lex();
     auto parser = new galaxy::jupiter::parser::Parser(tokens.begin(), tokens.end());
-    auto opcodes = parser->parse();
 
-    for (auto it = opcodes.begin(); it != opcodes.end(); ++it){
-        std::cout << (**it).repr() << std::endl;
+    try {
+        opcodes = parser->parse();
+    } catch (galaxy::jupiter::parser::InvalidInstruction &e) {
+        galaxy::jupiter::parser::handle_invalid_instruction(e, tokens);
     }
 
     auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
