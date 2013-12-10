@@ -1,3 +1,6 @@
+#ifndef _ASSEMBLER_HPP
+#define _ASSEMBLER_HPP
+
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -41,3 +44,5 @@ namespace galaxy {
         }
     }
 }
+
+#endif

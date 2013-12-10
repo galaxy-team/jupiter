@@ -1,3 +1,6 @@
+#ifndef _PARSER_HPP
+#define _PARSER_HPP
+
 // standard library
 #include <vector>
 #include <sstream>
@@ -5,9 +8,6 @@
 // application specific
 #include "opcodes/opcodes.hpp"
 #include "tokenizer/token.hpp"
-
-#ifndef _PARSER_HPP
-#define _PARSER_HPP
 
 #define HANDLER_SIGNATURE galaxy::jupiter::Token* token, token_vector &tokens
 
