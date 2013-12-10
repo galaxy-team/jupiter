@@ -21,6 +21,29 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string makeRepr(std::string vars);
     };
 
+    // the BasicOpcode, DATOpcode, and SpecialOpcode all end up being one of these
+    class LiteralOpcode : public Opcode {
+    public:
+        std::vector<std::uint16_t> contents;
+        Opcode* source = NULL;
+
+        LiteralOpcode(std::vector<std::uint16_t> contents, Opcode* source) : contents(contents), source(source) {};
+
+        std::uint16_t size() { return contents.size(); }
+        virtual ~LiteralOpcode() {};
+        std::string getType() { return "LiteralOpcode"; }
+        std::string repr() {
+            std::stringstream ss;
+            ss << "from " << source->repr() << " -> ";
+            for (auto it: contents){
+                ss  << "0x" << std::hex << it << ", ";
+            }
+            std::string return_val(ss.str());
+            return makeRepr(return_val.substr(0, return_val.length() - 2));
+
+        }
+    };
+
     class Part {
     public:
         virtual ~Part() {};
