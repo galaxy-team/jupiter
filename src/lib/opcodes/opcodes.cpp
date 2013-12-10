@@ -1,7 +1,9 @@
 #include <cstdint>
 #include <string>
+#include <bitset>
 
 #include "opcodes.hpp"
+#include "assembler/assembler.hpp"
 
 std::string galaxy::jupiter::opcodes::Opcode::makeRepr(std::string vars){
     return "<" + getType() + " " + vars + ">";
