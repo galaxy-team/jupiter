@@ -40,6 +40,7 @@ void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
                 op = handle_orig(token, tokens);
 
             } else if (token->normalized() == "fill") {
+                op = handle_fill(token, tokens);
                 // pass by for the moment
 
             } else if (token->normalized() == "dat"){
@@ -164,4 +165,11 @@ galaxy::jupiter::opcodes::ExportOpcode* galaxy::jupiter::parser::handle_export(H
 
 
     return new galaxy::jupiter::opcodes::ExportOpcode(label_names);
+}
+
+galaxy::jupiter::opcodes::FillOpcode* galaxy::jupiter::parser::handle_fill(HANDLER_SIGNATURE) {
+    auto contents = pop(tokens)->to_uint16_t();
+    auto length = pop(tokens)->to_uint16_t();
+
+    return new galaxy::jupiter::opcodes::FillOpcode(contents, length);
 }

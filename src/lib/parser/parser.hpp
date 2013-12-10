@@ -78,6 +78,7 @@ namespace galaxy { namespace jupiter { namespace parser {
     galaxy::jupiter::opcodes::DATOpcode* handle_dat(HANDLER_SIGNATURE);
     galaxy::jupiter::opcodes::LabelOpcode* handle_label(HANDLER_SIGNATURE);
     galaxy::jupiter::opcodes::ExportOpcode* handle_export(HANDLER_SIGNATURE);
+    galaxy::jupiter::opcodes::FillOpcode* handle_fill(HANDLER_SIGNATURE);
 
     galaxy::jupiter::opcodes::Part* grab_part(TOKEN_VECTOR &tokens);
 }}}
