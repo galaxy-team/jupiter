@@ -85,6 +85,8 @@ namespace galaxy { namespace jupiter { namespace parser {
 
     galaxy::jupiter::opcodes::Part* grab_part(token_vector &tokens);
     token_vector grab_quoted(token_vector &tokens);
+
+    void handle_invalid_instruction(std::exception &e, token_vector &tokens);
 }}}
 
 #endif

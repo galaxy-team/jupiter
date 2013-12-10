@@ -208,3 +208,49 @@ galaxy::jupiter::opcodes::FillOpcode* galaxy::jupiter::parser::handle_fill(HANDL
 
     return new galaxy::jupiter::opcodes::FillOpcode(contents, length);
 }
+
+void galaxy::jupiter::parser::handle_invalid_instruction(std::exception &e, token_vector &tokens) {
+    auto invalid_instruction = dynamic_cast<galaxy::jupiter::parser::InvalidInstruction&>(e);
+    std::cout << std::endl;
+    std::cout << "InvalidInstruction: " << e.what() << std::endl;
+
+    if (invalid_instruction.token) {
+        std::uint16_t bad_token_guid = invalid_instruction.token->guid;
+
+        std::vector<galaxy::jupiter::Token*> context;
+        bool found_in_line = false;
+
+        for (auto it: tokens) {
+            if (it->guid == bad_token_guid) {
+                found_in_line = true;
+            }
+
+            if (it->contents == "\n") {
+                if (found_in_line) {
+                    break;
+                } else {
+                    context.clear();
+                }
+            } else {
+                context.push_back(it);
+            }
+        }
+
+        std::uint16_t chars_in = 0;
+        std::uint16_t bad_token_chars_in = 0;
+        std::string line = "";
+        for (auto it: context) {
+            line += " " + it->contents;
+            if (it->guid == bad_token_guid) { bad_token_chars_in = chars_in; }
+            chars_in += it->contents.length() + 1;
+        }
+
+        std::cout << "\t" << line << std::endl;
+
+        std::cout << "\t";
+        for (std::uint16_t i=0; i<(bad_token_chars_in + 1); i++) {
+            std::cout << " ";
+        }
+        std::cout << "^" << std::endl;
+    }
+}
