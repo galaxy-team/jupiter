@@ -93,7 +93,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string name;
         Part* a;
 
-        std::uint16_t assemble();
+        LiteralOpcode* assemble(symbol_map symbols);
         std::string getType(){ return "SpecialOpcode"; }
         std::string repr();
     };
@@ -107,7 +107,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         virtual ~BasicOpcode() {};
 
-        std::uint16_t assemble();
+        LiteralOpcode* assemble(symbol_map symbols);
         std::string getType(){ return "BasicOpcode"; }
         std::string repr();
     };
@@ -132,7 +132,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
         std::string getType(){ return "DATOpcode"; }
         std::string repr();
-        std::vector<std::uint16_t> format();
+        LiteralOpcode* format();
     };
 
     class ExportOpcode : public Opcode {
