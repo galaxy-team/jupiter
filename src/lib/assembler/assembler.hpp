@@ -25,10 +25,9 @@ namespace galaxy {
                 OPCODE_VECTOR opcodes
             );
 
-            galaxy::asteroid pass_two(
+            OPCODE_VECTOR pass_two(
                 OPCODE_VECTOR opcodes,
-                std::unordered_map<std::string,
-                std::uint16_t> symbol_map
+                SYMBOL_MAP symbol_map
             );
 
             extern const std::unordered_map<std::string, std::uint16_t> basic_opcodes;

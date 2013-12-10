@@ -50,12 +50,10 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
 }
 
 
-galaxy::asteroid galaxy::jupiter::assembler::pass_two(
+std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::assembler::pass_two(
         OPCODE_VECTOR opcodes,
-        std::unordered_map<std::string, std::uint16_t> symbol_map){
-
-    int location_counter;
-    galaxy::asteroid objectfile;
+        SYMBOL_MAP symbols){
+    std::vector<galaxy::jupiter::opcodes::Opcode*> new_opcodes;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
 
