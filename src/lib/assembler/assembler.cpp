@@ -30,14 +30,16 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
             location_counter = orig_opcode->location;
 
         } else if ((*opcode)->getType() == "FillOpcode"){
-            location_counter += 1;
+            auto fill_opcode = dynamic_cast<galaxy::jupiter::opcodes::FillOpcode*>(*opcode);
+            location_counter += fill_opcode->size();
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
-            location_counter += 1;
+            auto basic_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
+            location_counter += basic_opcode->assemble(symbols)->size();
 
         } else if ((*opcode)->getType() == "DATOpcode") {
             auto dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
-            location_counter += dat_opcode->format().size();
+            location_counter += dat_opcode->format()->contents.size();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
             continue;
