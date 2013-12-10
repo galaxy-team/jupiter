@@ -9,8 +9,9 @@
 #include <opcodes/opcodes.hpp>
 
 
-void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
+OPCODE_VECTOR galaxy::jupiter::parser::Parser::parse(){
     // parse takes an reference to an empty std::vector<Opcode>, and returns nothing
+    OPCODE_VECTOR opcodes;
 
     while (!tokens.empty()) {
         auto token = pop(tokens);
@@ -66,6 +67,7 @@ void galaxy::jupiter::parser::Parser::parse(OPCODE_VECTOR opcodes){
             opcodes.push_back(op);
         }
     }
+    return opcodes;
 }
 
 galaxy::jupiter::opcodes::OrigOpcode* galaxy::jupiter::parser::handle_orig(HANDLER_SIGNATURE){

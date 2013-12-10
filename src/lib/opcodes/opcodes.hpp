@@ -7,7 +7,7 @@
 
 #include "tokenizer/token.hpp"
 
-#define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>&
+#define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>
 
 namespace galaxy { namespace jupiter { namespace opcodes {
     class Opcode {

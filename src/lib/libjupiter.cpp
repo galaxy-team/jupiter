@@ -36,18 +36,15 @@ galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator end
 )
 {
-    // the original cannot be a reference; the others must refer to something, after all
-    std::vector<galaxy::jupiter::opcodes::Opcode*> opcodes = {};
-
     auto tokens = (new galaxy::jupiter::tokenizer(begin, end))->lex();
-
     auto parser = new galaxy::jupiter::parser::Parser(tokens.begin(), tokens.end());
-    parser->parse(opcodes);
+    auto opcodes = parser->parse();
 
     for (auto it = opcodes.begin(); it != opcodes.end(); ++it){
         std::cout << (**it).repr() << std::endl;
     }
 
     auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
-    return galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
+    opcodes = galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
+    return galaxy::jupiter::assembler::resolve_to_bytecode(opcodes, symbol_map);
 }

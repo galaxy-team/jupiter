@@ -60,7 +60,7 @@ namespace galaxy { namespace jupiter { namespace parser {
             tokens = std::vector<galaxy::jupiter::Token*>(begin, end);
         }
 
-        void parse(OPCODE_VECTOR opcodes);
+        OPCODE_VECTOR parse();
     };
 
     // we find a problem, we fix it -.-
