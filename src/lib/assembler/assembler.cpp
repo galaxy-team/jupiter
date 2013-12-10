@@ -13,7 +13,7 @@
 std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(OPCODE_VECTOR opcodes){
     std::cout << "First pass" << std::endl;
 
-    std::unordered_map<std::string, std::uint16_t> symbol_map = {};
+    std::unordered_map<std::string, std::uint16_t> symbols = {};
     int location_counter = 0;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
@@ -23,7 +23,7 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
 
         if ((*opcode)->getType() == "LabelOpcode"){
             auto label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(*opcode);
-            symbol_map[label_opcode->label] = location_counter;
+            symbols[label_opcode->label] = location_counter;
 
         } else if ((*opcode)->getType() == "OrigOpcode"){
             auto orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
@@ -46,7 +46,7 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
            throw UnknownOpcode((*opcode)->getType());
         }
     }
-    return symbol_map;
+    return symbols;
 }
 
 
