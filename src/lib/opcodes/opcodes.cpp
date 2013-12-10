@@ -45,9 +45,12 @@ std::string galaxy::jupiter::opcodes::DATOpcode::repr(){
     return makeRepr("contents=\"" + contents + "\"");
 }
 
-std::vector<std::uint16_t> galaxy::jupiter::opcodes::DATOpcode::format(){
+galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::DATOpcode::format(){
     std::vector<std::uint16_t> v;
-    return v;
+    for(std::uint16_t i=0; i<contents.length(); i++) {
+        v.push_back(contents[i]);
+    }
+    return new LiteralOpcode(v, this);
 }
 
 std::string galaxy::jupiter::opcodes::ExportOpcode::repr(){
