@@ -30,6 +30,11 @@ namespace galaxy {
                 SYMBOL_MAP symbol_map
             );
 
+            galaxy::asteroid resolve_to_bytecode(
+                OPCODE_VECTOR opcodes,
+                SYMBOL_MAP symbol_map
+            );
+
             extern const std::unordered_map<std::string, std::uint16_t> basic_opcodes;
             extern const std::unordered_map<std::string, std::uint16_t> special_opcodes;
             extern const std::unordered_map<std::string, std::uint16_t> values;

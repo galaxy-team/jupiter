@@ -56,6 +56,7 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::assembler::pass_
     std::vector<galaxy::jupiter::opcodes::Opcode*> new_opcodes;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
+        galaxy::jupiter::opcodes::Opcode* op = NULL;
 
         std::cout << "Opcode: ";
         std::cout << (*opcode)->repr() << std::endl;
@@ -81,22 +82,54 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::assembler::pass_
             op = dat_opcode->format();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
-            auto export_opcode = dynamic_cast<galaxy::jupiter::opcodes::ExportOpcode*>(*opcode);
-
-            for (auto label_name: export_opcode->label_names) {
-                std::pair<std::string, std::uint16_t> pair;
-                pair.first = label_name;
-                pair.second = symbol_map[label_name];
-                std::cout << pair.first << " -> " << pair.second << std::endl;
-                objectfile.exported_labels.insert(pair);
-            }
+            op = (*opcode);
+            // will be handled in last pass
+            continue;
 
         } else {
             throw UnknownOpcode((*opcode)->getType());
         }
+
+        if (op != NULL){
+            std::cout << op->repr() << std::endl;
+            new_opcodes.push_back(op);
+        }
     }
 
-    return objectfile;
+    return new_opcodes;
+}
+
+galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(OPCODE_VECTOR opcodes, SYMBOL_MAP symbols) {
+    galaxy::asteroid objfile;
+
+    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
+        std::cout << "Opcode: " << (*opcode)->repr() << std::endl;
+        galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;;
+
+        if ((*opcode)->getType() == "LiteralOpcode") {
+            op = dynamic_cast<galaxy::jupiter::opcodes::LiteralOpcode*>(*opcode);
+        } else if ((*opcode)->getType() == "ExportOpcode") {
+                    auto export_opcode = dynamic_cast<galaxy::jupiter::opcodes::ExportOpcode*>(*opcode);
+
+            for (auto label_name: export_opcode->label_names) {
+                std::pair<std::string, std::uint16_t> pair;
+                pair.first = label_name;
+                pair.second = symbols[label_name];
+                std::cout << pair.first << " -> " << pair.second << std::endl;
+                objfile.exported_labels.insert(pair);
+            }
+        } else {
+            throw UnknownOpcode((*opcode)->getType());
+        }
+
+        if (op != NULL) {
+            for (auto it: op->contents) {
+                objfile.object_code.push_back(it);
+            }
+        }
+    }
+
+    return objfile;
 }
 
 
