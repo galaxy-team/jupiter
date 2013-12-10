@@ -63,27 +63,24 @@ galaxy::asteroid galaxy::jupiter::assembler::pass_two(
         std::cout << (*opcode)->repr() << std::endl;
 
         if ((*opcode)->getType() == "LabelOpcode"){
+            // handled in the first pass
             continue;
 
         } else if ((*opcode)->getType() == "OrigOpcode"){
-            auto orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
-            location_counter = orig_opcode->location;
-        //    objectfile.add_notes("Load Address", location_counter);
+            // handled in the first pass
+            continue;
 
         } else if ((*opcode)->getType() == "FillOpcode"){
-            //objectfile.add_notes("Initialize Mem", location_counter, (*opcode)->size);
-            location_counter += 1;
+            auto fill_opcode = dynamic_cast<galaxy::jupiter::opcodes::FillOpcode*>(*opcode);
+            op = fill_opcode->format();
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
             auto instruction_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
-            std::uint16_t mach_inst = instruction_opcode->assemble();
-            objectfile.object_code.push_back(mach_inst);
-            //objectfile.add_instr(location_counter, mach_inst);
-            location_counter += 1;
+            op = instruction_opcode->assemble(symbols);
 
         } else if ((*opcode)->getType() == "DATOpcode") {
-            // std::uint16_t data = (*opcode)->original()->format();
-            // objectfile.add_instr(location_counter)
+            auto dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
+            op = dat_opcode->format();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
             auto export_opcode = dynamic_cast<galaxy::jupiter::opcodes::ExportOpcode*>(*opcode);
