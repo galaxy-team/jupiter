@@ -55,7 +55,8 @@ std::string galaxy::jupiter::opcodes::ExportOpcode::repr(){
     for (auto it: label_names){
         str_contents += it + ", ";
     }
-    return makeRepr("contents=\"" + str_contents.substr(0, str_contents.length() - 2) + "\"");
+    str_contents = str_contents.substr(0, str_contents.length() - 2);
+    return makeRepr("contents=\"" + str_contents + "\"");
 }
 
 galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::FillOpcode::format(){
