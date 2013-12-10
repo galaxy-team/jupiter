@@ -8,6 +8,7 @@
 #include "tokenizer/token.hpp"
 
 #define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>
+#define SYMBOL_MAP std::unordered_map<std::string, std::uint16_t>&
 
 namespace galaxy { namespace jupiter { namespace opcodes {
     class Opcode {
