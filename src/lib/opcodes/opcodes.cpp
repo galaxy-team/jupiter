@@ -37,6 +37,50 @@ std::string galaxy::jupiter::opcodes::BasicOpcode::repr(){
     );
 }
 
+// Does the actual parsing and assembling
+galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::BasicOpcode::assemble(symbol_map symbols) {
+
+    // hex( (0x1f << 10) ^ (0x0 << 4) ^ 0x1 )
+    // returns 0x7c01
+    // sample code as supplied by startling
+
+    // hex(0x7c<<24 ^ 0x2<<20 ^ 0x1<<16 ^ 0x1)
+    // returns 0x7c11f888
+    // my own (revised) reference code
+
+    // assert (
+    //     self.attrs['name'] in basic_opcodes or
+    //     self.attrs['name'] in special_opcodes
+    // ), self.attrs['name']
+
+    // In bits (in LSB-0 format), a basic instruction has the format:
+        // aaaaaabbbbbooooo
+    // will take the next word literally, unless otherwise specified
+    std::uint16_t opcode;
+    std::vector<std::uint16_t> words;
+
+    std::cout << "Accessing: " << name << std::endl;
+    if (galaxy::jupiter::assembler::basic_opcodes.find(name) == galaxy::jupiter::assembler::basic_opcodes.end()) {
+        throw galaxy::jupiter::assembler::UnknownOpcode(name);
+    } else {
+        opcode = galaxy::jupiter::assembler::basic_opcodes.at(name);
+        std::cout << "Opcode: 0x" << std::hex << opcode << std::endl;
+    }
+
+    std::uint16_t final = a->resolve_as_value(symbols);
+    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+    final ^= b->resolve_as_value(symbols);
+    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+    final ^= opcode;
+    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+
+    std::cout << "0b1000100000000001 <- reference" << std::endl;
+
+    words.push_back(final);
+
+    return new LiteralOpcode(words, this);
+}
+
 std::string galaxy::jupiter::opcodes::OrigOpcode::repr(){
     return makeRepr("location=" + std::to_string(location));
 }
