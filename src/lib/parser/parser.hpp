@@ -35,9 +35,11 @@ namespace galaxy { namespace jupiter { namespace parser {
 
     struct InvalidInstruction : ParserError {
         InvalidInstruction(std::string msg, std::string inst) : msg(msg), inst(inst) {};
-        InvalidInstruction(std::string msg, Token* token) : msg(msg) {
+        InvalidInstruction(std::string msg, Token* token) : token(token),  msg(msg) {
             msg = token->repr();
         };
+
+        galaxy::jupiter::Token* token;
         std::string msg;
         std::string inst;
         virtual const char* what() const noexcept {
