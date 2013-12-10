@@ -9,8 +9,7 @@
 #ifndef _PARSER_HPP
 #define _PARSER_HPP
 
-#define TOKEN_VECTOR std::vector<galaxy::jupiter::Token*>
-#define HANDLER_SIGNATURE galaxy::jupiter::Token* token, TOKEN_VECTOR &tokens
+#define HANDLER_SIGNATURE galaxy::jupiter::Token* token, token_vector &tokens
 
 namespace galaxy { namespace jupiter { namespace parser {
     struct ParserError : public std::exception {
@@ -60,7 +59,7 @@ namespace galaxy { namespace jupiter { namespace parser {
             tokens = std::vector<galaxy::jupiter::Token*>(begin, end);
         }
 
-        OPCODE_VECTOR parse();
+        opcode_vector parse();
     };
 
     // we find a problem, we fix it -.-
@@ -82,8 +81,8 @@ namespace galaxy { namespace jupiter { namespace parser {
     galaxy::jupiter::opcodes::ExportOpcode* handle_export(HANDLER_SIGNATURE);
     galaxy::jupiter::opcodes::FillOpcode* handle_fill(HANDLER_SIGNATURE);
 
-    galaxy::jupiter::opcodes::Part* grab_part(TOKEN_VECTOR &tokens);
-    TOKEN_VECTOR grab_quoted(TOKEN_VECTOR &tokens);
+    galaxy::jupiter::opcodes::Part* grab_part(token_vector &tokens);
+    token_vector grab_quoted(token_vector &tokens);
 }}}
 
 #endif

@@ -5,10 +5,25 @@
 #ifndef _OPCODES_HPP
 #define _OPCODES_HPP
 
-#include "tokenizer/token.hpp"
+// forward declare the opcodes
+namespace galaxy { namespace jupiter { namespace opcodes {
+    class BasicOpcode;
+    class DATOpcode;
+    class ExportOpcode;
+    class FillOpcode;
+    class LabelOpcode;
+    class LiteralOpcode;
+    class Opcode;
+    class OrigOpcode;
+    class Part;
+    class SpecialOpcode;
+}}}
+typedef std::vector<galaxy::jupiter::opcodes::Opcode*> opcode_vector;
+typedef std::unordered_map<std::string, std::uint16_t> symbol_map;
 
-#define OPCODE_VECTOR std::vector<galaxy::jupiter::opcodes::Opcode*>
-#define SYMBOL_MAP std::unordered_map<std::string, std::uint16_t>&
+// before the includes that use them :P
+#include "tokenizer/token.hpp"
+#include "parser/parser.hpp"
 
 namespace galaxy { namespace jupiter { namespace opcodes {
     class Opcode {

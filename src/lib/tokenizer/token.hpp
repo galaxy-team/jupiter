@@ -1,6 +1,8 @@
 #ifndef _TOKEN_HPP
 #define _TOKEN_HPP
 
+#include <vector>
+
 namespace galaxy {
     namespace jupiter {
         class Token {
@@ -15,5 +17,7 @@ namespace galaxy {
         };
     }
 }
+
+typedef std::vector<galaxy::jupiter::Token*> token_vector;
 
 #endif

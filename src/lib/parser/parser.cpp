@@ -9,9 +9,9 @@
 #include <opcodes/opcodes.hpp>
 
 
-OPCODE_VECTOR galaxy::jupiter::parser::Parser::parse(){
+opcode_vector galaxy::jupiter::parser::Parser::parse(){
     // parse takes an reference to an empty std::vector<Opcode>, and returns nothing
-    OPCODE_VECTOR opcodes;
+    opcode_vector opcodes;
 
     while (!tokens.empty()) {
         auto token = pop(tokens);
@@ -150,8 +150,8 @@ galaxy::jupiter::opcodes::LabelOpcode* galaxy::jupiter::parser::handle_label(HAN
     return new galaxy::jupiter::opcodes::LabelOpcode(t->contents);
 }
 
-TOKEN_VECTOR galaxy::jupiter::parser::grab_quoted(TOKEN_VECTOR &tokens) {
-    TOKEN_VECTOR contained_tokens;
+token_vector galaxy::jupiter::parser::grab_quoted(token_vector &tokens) {
+    token_vector contained_tokens;
     // pop the opening quote
     pop(tokens);
 
@@ -171,7 +171,7 @@ TOKEN_VECTOR galaxy::jupiter::parser::grab_quoted(TOKEN_VECTOR &tokens) {
 
 
 // we return a subset of the given tokens
-galaxy::jupiter::opcodes::Part* galaxy::jupiter::parser::grab_part(TOKEN_VECTOR &tokens) {
+galaxy::jupiter::opcodes::Part* galaxy::jupiter::parser::grab_part(token_vector &tokens) {
     std::vector<galaxy::jupiter::Token*> new_tokens;
     bool is_reference = false;
 

@@ -21,18 +21,18 @@ namespace galaxy {
                 }
             };
 
-            std::unordered_map<std::string, std::uint16_t> find_symbols(
-                OPCODE_VECTOR opcodes
+            symbol_map find_symbols(
+                opcode_vector opcodes
             );
 
-            OPCODE_VECTOR pass_two(
-                OPCODE_VECTOR opcodes,
-                SYMBOL_MAP symbol_map
+            opcode_vector pass_two(
+                opcode_vector opcodes,
+                symbol_map symbol_map
             );
 
             galaxy::asteroid resolve_to_bytecode(
-                OPCODE_VECTOR opcodes,
-                SYMBOL_MAP symbol_map
+                opcode_vector opcodes,
+                symbol_map symbol_map
             );
 
             extern const std::unordered_map<std::string, std::uint16_t> basic_opcodes;

@@ -11,8 +11,9 @@
 #include "assembler.hpp"
 
 
-std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_symbols(OPCODE_VECTOR opcodes){
-    std::unordered_map<std::string, std::uint16_t> symbols = {};
+symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
+    symbol_map symbols;
+
     int address = 0;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
@@ -50,10 +51,8 @@ std::unordered_map<std::string, std::uint16_t> galaxy::jupiter::assembler::find_
 }
 
 
-std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::assembler::pass_two(
-        OPCODE_VECTOR opcodes,
-        SYMBOL_MAP symbols){
-    std::vector<galaxy::jupiter::opcodes::Opcode*> new_opcodes;
+opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol_map symbols){
+    opcode_vector new_opcodes;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
         galaxy::jupiter::opcodes::Opcode* op = NULL;
@@ -99,7 +98,7 @@ std::vector<galaxy::jupiter::opcodes::Opcode*> galaxy::jupiter::assembler::pass_
     return new_opcodes;
 }
 
-galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(OPCODE_VECTOR opcodes, SYMBOL_MAP symbols) {
+galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector opcodes, symbol_map symbols) {
     galaxy::asteroid objfile;
 
     for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
