@@ -67,6 +67,8 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::vector<galaxy::jupiter::Token*> sub_tokens;
         bool is_reference;
 
+        std::uint16_t resolve_as_value(symbol_map symbols);
+
         std::string repr() {
             std::string return_val;
             for (auto it: sub_tokens){

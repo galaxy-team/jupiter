@@ -7,6 +7,21 @@ std::string galaxy::jupiter::opcodes::Opcode::makeRepr(std::string vars){
     return "<" + getType() + " " + vars + ">";
 }
 
+std::uint16_t galaxy::jupiter::opcodes::Part::resolve_as_value(symbol_map symbols)  {
+    // see if the concatenated version exists as a value
+    std::string concatenated;
+    for (auto it: sub_tokens) {
+        concatenated += it->contents;
+    }
+
+    if (galaxy::jupiter::assembler::values.find(concatenated) != galaxy::jupiter::assembler::values.end()) {
+        std::cout << "Found " << concatenated << " as value: " << galaxy::jupiter::assembler::values.at(concatenated) << std::endl;
+        return galaxy::jupiter::assembler::values.at(concatenated);
+    } else {
+        return 0;
+    }
+}
+
 std::string galaxy::jupiter::opcodes::LabelOpcode::repr(){
     return makeRepr("label=" + label);
 }
