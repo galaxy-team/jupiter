@@ -67,7 +67,8 @@ namespace galaxy { namespace jupiter { namespace parser {
     template<typename T>
     T pop(std::vector<T>& v){
         T item = v.front();
-        v.erase(v.begin());
+        if(!v.empty())
+            v.erase(v.begin());
         return item;
     }
 
