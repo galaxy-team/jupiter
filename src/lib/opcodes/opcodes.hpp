@@ -26,6 +26,7 @@ typedef std::unordered_map<std::string, std::uint16_t> symbol_map;
 // before the includes that use them :P
 #include "tokenizer/token.hpp"
 #include "parser/parser.hpp"
+#include <utils.hpp>
 
 namespace galaxy { namespace jupiter { namespace opcodes {
     class Opcode {
@@ -82,7 +83,9 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
     class LabelOpcode : public Opcode {
     public:
-        LabelOpcode(std::string label) : label(label) {};
+        LabelOpcode(std::string label) {
+            label = tolower(label);
+        };
         std::string label;
 
         virtual ~LabelOpcode() {};

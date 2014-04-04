@@ -31,6 +31,8 @@ add_library(libjupiter
     ${JUPITER_SOURCE_DIR}/parser/parser.cpp
     ${JUPITER_SOURCE_DIR}/assembler/assembler.cpp
     ${JUPITER_SOURCE_DIR}/opcodes/opcodes.cpp
+
+    ${JUPITER_SOURCE_DIR}/utils.cpp
 )
 # we dont want liblibjupiter :P
 set_target_properties(libjupiter PROPERTIES PREFIX "")
