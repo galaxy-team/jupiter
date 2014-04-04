@@ -15,11 +15,11 @@ namespace galaxy { namespace jupiter { namespace parser {
     struct ParserError : public std::exception {
         ParserError() {};
         virtual ~ParserError() {};
-        ParserError(std::string msg) : msg(msg) {};
-        std::string msg;
+        ParserError(std::string message) : message(message) {};
+        std::string message;
 
         virtual const char* what() const noexcept {
-            return msg.c_str();
+            return message.c_str();
         }
     };
 
