@@ -34,7 +34,7 @@ namespace galaxy { namespace jupiter { namespace parser {
     };
 
     struct InvalidInstruction : ParserError {
-        InvalidInstruction(std::string msg, std::string inst) : msg(msg), inst(inst) {};
+        InvalidInstruction(std::string msg, std::string inst) : token(NULL), msg(msg), inst(inst) {};
         InvalidInstruction(std::string msg, Token* token) : token(token),  msg(msg) {
             msg = token->repr();
         };
@@ -57,9 +57,7 @@ namespace galaxy { namespace jupiter { namespace parser {
         Parser(std::vector<galaxy::jupiter::Token*> tokens) : tokens(tokens) {};
 
         template<typename Iter>
-        Parser(Iter begin, Iter end) {
-            tokens = std::vector<galaxy::jupiter::Token*>(begin, end);
-        }
+        Parser(Iter begin, Iter end) : tokens(std::vector<galaxy::jupiter::Token*>(begin, end)) {}
 
         opcode_vector parse();
     };
