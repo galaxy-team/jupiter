@@ -3,23 +3,34 @@
 
 #include <vector>
 
-namespace galaxy {
-    namespace jupiter {
-        class Token {
-        public:
-            std::string contents = "";
-            std::string name;
-            std::uint16_t line_no;
-            std::uint16_t guid;
-            Token(std::string name, std::string contents) : contents(contents), name(name), line_no(0) {};
-            Token(std::string name, std::string contents, std::uint16_t guid) : contents(contents), name(name), guid(guid) {};
+namespace galaxy { namespace jupiter {
 
-            std::string repr();
-            std::string normalized();
-            std::uint16_t to_uint16_t();
-        };
-    }
-}
+class Token {
+public:
+    int token_type;
+    std::uint16_t line_no;
+    std::string contents;
+    std::string token_name;
+
+    // Token(int token_type, std::string contents) :
+    //     token_type(token_type),
+    //     line_no(0),
+    //     contents(contents),
+    //     token_name("") {};
+
+    Token(int token_type, std::string contents, std::string token_name) :
+        token_type(token_type),
+        line_no(0),
+        contents(contents),
+        token_name(token_name) {};
+
+
+    std::string repr();
+    std::string normalized();
+    std::uint16_t to_uint16_t();
+};
+
+}}
 
 typedef std::vector<galaxy::jupiter::Token*> token_vector;
 
