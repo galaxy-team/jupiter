@@ -25,7 +25,16 @@ void emit(void* lparser,
           const char* ts, const char* te,
           int token_type, opcode_vector opcodes) {
 
-    auto token = new Token(token_type, getStr(ts, te));
+    auto token = new galaxy::jupiter::Token(
+        token_type,
+        getStr(ts, te),
+
+        #ifndef NDEBUG
+        yyTokenName[token_type]
+        #endif
+    );
+
+    std::cout << "Emiting: " << token->repr() << std::endl;
 
     // tell the parser what we've got
     Parse(
@@ -82,6 +91,13 @@ opcode_vector galaxy::jupiter::parser::Scan::execute(const char* data, size_t le
 opcode_vector galaxy::jupiter::parser::parse(std::string input) {
     auto p = Scan();
     p.init();
+
+    #ifndef NDEBUG
+        ParseTrace(
+            stderr,
+            (char *)"> "
+        );
+    #endif
 
     return p.execute(
         input.c_str(),
