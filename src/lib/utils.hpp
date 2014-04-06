@@ -1,11 +1,15 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
 #include <string>
 #include <algorithm>
 
-#ifndef UTILS_HPP
-#define UTILS_HPP value
-
 namespace galaxy {
-    std::string tolower(std::string original);
+    std::string stolower(std::string original);
+    std::string stoupper(std::string original);
+    namespace jupiter {
+        std::string char_repr(std::string p);
+    }
 }
 
 #endif
