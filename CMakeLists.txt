@@ -13,6 +13,7 @@ set(CMAKE_CXX_FLAGS "-pedantic-errors -Wall -Werror -Wfatal-errors -Wwrite-strin
 set(THIRD-PARTY ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
 
 # setup OptionParser
 set(OPTIONPARSER_DIR ${THIRD-PARTY}/optparse/)
