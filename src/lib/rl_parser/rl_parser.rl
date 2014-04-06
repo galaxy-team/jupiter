@@ -53,33 +53,18 @@ void emit(void* lparser,
     write data;
 }%%
 
-class Scan {
-public:
-    ~Scan();
-    void init();
-    opcode_vector execute(const char* data, size_t len);
-
-private:
-    int cs;
-    int act;
-    const char* ts;
-    const char* te;
-
-    void* lparser;
-};
-
-Scan::~Scan()
+galaxy::jupiter::parser::Scan::~Scan()
 {
     ParseFree(lparser, free);
 }
 
-void Scan::init()
+void galaxy::jupiter::parser::Scan::init()
 {
     lparser = ParseAlloc(malloc);
     %% write init;
 }
 
-opcode_vector Scan::execute(const char* data, size_t len)
+opcode_vector galaxy::jupiter::parser::Scan::execute(const char* data, size_t len)
 {
     const char* p =     data;
     const char* pe =    data + len;
@@ -94,8 +79,7 @@ opcode_vector Scan::execute(const char* data, size_t len)
     return opcodes;
 }
 
-
-opcode_vector parse(std::string input) {
+opcode_vector galaxy::jupiter::parser::parse(std::string input) {
     auto p = Scan();
     p.init();
 
