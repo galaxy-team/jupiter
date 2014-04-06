@@ -32,7 +32,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
     public:
         Opcode() {};
 
-        virtual ~Opcode() {}
+        virtual ~Opcode() {};
         virtual std::string getType() = 0;
         virtual std::string repr() = 0;
 
@@ -99,8 +99,10 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string name;
         Part* a;
 
+        virtual ~SpecialOpcode(){};
+
         LiteralOpcode* assemble(symbol_map symbols);
-        std::string getType(){ return "SpecialOpcode"; }
+        std::string getType(){ return "SpecialOpcode"; };
         std::string repr();
     };
 
