@@ -58,25 +58,25 @@ int main(int argc, char** argv)
         // if no positional (required) arguments were provided, print help and exit
         parser.print_help();
         return -1;
+    }
+
+    // get input and output filenames from command line arguments
+    // The input filename is always the first argument.
+    in = args[0];
+
+    // We use the second argument as the output filename.
+    if (args.size() == 1){
+         // If the output filename is unspecified, use a modified form of
+         // the input filename.
+         //
+         // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
+
+         // Strip the last file extension, and replace with ".o"
+         out = in.substr(0, in.find_last_of('.')) + ".o";
+
     } else {
-        // The input filename is always the first argument.
-        in = args[0];
-
-        // We use the second argument as the output filename.
-
-        if (args.size() == 1){
-             // If the output filename is unspecified, use a modified form of
-             // the input filename.
-             //
-             // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
-
-             // Strip the last file extension, and replace with ".o"
-             out = in.substr(0, in.find_last_of('.')) + ".o";
-
-        } else {
-            // Otherwise, we use the second argument as the output filename.
-            out = args[1];
-        }
+        // Otherwise, we use the second argument as the output filename.
+        out = args[1];
     }
 
     // read in the input file
