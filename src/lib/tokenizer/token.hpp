@@ -12,11 +12,11 @@ public:
     std::string contents;
     std::string token_name;
 
-    // Token(int token_type, std::string contents) :
-    //     token_type(token_type),
-    //     line_no(0),
-    //     contents(contents),
-    //     token_name("") {};
+    Token(int token_type, std::string contents) :
+        token_type(token_type),
+        line_no(0),
+        contents(contents),
+        token_name("") {};
 
     Token(int token_type, std::string contents, std::string token_name) :
         token_type(token_type),

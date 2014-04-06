@@ -5,7 +5,13 @@
 
 std::string galaxy::jupiter::Token::repr(){
     std::stringstream ss;
-    ss << "<Token:" << name;
+    ss << "<Token:";
+
+    if (token_name == "")
+        ss << token_name;
+    else
+        ss << token_type;
+
     ss << " on line " << line_no;
     ss << " \"" << galaxy::jupiter::char_repr(contents) << "\"";
     ss << ">";
