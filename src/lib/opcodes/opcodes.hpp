@@ -113,7 +113,8 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
     class BasicOpcode : public Opcode {
     public:
-        BasicOpcode(std::string name, Part* a, Part* b) : name(name), a(a), b(b) {};
+        BasicOpcode(std::string name, Part* a, Part* b)
+            : name(galaxy::stoupper(name)), a(a), b(b) {};
         std::string name;
         Part* a;
         Part* b;
