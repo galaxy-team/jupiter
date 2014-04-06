@@ -48,11 +48,11 @@ int main(int argc, char** argv)
     optparse::Values options = parser.parse_args(argc, argv);
     std::vector<std::string> args = parser.args();
 
-    /// DECLARE INPUT AND OUTPUT FILENAMES.
+    // declare input and output filenames.
     std::string in;
     std::string out;
 
-    /// GET INPUT AND OUTPUT FILENAMES FROM COMMAND LINE ARGUMENTS
+
     // Test that we have the right number of arguments
     if (args.empty()) {
         // if no positional (required) arguments were provided, print help and exit
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
         }
     }
 
-    /// READ IN THE INPUT FILE
+    // read in the input file
     std::ifstream inf(in);
     std::string asm_code;
     {
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
         }
     }
 
-    /// ASSEMBLE THE ASM
+    // assemble the asm
     galaxy::asteroid objfile = galaxy::jupiter::assemble(
         asm_code.begin(),
         asm_code.end()
