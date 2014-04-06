@@ -1,4 +1,4 @@
-%token_type {Token*}
+%token_type {galaxy::jupiter::Token*}
 %extra_argument { opcode_vector *opcodes }
 
 %include {
