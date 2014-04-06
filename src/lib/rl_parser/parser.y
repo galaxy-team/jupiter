@@ -5,7 +5,7 @@
     #include <iostream>
     #include <cassert>
     #include "parser.h"
-    #include "opcode.h"
+    #include "opcodes/opcodes.hpp"
     //#define NDEBUG
 }
 

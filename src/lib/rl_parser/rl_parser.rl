@@ -6,7 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "token.hpp"
+#include "rl_parser.hpp"
+
+#include "opcodes/opcodes.hpp"
+#include "tokenizer/token.hpp"
 #include "parser.cpp"
 #include "parser.h"
 

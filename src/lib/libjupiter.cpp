@@ -25,8 +25,7 @@ file named "LICENSE-LGPL.txt".
 #include <iostream>
 
 #include <libasteroid.hpp>
-#include <tokenizer/tokenizer.hpp>
-#include <parser/parser.hpp>
+#include <rl_parser/rl_parser.hpp>
 #include <assembler/assembler.hpp>
 
 galaxy::asteroid galaxy::jupiter::assemble(
