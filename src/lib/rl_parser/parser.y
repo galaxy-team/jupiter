@@ -26,6 +26,8 @@
     #endif
 }
 
+%token_destructor { ParseARG_STORE; }
+
 %parse_accept {
     std::cout << "Parsing completed" << std::endl;
 }
