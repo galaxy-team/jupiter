@@ -81,6 +81,14 @@ galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::BasicOpcode::
     return new LiteralOpcode(words, this);
 }
 
+std::string galaxy::jupiter::opcodes::SpecialOpcode::repr(){
+    return makeRepr(
+        "name=\"" + name +
+        "\",a=\"" + a->repr() +
+        "\""
+    );
+}
+
 std::string galaxy::jupiter::opcodes::OrigOpcode::repr(){
     return makeRepr("location=" + std::to_string(location));
 }
