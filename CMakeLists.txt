@@ -23,12 +23,11 @@ include_directories(${OPTIONPARSER_DIR})
 
 # setup libjupiter
 set(JUPITER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
+
 include_directories(${JUPITER_SOURCE_DIR})
 add_library(libjupiter
     ${JUPITER_SOURCE_DIR}/libjupiter.cpp
-    ${JUPITER_SOURCE_DIR}/tokenizer/tokenizer.cpp
     ${JUPITER_SOURCE_DIR}/tokenizer/token.cpp
-    ${JUPITER_SOURCE_DIR}/parser/parser.cpp
     ${JUPITER_SOURCE_DIR}/assembler/assembler.cpp
     ${JUPITER_SOURCE_DIR}/opcodes/opcodes.cpp
 
@@ -36,6 +35,11 @@ add_library(libjupiter
 )
 # we dont want liblibjupiter :P
 set_target_properties(libjupiter PROPERTIES PREFIX "")
+
+# build the parser
+add_subdirectory(${JUPITER_SOURCE_DIR}/rl_parser)
+# and link it to libjupiter
+target_link_libraries(libjupiter parser)
 
 add_executable(jupiter
     src/main.cpp

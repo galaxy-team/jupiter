@@ -6,16 +6,25 @@ set(${CMAKE_CURRENT_BINARY_DIR} "${CMAKE_CURRENT_BINARY_DIR}/bin")
 include(${CMAKE_MODULES_DIR}/FindRagel.cmake)
 include(${CMAKE_MODULES_DIR}/lemon.cmake)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-set(CMAKE_CXX_FLAGS "-g -std=c++11 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-g -Wall  -std=c++11 ${CMAKE_CXX_FLAGS}")
 
-# generate the required files
+# generate the lexer
 ragel_gen(rl_parser)
-set_source_files_properties("rl_parser.cc" PROPERTIES GENERATED TRUE)
+set_source_files_properties(
+    SOURCE "rl_parser.cc"
+    PROPERTIES
+        GENERATED TRUE
+        OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/asm_grammar.rl
+)
+
+# generate the parser
 LEMON(parser parser LEMON_FILES)
 
-add_executable(parser
+add_library(parser
     rl_parser.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../opcodes/opcodes.cpp
 )
 
 add_custom_target(lemon_files DEPENDS ${LEMON_FILES})
