@@ -47,17 +47,26 @@ statement_list ::= /* empty */.
 statement_list ::= statement_list statement.
 
 statement ::= BASIC_OPCODE_LITERAL(name) B(b) COMMA A(a). {
-    opcodes->push_back(new BasicOpcode(name->contents, b->contents, a->contents));
+    opcodes->push_back(new galaxy::jupiter::opcodes::BasicOpcode(
+            name->contents,
+            new galaxy::jupiter::opcodes::Part(b),
+            new galaxy::jupiter::opcodes::Part(a)
+        )
+    );
     ParseARG_STORE;
 }
 
 statement ::= SPECIAL_OPCODE_LITERAL(name) B(b). {
-    opcodes->push_back(new SpecialOpcode(name->contents, b->contents));
+    opcodes->push_back(new galaxy::jupiter::opcodes::SpecialOpcode(
+            name->contents,
+            new galaxy::jupiter::opcodes::Part(b)
+        )
+    );
     ParseARG_STORE;
 }
 
 statement ::= COLON LABEL_NAME(name). {
-    opcodes->push_back(new LabelOpcode(name->contents));
+    opcodes->push_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
     ParseARG_STORE;
 }
 
