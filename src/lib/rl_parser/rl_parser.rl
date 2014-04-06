@@ -56,6 +56,7 @@ void emit(void* lparser,
         semicolon =>            { EMIT(SEMICOLON); };
         colon =>                { EMIT(COLON); };
 
+        # ignore spaces
         space;
     *|;
 
@@ -103,19 +104,4 @@ opcode_vector galaxy::jupiter::parser::parse(std::string input) {
         input.c_str(),
         input.length()
     );
-}
-
-
-int main(int argc, char const *argv[])
-{
-    const std::string input = (
-        ":word"
-    );
-
-    auto opcodes = parse(input);
-
-    for (opcode_vector::iterator i = opcodes.begin(); i != opcodes.end(); ++i)
-    {
-        std::cout << (*i)->repr() << std::endl;
-    }
 }

@@ -58,7 +58,6 @@ namespace galaxy { namespace jupiter { namespace opcodes {
             }
             std::string return_val(ss.str());
             return makeRepr(return_val.substr(0, return_val.length() - 2));
-
         }
     };
 
@@ -67,6 +66,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         virtual ~Part() {};
         Part(std::vector<galaxy::jupiter::Token*> sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
         std::vector<galaxy::jupiter::Token*> sub_tokens;
+
         bool is_reference;
 
         std::uint16_t resolve_as_value(symbol_map symbols);

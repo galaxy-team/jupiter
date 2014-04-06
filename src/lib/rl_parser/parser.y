@@ -36,10 +36,10 @@
     std::cout << "Giving up.  Parser is hopelessly lost..." << std::endl;
 }
 
-
 %stack_overflow {
     std::cout << "Giving up.  Parser stack overflow" << std::endl;
 }
+
 
 program ::= statement_list.
 
