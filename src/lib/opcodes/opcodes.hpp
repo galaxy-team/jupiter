@@ -89,9 +89,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
 
     class LabelOpcode : public Opcode {
     public:
-        LabelOpcode(std::string label) {
-            label = tolower(label);
-        };
+        LabelOpcode(std::string label) : label(label) {};
         std::string label;
 
         virtual ~LabelOpcode() {};
