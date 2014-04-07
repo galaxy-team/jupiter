@@ -106,7 +106,7 @@ statement ::= DOT EXPORT export_list(label_list). {
     };
 
     opcodes->push_back(
-        new galaxy::jupiter::opcodes::DATOpcode(contents)
+        new galaxy::jupiter::opcodes::ExportOpcode(exported_labels )
     );
 }
 
