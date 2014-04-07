@@ -47,6 +47,8 @@ statement_list ::= /* empty */.
 statement_list ::= statement_list statement.
 
 statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
+    assert(name != NULL); assert(b != NULL); assert(a != NULL);
+
     opcodes->push_back(new galaxy::jupiter::opcodes::BasicOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b),
@@ -57,6 +59,8 @@ statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
 }
 
 statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
+    assert(name != NULL); assert(b != NULL);
+
     opcodes->push_back(new galaxy::jupiter::opcodes::SpecialOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b)
@@ -66,16 +70,19 @@ statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
 }
 
 statement ::= COLON LABEL_NAME(name). {
+    assert(name != NULL);
+
     opcodes->push_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
     ParseARG_STORE;
 }
 
 statement ::= DOT DAT dat_content(con). {
-    std::cout << con << std::endl;
-    std::cout << "Token-> " << con->contents << std::endl;
+    assert(con != NULL);
+
     std::string contents = con->contents.substr(
         1, con->contents.length() - 2
     );
+
     opcodes->push_back(
         new galaxy::jupiter::opcodes::DATOpcode(contents)
     );
