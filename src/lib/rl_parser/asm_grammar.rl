@@ -3,9 +3,12 @@
 
     colon = ":";
     semicolon = ";";
+    dot = ".";
 
     basic_opcode_prim = "ADD" | "SET";
     special_opcode_prim = "JSR" | "INT";
+
+    dat = "DAT";
 
     registers = "A" | "B" | "C" | "X" | "Y" | "Z" | "I" | "J";
 
@@ -15,4 +18,9 @@
     decimal_number = digit*;
 
 
+    # this is to handle strings, taken from;
+    # http://numbers.brighterplanet.com/2012/08/21/how-to-parse-quotes-in-ragel/
+    dquote = '"';
+    not_dquote_or_escape = [^"\\];
+    escaped_something = /\\./;
 }%%

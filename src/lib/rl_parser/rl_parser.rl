@@ -55,6 +55,12 @@ void emit(void* lparser,
         special_opcode_prim =>  { EMIT(SPECIAL_OPCODE_LITERAL); };
         semicolon =>            { EMIT(SEMICOLON); };
         colon =>                { EMIT(COLON); };
+        dot =>                  { EMIT(DOT); };
+        dat =>                  { EMIT(DAT); };
+
+        dquote ( not_dquote_or_escape | escaped_something )* dquote => {
+            EMIT(QUOTED_STRING);
+        };
 
         # ignore spaces
         space;

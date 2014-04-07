@@ -70,6 +70,22 @@ statement ::= COLON LABEL_NAME(name). {
     ParseARG_STORE;
 }
 
+statement ::= DOT DAT dat_content(con). {
+    std::cout << con << std::endl;
+    std::cout << "Token-> " << con->contents << std::endl;
+    std::string contents = con->contents.substr(
+        1, con->contents.length() - 2
+    );
+    opcodes->push_back(
+        new galaxy::jupiter::opcodes::DATOpcode(contents)
+    );
+}
+
+// if we don't pass on the string, it gets destroyed
+dat_content(A) ::= QUOTED_STRING(B).    { A=B; }
+dat_content(A) ::= HEXADECIMAL(B).      { A=B; }
+dat_content(A) ::= DECIMAL(B).          { A=B; }
+
 statement ::= SEMICOLON comment NEWLINE.
 statement ::= SEMICOLON comment.
 
