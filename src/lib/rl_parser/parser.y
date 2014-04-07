@@ -86,6 +86,6 @@ dat_content(A) ::= QUOTED_STRING(B).    { A=B; }
 dat_content(A) ::= HEXADECIMAL(B).      { A=B; }
 dat_content(A) ::= DECIMAL(B).          { A=B; }
 
-part ::= REGISTER.
-part ::= DECIMAL.
-part ::= HEXADECIMAL.
+part(A) ::= REGISTER(B). { A=B; }
+part(A) ::= DECIMAL(B). { A=B; }
+part(A) ::= HEXADECIMAL(B). { A=B; }
