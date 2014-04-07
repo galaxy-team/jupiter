@@ -10,7 +10,6 @@ function(ragel_gen in_rl)
     )
 
     string(REGEX REPLACE "/" "_" target_name "${in_rl}")
-    message(STATUS "Go! ragel${target_name}")
     add_custom_target(ragel${target_name} DEPENDS ${output_path})
 endfunction(ragel_gen)
 
