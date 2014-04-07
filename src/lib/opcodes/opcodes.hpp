@@ -70,12 +70,12 @@ namespace galaxy { namespace jupiter { namespace opcodes {
     class Part {
     public:
         virtual ~Part() {};
-        Part(std::vector<galaxy::jupiter::Token*> sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
+        Part(token_vector sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
         Part(galaxy::jupiter::Token* token) : is_reference(false) {
             sub_tokens.push_back(token);
         };
 
-        std::vector<galaxy::jupiter::Token*> sub_tokens;
+        token_vector sub_tokens;
 
         bool is_reference;
 
