@@ -4,11 +4,6 @@
     colon = ":";
     semicolon = ";";
 
-    label_name = alnum+;
-    # label = colon label_name;
-
-    comment = semicolon alnum*;
-
     basic_opcode_prim = "ADD" | "SET";
     special_opcode_prim = "JSR" | "INT";
 
@@ -19,10 +14,5 @@
     hex_number = "0x" xdigit*;
     decimal_number = digit*;
 
-    # part = registers | hex_number | label_name;
-    # a = part;
-    # b = part;
 
-    # basic_opcode = basic_opcode_prim b "," a;
-    # special_opcode = special_opcode_prim b;
 }%%
