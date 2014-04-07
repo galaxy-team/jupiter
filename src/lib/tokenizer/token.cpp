@@ -19,8 +19,7 @@ std::string galaxy::jupiter::Token::repr(){
 }
 
 std::string galaxy::jupiter::Token::normalized(){
-    // just lowercases the contents; much easier in python :/
-    return tolower(contents);
+    return galaxy::stolower(contents);
 }
 
 

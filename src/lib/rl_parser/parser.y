@@ -33,11 +33,11 @@
 }
 
 %parse_failure {
-    std::cout << "Giving up.  Parser is hopelessly lost..." << std::endl;
+    std::cout << "Giving up. Parser is hopelessly lost..." << std::endl;
 }
 
 %stack_overflow {
-    std::cout << "Giving up.  Parser stack overflow" << std::endl;
+    std::cout << "Giving up. Parser stack overflow" << std::endl;
 }
 
 

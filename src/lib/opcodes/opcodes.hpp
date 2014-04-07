@@ -27,6 +27,7 @@ typedef std::unordered_map<std::string, std::uint16_t> symbol_map;
 #include "tokenizer/token.hpp"
 #include <utils.hpp>
 
+
 namespace galaxy { namespace jupiter { namespace opcodes {
     class Opcode {
     public:
@@ -53,9 +54,11 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string repr() {
             std::stringstream ss;
             ss << "from " << source->repr() << " -> ";
+
             for (auto it: contents){
-                ss  << "0x" << std::hex << it << ", ";
+                ss << "0x" << std::hex << it << ", ";
             }
+
             std::string return_val(ss.str());
             return makeRepr(return_val.substr(0, return_val.length() - 2));
         }

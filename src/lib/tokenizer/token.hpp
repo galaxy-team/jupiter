@@ -24,7 +24,6 @@ public:
         contents(contents),
         token_name(token_name) {};
 
-
     std::string repr();
     std::string normalized();
     std::uint16_t to_uint16_t();
