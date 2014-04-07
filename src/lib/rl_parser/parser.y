@@ -119,6 +119,16 @@ export_list(A) ::= LABEL_NAME(B) export_clause(C). {
 }
 export_clause(A) ::= COMMA export_list(B). { NN(B); A=B; }
 
+statement ::= DOT FILL number(content) number(number). {
+    NN(content); NN(number);
+
+    int num = strtol(number->contents.c_str(), NULL, 0);
+    int filler = strtol(content->contents.c_str(), NULL, 0);
+    opcodes->push_back(
+        new galaxy::jupiter::opcodes::FillOpcode(filler, num)
+    );
+}
+
 
 // if we don't pass on the string, it gets destroyed
 dat_content(A) ::= QUOTED_STRING(B).    { A=B; }
