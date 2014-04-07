@@ -11,6 +11,7 @@
     special_opcode_prim = "JSR" | "INT";
 
     dat = "DAT";
+    export_token = "EXPORT"; # "export" seems to be reserved
 
     registers = "A" | "B" | "C" | "X" | "Y" | "Z" | "I" | "J";
 

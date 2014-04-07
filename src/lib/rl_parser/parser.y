@@ -2,8 +2,15 @@
 %extra_argument { opcode_vector *opcodes }
 
 %include {
-    #include <iostream>
     #include <cassert>
+    #include <cstdlib>
+
+    #include <iostream>
+    #include <string>
+    #include <sstream>
+    #include <algorithm>
+    #include <iterator>
+
     #include "parser.h"
     #include "opcodes/opcodes.hpp"
     //#define NDEBUG
@@ -83,14 +90,35 @@ statement ::= COLON LABEL_NAME(name). {
 statement ::= DOT DAT dat_content(con). {
     NN(con);
 
-    std::string contents = con->contents.substr(
-        1, con->contents.length() - 2
+    opcodes->push_back(
+        new galaxy::jupiter::opcodes::DATOpcode(con->contents)
     );
+}
+
+statement ::= DOT EXPORT export_list(label_list). {
+    NN(label_list);
+
+    // break up the list
+    std::istringstream iss(label_list->contents);
+    std::vector<std::string> exported_labels {
+        std::istream_iterator<std::string>{iss},
+        std::istream_iterator<std::string>{}
+    };
 
     opcodes->push_back(
         new galaxy::jupiter::opcodes::DATOpcode(contents)
     );
 }
+
+export_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
+export_list(A) ::= LABEL_NAME(B) export_clause(C). {
+    NN(B); NN(C);
+
+    A=B;
+    B->contents += " " + C->contents + " ";
+}
+export_clause(A) ::= COMMA export_list(B). { NN(B); A=B; }
+
 
 // if we don't pass on the string, it gets destroyed
 dat_content(A) ::= QUOTED_STRING(B).    { A=B; }

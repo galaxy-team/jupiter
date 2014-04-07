@@ -65,7 +65,10 @@ void emit(void* lparser,
         colon =>                { EMIT(COLON); };
         comma =>                { EMIT(COMMA); };
         dot =>                  { EMIT(DOT); };
+
+        # directives
         dat =>                  { EMIT(DAT); };
+        export_token =>         { EMIT(EXPORT); }; # "export" seems to be reserved
 
         dquote ( not_dquote_or_escape | escaped_something )* dquote => {
             EMIT(QUOTED_STRING);
