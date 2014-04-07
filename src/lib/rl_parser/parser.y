@@ -140,10 +140,18 @@ statement ::= DOT ORIG number(position). {
 
 
 // if we don't pass on the string, it gets destroyed
-dat_content(A) ::= QUOTED_STRING(B).    { A=B; }
-dat_content(A) ::= HEXADECIMAL(B).      { A=B; }
-dat_content(A) ::= DECIMAL(B).          { A=B; }
+dat_content(A) ::= quoted_string(B).    { A=B; }
+dat_content(A) ::= number(B).      { A=B; }
 
-part(A) ::= REGISTER(B). { A=B; }
-part(A) ::= DECIMAL(B). { A=B; }
-part(A) ::= HEXADECIMAL(B). { A=B; }
+quoted_string(A) ::= QUOTED_STRING(B). {
+    A=B;
+    A->contents = B->contents.substr(
+        1, B->contents.length() - 2
+    );
+}
+
+part(A) ::= REGISTER(B).    { A=B; }
+part(A) ::= number(B).      { A=B; }
+
+number(A) ::= DECIMAL(B).   { A=B; }
+number(A) ::= HEXADECIMAL(B).    { A=B; }
