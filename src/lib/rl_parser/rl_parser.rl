@@ -19,6 +19,7 @@ std::string getStr(const char* beg, const char* end)
     return std::string(beg).substr(0, end-beg);
 }
 
+// we use a macro so we can grab some variables from the call context
 #define EMIT(token_type) emit(lparser, ts, te, token_type, opcodes);
 
 void emit(void* lparser,
