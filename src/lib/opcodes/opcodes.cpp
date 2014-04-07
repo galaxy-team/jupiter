@@ -106,11 +106,7 @@ galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::DATOpcode::fo
 }
 
 std::string galaxy::jupiter::opcodes::ExportOpcode::repr(){
-    std::string str_contents;
-    for (auto it: label_names){
-        str_contents += it + ", ";
-    }
-    str_contents = str_contents.substr(0, str_contents.length() - 2);
+    std::string str_contents = join(label_names, ", ");
     return makeRepr("contents=\"" + str_contents + "\"");
 }
 
