@@ -27,14 +27,20 @@ void emit(void* lparser,
 
     auto token = new galaxy::jupiter::Token(
         token_type,
-        getStr(ts, te),
+        getStr(ts, te)
 
         #ifndef NDEBUG
-        yyTokenName[token_type]
+        ,yyTokenName[token_type]
         #endif
     );
 
+
+    #ifndef NDEBUG
+    std::cout << yyTokenName[token_type] << "\t\t\t== \"" << token->contents <<  "\"" << std::endl;
+    #else
     std::cout << "Emiting: " << token->repr() << std::endl;
+    #endif
+
 
     // tell the parser what we've got
     Parse(
