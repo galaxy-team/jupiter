@@ -54,6 +54,7 @@ void emit(void* lparser,
         special_opcode_prim =>  { EMIT(SPECIAL_OPCODE_LITERAL); };
         semicolon =>            { EMIT(SEMICOLON); };
         colon =>                { EMIT(COLON); };
+        comma =>                { EMIT(COMMA); };
         dot =>                  { EMIT(DOT); };
         dat =>                  { EMIT(DAT); };
         label_name =>           { EMIT(LABEL_NAME); };

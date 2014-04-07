@@ -3,6 +3,7 @@
 
     colon = ":";
     semicolon = ";";
+    comma = ",";
     dot = ".";
 
     basic_opcode_prim = "ADD" | "SET";
