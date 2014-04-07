@@ -17,6 +17,7 @@
     hex_number = "0x" xdigit*;
     decimal_number = digit*;
 
+    label_name = (alnum | "_" | "-")+;
 
     # this is to handle strings, taken from;
     # http://numbers.brighterplanet.com/2012/08/21/how-to-parse-quotes-in-ragel/

@@ -50,13 +50,13 @@ void emit(void* lparser,
     include asm_grammar "asm_grammar.rl";
 
     main := |*
-        label_name =>           { EMIT(LABEL_NAME); };
         basic_opcode_prim =>    { EMIT(BASIC_OPCODE_LITERAL); };
         special_opcode_prim =>  { EMIT(SPECIAL_OPCODE_LITERAL); };
         semicolon =>            { EMIT(SEMICOLON); };
         colon =>                { EMIT(COLON); };
         dot =>                  { EMIT(DOT); };
         dat =>                  { EMIT(DAT); };
+        label_name =>           { EMIT(LABEL_NAME); };
 
         dquote ( not_dquote_or_escape | escaped_something )* dquote => {
             EMIT(QUOTED_STRING);
