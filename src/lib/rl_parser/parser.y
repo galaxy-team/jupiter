@@ -86,12 +86,6 @@ dat_content(A) ::= QUOTED_STRING(B).    { A=B; }
 dat_content(A) ::= HEXADECIMAL(B).      { A=B; }
 dat_content(A) ::= DECIMAL(B).          { A=B; }
 
-statement ::= SEMICOLON comment NEWLINE.
-statement ::= SEMICOLON comment.
-
-comment ::= /* empty */.
-comment ::= COMMENT comment.
-
 part ::= REGISTER.
 part ::= DECIMAL.
 part ::= HEXADECIMAL.

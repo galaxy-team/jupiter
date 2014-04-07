@@ -5,6 +5,7 @@
     semicolon = ";";
     comma = ",";
     dot = ".";
+    newline = "\n\r" | "\n";
 
     basic_opcode_prim = "ADD" | "SET";
     special_opcode_prim = "JSR" | "INT";
@@ -19,6 +20,8 @@
     hexadecimal = "0x" xdigit+;
 
     label_name = (alnum | "_" | "-")+;
+
+    not_newline = [^\n];
 
     # this is to handle strings, taken from;
     # http://numbers.brighterplanet.com/2012/08/21/how-to-parse-quotes-in-ragel/

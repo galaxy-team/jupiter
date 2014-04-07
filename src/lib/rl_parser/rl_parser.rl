@@ -61,16 +61,20 @@ void emit(void* lparser,
         decimal =>              { EMIT(DECIMAL); };
         basic_opcode_prim =>    { EMIT(BASIC_OPCODE_LITERAL); };
         special_opcode_prim =>  { EMIT(SPECIAL_OPCODE_LITERAL); };
-        semicolon =>            { EMIT(SEMICOLON); };
         colon =>                { EMIT(COLON); };
         comma =>                { EMIT(COMMA); };
         dot =>                  { EMIT(DOT); };
         dat =>                  { EMIT(DAT); };
-        label_name =>           { EMIT(LABEL_NAME); };
 
         dquote ( not_dquote_or_escape | escaped_something )* dquote => {
             EMIT(QUOTED_STRING);
         };
+
+        semicolon not_newline* newline => {
+            std::cout << "Comment ignored" << std::endl;
+        };
+
+        label_name =>           { EMIT(LABEL_NAME); };
 
         # ignore spaces
         space;
