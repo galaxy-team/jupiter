@@ -129,6 +129,15 @@ statement ::= DOT FILL number(content) number(number). {
     );
 }
 
+statement ::= DOT ORIG number(position). {
+    NN(position);
+
+    int position_num = strtol(position->contents.c_str(), NULL, 0);
+    opcodes->push_back(
+        new galaxy::jupiter::opcodes::OrigOpcode(position_num)
+    );
+}
+
 
 // if we don't pass on the string, it gets destroyed
 dat_content(A) ::= QUOTED_STRING(B).    { A=B; }

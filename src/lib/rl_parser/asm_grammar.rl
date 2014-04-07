@@ -13,6 +13,7 @@
     dat = "DAT";
     export_token = "EXPORT"; # "export" seems to be reserved
     fill = "FILL";
+    orig = "ORIG";
 
     registers = "A" | "B" | "C" | "X" | "Y" | "Z" | "I" | "J";
 

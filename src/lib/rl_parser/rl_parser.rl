@@ -70,6 +70,7 @@ void emit(void* lparser,
         dat =>                  { EMIT(DAT); };
         export_token =>         { EMIT(EXPORT); }; # "export" seems to be reserved
         fill =>                 { EMIT(FILL); };
+        orig =>                 { EMIT(ORIG); };
 
         dquote ( not_dquote_or_escape | escaped_something )* dquote => {
             EMIT(QUOTED_STRING);
