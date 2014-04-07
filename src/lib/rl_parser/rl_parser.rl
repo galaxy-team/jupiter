@@ -50,6 +50,9 @@ void emit(void* lparser,
     include asm_grammar "asm_grammar.rl";
 
     main := |*
+        registers =>            { EMIT(REGISTER); };
+        hexadecimal =>          { EMIT(HEXADECIMAL); };
+        decimal =>              { EMIT(DECIMAL); };
         basic_opcode_prim =>    { EMIT(BASIC_OPCODE_LITERAL); };
         special_opcode_prim =>  { EMIT(SPECIAL_OPCODE_LITERAL); };
         semicolon =>            { EMIT(SEMICOLON); };

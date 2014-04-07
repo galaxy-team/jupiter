@@ -15,8 +15,8 @@
 
     specials = "PC" | "SP" | "EX" | "IA";
 
-    hex_number = "0x" xdigit*;
-    decimal_number = digit*;
+    decimal = digit+;
+    hexadecimal = "0x" xdigit+;
 
     label_name = (alnum | "_" | "-")+;
 

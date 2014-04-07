@@ -46,7 +46,7 @@ program ::= statement_list.
 statement_list ::= /* empty */.
 statement_list ::= statement_list statement.
 
-statement ::= BASIC_OPCODE_LITERAL(name) B(b) COMMA A(a). {
+statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
     opcodes->push_back(new galaxy::jupiter::opcodes::BasicOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b),
@@ -56,7 +56,7 @@ statement ::= BASIC_OPCODE_LITERAL(name) B(b) COMMA A(a). {
     ParseARG_STORE;
 }
 
-statement ::= SPECIAL_OPCODE_LITERAL(name) B(b). {
+statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     opcodes->push_back(new galaxy::jupiter::opcodes::SpecialOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b)
@@ -91,3 +91,7 @@ statement ::= SEMICOLON comment.
 
 comment ::= /* empty */.
 comment ::= COMMENT comment.
+
+part ::= REGISTER.
+part ::= DECIMAL.
+part ::= HEXADECIMAL.
