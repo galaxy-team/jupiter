@@ -7,6 +7,9 @@
     #include "parser.h"
     #include "opcodes/opcodes.hpp"
     //#define NDEBUG
+
+    // NN == NOT NULL
+    #define NN(x) assert(x != NULL);
 }
 
 %syntax_error {
@@ -41,13 +44,14 @@
 }
 
 
+
 program ::= statement_list.
 
 statement_list ::= /* empty */.
 statement_list ::= statement_list statement.
 
 statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
-    assert(name != NULL); assert(b != NULL); assert(a != NULL);
+    NN(name); NN(b); NN(a);
 
     opcodes->push_back(new galaxy::jupiter::opcodes::BasicOpcode(
             name->contents,
@@ -59,7 +63,7 @@ statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
 }
 
 statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
-    assert(name != NULL); assert(b != NULL);
+    NN(name); NN(b);
 
     opcodes->push_back(new galaxy::jupiter::opcodes::SpecialOpcode(
             name->contents,
@@ -70,14 +74,14 @@ statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
 }
 
 statement ::= COLON LABEL_NAME(name). {
-    assert(name != NULL);
+    NN(name);
 
     opcodes->push_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
     ParseARG_STORE;
 }
 
 statement ::= DOT DAT dat_content(con). {
-    assert(con != NULL);
+    NN(con);
 
     std::string contents = con->contents.substr(
         1, con->contents.length() - 2

@@ -75,8 +75,6 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         virtual ~Part() {};
         Part(token_vector sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
         Part(galaxy::jupiter::Token* token) : is_reference(false) {
-            // *sigh*
-            assert(token != NULL);
             sub_tokens.push_back(token);
         };
 
