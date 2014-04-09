@@ -15,10 +15,10 @@ MACRO(LEMON SRC DST VAR)
         # )
         ADD_CUSTOM_COMMAND(
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${DST}.c ${CMAKE_CURRENT_BINARY_DIR}/${DST}.cpp ${CMAKE_CURRENT_BINARY_DIR}/${DST}.h
-            COMMAND cmake -E ${COPY_OR_LINK} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.y ${CMAKE_CURRENT_BINARY_DIR}/${DST}.y
-            COMMAND cmake -E chdir ${CMAKE_CURRENT_BINARY_DIR} lemon -q ${DST}.y
+            COMMAND cmake -E ${COPY_OR_LINK} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.lemon ${CMAKE_CURRENT_BINARY_DIR}/${DST}.lemon
+            COMMAND cmake -E chdir ${CMAKE_CURRENT_BINARY_DIR} lemon -q ${DST}.lemon
             COMMAND cmake -E ${COPY_OR_LINK} ${CMAKE_CURRENT_BINARY_DIR}/${DST}.c ${CMAKE_CURRENT_BINARY_DIR}/${DST}.cpp
-            MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.y
+            MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.lemon
             # DEPENDS lemon ${CMAKE_CURRENT_BINARY_DIR}/lempar.c
         )
         SET(${VAR} ${${VAR}} ${CMAKE_CURRENT_BINARY_DIR}/${DST}.cpp)
