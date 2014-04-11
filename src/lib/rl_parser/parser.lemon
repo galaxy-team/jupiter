@@ -99,7 +99,7 @@ statement ::= DOT DAT dat_content(con). {
     );
 }
 
-statement ::= DOT EXPORT export_list(label_list). {
+statement ::= DOT EXPORT comma_list(label_list). {
     NN(label_list);
 
     // break up the list
@@ -114,14 +114,14 @@ statement ::= DOT EXPORT export_list(label_list). {
     );
 }
 
-export_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
-export_list(A) ::= LABEL_NAME(B) export_clause(C). {
+comma_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
+comma_list(A) ::= LABEL_NAME(B) comma_list_clause(C). {
     NN(B); NN(C);
 
     A=B;
     B->contents += " " + C->contents + " ";
 }
-export_clause(A) ::= COMMA export_list(B). { NN(B); A=B; }
+comma_list_clause(A) ::= COMMA comma_list(B). { NN(B); A=B; }
 
 statement ::= DOT FILL number(content) number(number). {
     NN(content); NN(number);
