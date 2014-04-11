@@ -17,36 +17,38 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
     symbol_map symbols;
 
     int address = 0;
+    std::string opcode_type;
 
-    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
+    for (auto opcode : opcodes) {
         std::cout << "Opcode: ";
-        std::cout << (*opcode)->repr() << std::endl;
+        std::cout << opcode->repr() << std::endl;
+        opcode_type = opcode->getType();
 
-        if ((*opcode)->getType() == "LabelOpcode"){
+        if (opcode_type == "LabelOpcode"){
             auto label_opcode = CAST_OPCODE_AS(LabelOpcode)(opcode);
             symbols[label_opcode->label] = address;
 
-        } else if ((*opcode)->getType() == "OrigOpcode"){
+        } else if (opcode_type == "OrigOpcode"){
             auto orig_opcode = CAST_OPCODE_AS(OrigOpcode)(opcode);
             address = orig_opcode->location;
 
-        } else if ((*opcode)->getType() == "FillOpcode"){
+        } else if (opcode_type == "FillOpcode"){
             auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
             address += fill_opcode->size();
 
-        } else if ((*opcode)->getType() == "BasicOpcode"){
+        } else if (opcode_type == "BasicOpcode"){
             auto basic_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
             address += basic_opcode->assemble(symbols)->size();
 
-        } else if ((*opcode)->getType() == "DATOpcode") {
+        } else if (opcode_type == "DATOpcode") {
             auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             address += dat_opcode->format()->contents.size();
 
-        } else if ((*opcode)->getType() == "ExportOpcode"){
+        } else if (opcode_type == "ExportOpcode"){
             continue;
 
         } else {
-           throw UnknownOpcode((*opcode)->getType());
+           throw UnknownOpcode(opcode_type);
         }
     }
     return symbols;
