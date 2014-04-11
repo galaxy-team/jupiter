@@ -101,26 +101,31 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
 
 galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector opcodes, symbol_map symbols) {
     galaxy::asteroid objfile;
+    std::string opcode_type;
+    galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;
 
-    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
-        std::cout << "Opcode: " << (*opcode)->repr() << std::endl;
-        galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;;
+    std::cout << "Processing " << opcodes.size() << std::endl;
 
-        if ((*opcode)->getType() == "LiteralOpcode") {
-            op = dynamic_cast<galaxy::jupiter::opcodes::LiteralOpcode*>(*opcode);
-        } else if ((*opcode)->getType() == "ExportOpcode") {
-                    auto export_opcode = dynamic_cast<galaxy::jupiter::opcodes::ExportOpcode*>(*opcode);
+    for (auto opcode : opcodes) {
+        std::cout << "Opcode: " << opcode->repr() << std::endl;
+        op = NULL;
+        opcode_type = opcode->getType();
+
+        if (opcode_type == "LiteralOpcode") {
+            op = CAST_OPCODE_AS(LiteralOpcode)(opcode);
+
+        } else if (opcode_type == "ExportOpcode") {
+            // put the exported labels into the object file
+            auto export_opcode = CAST_OPCODE_AS(ExportOpcode)(opcode);
 
             for (auto label_name: export_opcode->label_names) {
-                std::pair<std::string, std::uint16_t> pair;
-                pair.first = label_name;
-                pair.second = symbols[label_name];
-                std::cout << pair.first << " -> " << pair.second << std::endl;
-                objfile.exported_labels.insert(pair);
+                if (symbols.find(label_name) == symbols.end()) {
+                    throw UnknownLabel(label_name);
+                }
+
+                objfile.exported_labels.emplace(label_name, symbols[label_name]);
             }
-        } else {
-            throw UnknownOpcode((*opcode)->getType());
-        }
+        } else throw UnknownOpcode(opcode_type);
 
         if (op != NULL) {
             for (auto it: op->contents) {
