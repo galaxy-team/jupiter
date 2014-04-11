@@ -8,7 +8,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 set(CMAKE_CXX_FLAGS "--std=c++11 ${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "-pedantic-errors -Wall -Werror -Wfatal-errors -Wwrite-strings -ftrapv -fno-merge-constants -fno-nonansi-builtins -fno-gnu-keywords -fstrict-aliasing ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-pedantic-errors -Wall -Wextra -O0 -ggdb -Wfatal-errors -Wwrite-strings -ftrapv -fno-merge-constants -fno-nonansi-builtins -fno-gnu-keywords -fstrict-aliasing ${CMAKE_CXX_FLAGS}")
 
 set(THIRD-PARTY ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
@@ -57,12 +57,13 @@ set_source_files_properties(
 # generate the parser
 LEMON(src/lib/rl_parser/parser src/lib/rl_parser/parser LEMON_FILES)
 add_custom_target(lemon_files DEPENDS ${LEMON_FILES})
+# parser done
 
+# tell cmake what libjupiter needs
 add_dependencies(libjupiter
     lemon_files
     ragelrl_parser
 )
-# parser done
 
 add_executable(jupiter
     src/main.cpp
