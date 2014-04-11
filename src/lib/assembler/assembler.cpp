@@ -56,47 +56,44 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
 
 
 opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol_map symbols){
+    galaxy::jupiter::opcodes::Opcode* op = NULL;
+    std::string opcode_type;
     opcode_vector new_opcodes;
 
-    for (auto opcode = opcodes.begin(); opcode != opcodes.end(); ++opcode) {
-        galaxy::jupiter::opcodes::Opcode* op = NULL;
+
+    for (auto opcode : opcodes) {
+        op = NULL;
+        opcode_type = opcode->getType();
 
         std::cout << "Opcode: ";
-        std::cout << (*opcode)->repr() << std::endl;
+        std::cout << opcode->repr() << std::endl;
 
-        if ((*opcode)->getType() == "LabelOpcode"){
+        if (opcode_type == "LabelOpcode" || opcode_type == "OrigOpcode"){
             // handled in the first pass
             continue;
 
-        } else if ((*opcode)->getType() == "OrigOpcode"){
-            // handled in the first pass
-            continue;
-
-        } else if ((*opcode)->getType() == "FillOpcode"){
+        } else if (opcode_type == "FillOpcode"){
             auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
             op = fill_opcode->format();
 
-        } else if ((*opcode)->getType() == "BasicOpcode"){
+        } else if (opcode_type == "BasicOpcode"){
             auto instruction_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
             op = instruction_opcode->assemble(symbols);
 
-        } else if ((*opcode)->getType() == "DATOpcode") {
+        } else if (opcode_type == "DATOpcode") {
             auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             op = dat_opcode->format();
 
-        } else if ((*opcode)->getType() == "ExportOpcode"){
-            op = (*opcode);
+        } else if (opcode_type == "ExportOpcode"){
             // will be handled in last pass
-            continue;
+            op = opcode;
 
         } else {
-            throw UnknownOpcode((*opcode)->getType());
+            throw UnknownOpcode(opcode_type);
         }
 
-        if (op != NULL){
-            std::cout << op->repr() << std::endl;
-            new_opcodes.push_back(op);
-        }
+        std::cout << op->repr() << std::endl;
+        new_opcodes.push_back(op);
     }
 
     return new_opcodes;
