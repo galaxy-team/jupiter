@@ -10,6 +10,9 @@
 #include "assembler.hpp"
 
 
+#define CAST_OPCODE_AS(type) dynamic_cast<galaxy::jupiter::opcodes::type*>
+
+
 symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
     symbol_map symbols;
 
@@ -20,23 +23,23 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
         std::cout << (*opcode)->repr() << std::endl;
 
         if ((*opcode)->getType() == "LabelOpcode"){
-            auto label_opcode = dynamic_cast<galaxy::jupiter::opcodes::LabelOpcode*>(*opcode);
+            auto label_opcode = CAST_OPCODE_AS(LabelOpcode)(opcode);
             symbols[label_opcode->label] = address;
 
         } else if ((*opcode)->getType() == "OrigOpcode"){
-            auto orig_opcode = dynamic_cast<galaxy::jupiter::opcodes::OrigOpcode*>(*opcode);
+            auto orig_opcode = CAST_OPCODE_AS(OrigOpcode)(opcode);
             address = orig_opcode->location;
 
         } else if ((*opcode)->getType() == "FillOpcode"){
-            auto fill_opcode = dynamic_cast<galaxy::jupiter::opcodes::FillOpcode*>(*opcode);
+            auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
             address += fill_opcode->size();
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
-            auto basic_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
+            auto basic_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
             address += basic_opcode->assemble(symbols)->size();
 
         } else if ((*opcode)->getType() == "DATOpcode") {
-            auto dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
+            auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             address += dat_opcode->format()->contents.size();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
@@ -68,15 +71,15 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
             continue;
 
         } else if ((*opcode)->getType() == "FillOpcode"){
-            auto fill_opcode = dynamic_cast<galaxy::jupiter::opcodes::FillOpcode*>(*opcode);
+            auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
             op = fill_opcode->format();
 
         } else if ((*opcode)->getType() == "BasicOpcode"){
-            auto instruction_opcode = dynamic_cast<galaxy::jupiter::opcodes::BasicOpcode*>(*opcode);
+            auto instruction_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
             op = instruction_opcode->assemble(symbols);
 
         } else if ((*opcode)->getType() == "DATOpcode") {
-            auto dat_opcode = dynamic_cast<galaxy::jupiter::opcodes::DATOpcode*>(*opcode);
+            auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             op = dat_opcode->format();
 
         } else if ((*opcode)->getType() == "ExportOpcode"){
