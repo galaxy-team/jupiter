@@ -57,9 +57,13 @@ void emit(void* lparser,
     include asm_grammar "asm_grammar.rl";
 
     main := |*
-        registers =>            { EMIT(REGISTER); };
         newline =>              { newlines++; };
 
+        not_colon registers =>  {
+            // get rid of whatever the not_colon char is
+            ts += 1;
+            EMIT(REGISTER);
+        };
         hexadecimal =>          { EMIT(HEXADECIMAL); };
         decimal =>              { EMIT(DECIMAL); };
         basic_opcode_prim =>    { EMIT(BASIC_OPCODE_LITERAL); };

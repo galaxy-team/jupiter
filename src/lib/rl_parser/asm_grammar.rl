@@ -1,6 +1,7 @@
 %%{
     machine asm_grammar;
 
+    not_colon = [^:];
     colon = ":";
     semicolon = ";";
     comma = ",";
