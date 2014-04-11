@@ -137,12 +137,13 @@ statement ::= DOT ORIG number(position). {
     );
 }
 
-
 // if we don't pass on the string, it gets destroyed
-dat_content(A) ::= quoted_string(B).    { A=B; }
-dat_content(A) ::= number(B).      { A=B; }
+dat_content(A) ::= quoted_string(B).    { NN(B); A=B; }
+dat_content(A) ::= number(B).           { NN(B); A=B; }
 
 quoted_string(A) ::= QUOTED_STRING(B). {
+    NN(B);
+
     A=B;
     A->contents = B->contents.substr(
         1, B->contents.length() - 2
