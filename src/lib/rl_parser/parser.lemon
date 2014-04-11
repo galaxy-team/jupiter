@@ -23,11 +23,13 @@
 }
 
 %syntax_error {
-    std::cout << "Syntax error." << std::endl;
+    std::cout << "Syntax error ";
 
     #ifndef NDEBUG
-    std::cout << "at token " << yyTokenName[yymajor] << std::endl;
+    std::cout << "at token " << yyTokenName[yymajor] << " ";
     #endif
+
+    std::cout << "on line " << TOKEN->line_no << std::endl;
 
     #ifndef NDEBUG
 
