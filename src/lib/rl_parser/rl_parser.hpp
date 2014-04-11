@@ -7,11 +7,13 @@ namespace galaxy { namespace jupiter { namespace parser {
 
 class Scan {
 public:
-    Scan() : cs(0), act(0), ts(0), te(0), lparser(NULL) {};
+    Scan() : newlines(0), cs(0), act(0), ts(0), te(0), lparser(NULL) {};
     ~Scan();
 
     void init();
     opcode_vector execute(const char* data, size_t len);
+
+    std::uint16_t newlines;
 
 private:
     int cs;

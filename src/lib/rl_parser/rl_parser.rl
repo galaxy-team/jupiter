@@ -20,15 +20,15 @@ std::string getStr(const char* beg, const char* end)
 }
 
 // we use a macro so we can grab some variables from the call context
-#define EMIT(token_type) emit(lparser, ts, te, token_type, &opcodes);
+#define EMIT(token_type) emit(lparser, ts, te, token_type, &opcodes, newlines);
 
 void emit(void* lparser,
           const char* ts, const char* te,
-          int token_type, opcode_vector *opcodes) {
+          int token_type, opcode_vector *opcodes,
+          std::uint16_t newlines) {
 
     auto token = new galaxy::jupiter::Token(
-        token_type,
-        getStr(ts, te)
+        token_type, newlines, getStr(ts, te)
 
         #ifndef NDEBUG
         ,yyTokenName[token_type]
@@ -58,6 +58,8 @@ void emit(void* lparser,
 
     main := |*
         registers =>            { EMIT(REGISTER); };
+        newline =>              { newlines++; };
+
         hexadecimal =>          { EMIT(HEXADECIMAL); };
         decimal =>              { EMIT(DECIMAL); };
         basic_opcode_prim =>    { EMIT(BASIC_OPCODE_LITERAL); };
