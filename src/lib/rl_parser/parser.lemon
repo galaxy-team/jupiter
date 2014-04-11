@@ -26,17 +26,22 @@
     std::cout << "Syntax error." << std::endl;
 
     #ifndef NDEBUG
-    std::cout << "error at token " << yyTokenName[yymajor] << std::endl;
+    std::cout << "at token " << yyTokenName[yymajor] << std::endl;
+    #endif
+
+    #ifndef NDEBUG
 
     for(int i=1; i<=yypParser->yyidx; i++)
         std::cout << " " << yyTokenName[yypParser->yystack[i].major] << std::endl;
 
-/*    printf(" | %s ] unexpected '%.*s'\n",
-        yyTokenName[yymajor],
-        (yymajor != 0 && TOKEN != NULL) ? strlen(TOKEN->value) : 7,
-        (yymajor != 0 && TOKEN != NULL) ? TOKEN->value : "$ (EOF)"
-    );*/
+    std::cout << " | " << yyTokenName[yymajor];
+    std::cout << " ] unexpected '";
+    std::cout << (yymajor != 0 && TOKEN != NULL) ? TOKEN->repr() : "$ (EOF)";
+    std::cout << "'" << std::endl;
+
     #endif
+
+    exit(1);
 }
 
 %token_destructor { ParseARG_STORE; }
