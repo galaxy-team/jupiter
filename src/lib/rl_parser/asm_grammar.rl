@@ -7,20 +7,20 @@
     dot = ".";
     newline = "\n\r" | "\n";
 
-    basic_opcode_prim = "ADD" | "SET";
-    special_opcode_prim = "JSR" | "INT";
+    basic_opcode_prim = "ADD"i | "SET"i;
+    special_opcode_prim = "JSR"i | "INT"i;
 
-    dat = "DAT";
-    export_token = "EXPORT"; # "export" seems to be reserved
-    fill = "FILL";
-    orig = "ORIG";
+    dat = "DAT"i;
+    export_token = "EXPORT"i; # "export" seems to be reserved
+    fill = "FILL"i;
+    orig = "ORIG"i;
 
-    registers = "A" | "B" | "C" | "X" | "Y" | "Z" | "I" | "J";
+    registers = "A"i | "B"i | "C"i | "X"i | "Y"i | "Z"i | "I"i | "J"i;
 
-    specials = "PC" | "SP" | "EX" | "IA";
+    specials = "PC"i | "SP"i | "EX"i | "IA"i;
 
     decimal = digit+;
-    hexadecimal = "0x" xdigit+;
+    hexadecimal = "0x"i xdigit+;
 
     label_name = (alnum | "_" | "-")+;
 
