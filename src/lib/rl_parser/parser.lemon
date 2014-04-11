@@ -65,10 +65,9 @@ statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
 
     opcodes->emplace_back(new galaxy::jupiter::opcodes::BasicOpcode(
             name->contents,
-            new galaxy::jupiter::opcodes::Part(b),
-            new galaxy::jupiter::opcodes::Part(a)
-        )
-    );
+            new galaxy::jupiter::opcodes::Part(a),
+            new galaxy::jupiter::opcodes::Part(b)
+    ));
 }
 
 statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
