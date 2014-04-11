@@ -60,7 +60,7 @@ statement_list ::= statement_list statement.
 statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
     NN(name); NN(b); NN(a);
 
-    opcodes->push_back(new galaxy::jupiter::opcodes::BasicOpcode(
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::BasicOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b),
             new galaxy::jupiter::opcodes::Part(a)
@@ -72,7 +72,7 @@ statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
 statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     NN(name); NN(b);
 
-    opcodes->push_back(new galaxy::jupiter::opcodes::SpecialOpcode(
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::SpecialOpcode(
             name->contents,
             new galaxy::jupiter::opcodes::Part(b)
         )
@@ -83,14 +83,14 @@ statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
 statement ::= COLON LABEL_NAME(name). {
     NN(name);
 
-    opcodes->push_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
     ParseARG_STORE;
 }
 
 statement ::= DOT DAT dat_content(con). {
     NN(con);
 
-    opcodes->push_back(
+    opcodes->emplace_back(
         new galaxy::jupiter::opcodes::DATOpcode(con->contents)
     );
 }
@@ -105,7 +105,7 @@ statement ::= DOT EXPORT export_list(label_list). {
         std::istream_iterator<std::string>{}
     };
 
-    opcodes->push_back(
+    opcodes->emplace_back(
         new galaxy::jupiter::opcodes::ExportOpcode(exported_labels )
     );
 }
@@ -124,7 +124,7 @@ statement ::= DOT FILL number(content) number(number). {
 
     int num = strtol(number->contents.c_str(), NULL, 0);
     int filler = strtol(content->contents.c_str(), NULL, 0);
-    opcodes->push_back(
+    opcodes->emplace_back(
         new galaxy::jupiter::opcodes::FillOpcode(filler, num)
     );
 }
@@ -133,7 +133,7 @@ statement ::= DOT ORIG number(position). {
     NN(position);
 
     int position_num = strtol(position->contents.c_str(), NULL, 0);
-    opcodes->push_back(
+    opcodes->emplace_back(
         new galaxy::jupiter::opcodes::OrigOpcode(position_num)
     );
 }
