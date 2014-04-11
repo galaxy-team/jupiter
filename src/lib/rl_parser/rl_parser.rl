@@ -70,7 +70,8 @@ void emit(void* lparser,
 
         # directives
         dat =>                  { EMIT(DAT); };
-        export_token =>         { EMIT(EXPORT); }; # "export" seems to be reserved
+        export_token =>         { EMIT(EXPORT); }; # "export" and "import" seem to be reserved
+        import_token =>         { EMIT(IMPORT); };
         fill =>                 { EMIT(FILL); };
         orig =>                 { EMIT(ORIG); };
 

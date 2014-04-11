@@ -12,6 +12,7 @@
 
     dat = "DAT"i;
     export_token = "EXPORT"i; # "export" seems to be reserved
+    import_token = "IMPORT"i;
     fill = "FILL"i;
     orig = "ORIG"i;
 

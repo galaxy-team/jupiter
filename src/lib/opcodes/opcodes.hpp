@@ -166,6 +166,13 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string repr();
     };
 
+    // functionally identical to ExportOpcode
+    class ImportOpcode : public ExportOpcode {
+    public:
+        ImportOpcode(std::vector<std::string> label_names) : ExportOpcode(label_names) {};
+        std::string getType(){ return "ImportOpcode"; }
+    };
+
     class FillOpcode : public Opcode {
     public:
         FillOpcode(std::uint16_t contents, std::uint16_t length) : length(length), contents(contents) {};

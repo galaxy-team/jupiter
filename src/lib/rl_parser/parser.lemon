@@ -114,6 +114,19 @@ statement ::= DOT EXPORT comma_list(label_list). {
     );
 }
 
+statement ::= DOT IMPORT comma_list(label_list). {
+    NN(label_list);
+
+    // break up the list
+    std::istringstream iss(label_list->contents);
+    std::vector<std::string> imported_labels {
+        std::istream_iterator<std::string>{iss},
+        std::istream_iterator<std::string>{}
+    };
+
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::ImportOpcode(imported_labels)
+
 comma_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
 comma_list(A) ::= LABEL_NAME(B) comma_list_clause(C). {
     NN(B); NN(C);

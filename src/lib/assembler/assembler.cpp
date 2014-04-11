@@ -44,7 +44,7 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
             auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             address += dat_opcode->format()->contents.size();
 
-        } else if (opcode_type == "ExportOpcode"){
+        } else if (opcode_type == "ExportOpcode" || opcode_type == "ImportOpcode"){
             continue;
 
         } else {
@@ -84,7 +84,7 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
             auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
             op = dat_opcode->format();
 
-        } else if (opcode_type == "ExportOpcode"){
+        } else if (opcode_type == "ExportOpcode" || opcode_type == "ImportOpcode" ){
             // will be handled in last pass
             op = opcode;
 
@@ -125,6 +125,13 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
 
                 objfile.exported_labels.emplace(label_name, symbols[label_name]);
             }
+
+        } else if (opcode_type == "ImportOpcode") {
+            // put the imported labels into the object file
+            auto import_opcode = CAST_OPCODE_AS(ImportOpcode)(opcode);
+            for (auto label_name : import_opcode->label_names)
+                objfile.imported_labels.emplace(symbols[label_name], label_name);
+
         } else throw UnknownOpcode(opcode_type);
 
         if (op != NULL) {
