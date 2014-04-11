@@ -24,6 +24,13 @@ namespace galaxy {
         return s.str();
     }
 
+    template<typename T>
+    std::string tohex(T i) {
+        std::stringstream ss;
+        ss << std::hex << i;
+        return ss.str();
+    }
+
     namespace jupiter {
         std::string char_repr(std::string p);
     }

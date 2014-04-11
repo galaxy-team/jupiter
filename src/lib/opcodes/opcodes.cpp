@@ -90,7 +90,7 @@ std::string galaxy::jupiter::opcodes::SpecialOpcode::repr(){
 }
 
 std::string galaxy::jupiter::opcodes::OrigOpcode::repr(){
-    return makeRepr("location=" + std::to_string(location));
+    return makeRepr("location=0x" + tohex(location));
 }
 
 std::string galaxy::jupiter::opcodes::DATOpcode::repr(){
