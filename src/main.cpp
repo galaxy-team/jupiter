@@ -81,6 +81,12 @@ int main(int argc, char** argv)
 
     // read in the input file
     std::ifstream inf(in);
+
+    if (!inf.good()){
+        std::cerr << "Bad file" << std::endl;
+        return -1;
+    }
+
     std::string asm_code;
     {
         char ch;
