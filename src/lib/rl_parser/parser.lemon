@@ -15,6 +15,9 @@
     #include "opcodes/opcodes.hpp"
     //#define NDEBUG
 
+    // fail on first error
+    #define YYNOERRORRECOVERY
+
     // NN == NOT NULL
     #define NN(x) assert(x != NULL);
 }
