@@ -11,7 +11,7 @@
 namespace galaxy {
     namespace jupiter {
         namespace assembler {
-            class UnknownOpcode : std::exception {
+            class UnknownOpcode : public std::exception {
             public:
                 virtual ~UnknownOpcode() {};
                 UnknownOpcode(std::string msg) : msg(msg) {};
