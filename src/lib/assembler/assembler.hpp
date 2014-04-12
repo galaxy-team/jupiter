@@ -24,6 +24,19 @@ namespace galaxy {
                 }
             };
 
+            class UnknownLabel : public std::exception {
+            public:
+                virtual ~UnknownLabel() {};
+                UnknownLabel(std::string msg) : msg(msg) {};
+                std::string msg;
+
+                virtual const char* what() const noexcept {
+                    std::stringstream ss;
+                    ss << "No such label: " << msg;
+                    return ss.str().c_str();
+                }
+            };
+
             symbol_map find_symbols(
                 opcode_vector opcodes
             );
