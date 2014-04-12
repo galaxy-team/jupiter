@@ -1,5 +1,6 @@
 #include <cstddef>
 #include <cstdlib>
+
 #include <iostream>
 #include <ostream>
 #include <sstream>
@@ -34,7 +35,6 @@ void emit(void* lparser,
         ,yyTokenName[token_type]
         #endif
     );
-
 
     #ifndef NDEBUG
     std::cout << yyTokenName[token_type] << "\t\t\t== \"" << token->contents <<  "\"" << std::endl;
@@ -83,9 +83,7 @@ void emit(void* lparser,
             EMIT(QUOTED_STRING);
         };
 
-        semicolon not_newline* newline => {
-            std::cout << "Comment ignored" << std::endl;
-        };
+        semicolon not_newline* newline => {}; # ignore comments
 
         label_name =>           { EMIT(LABEL_NAME); };
 
@@ -115,7 +113,7 @@ opcode_vector galaxy::jupiter::parser::Scan::execute(const char* data, size_t le
 
     opcode_vector opcodes;
 
-    %% write exec;
+    %%write exec;
 
     Parse(lparser, 0, NULL, &opcodes);
 

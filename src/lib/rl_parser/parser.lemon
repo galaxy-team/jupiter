@@ -112,7 +112,7 @@ statement ::= DOT EXPORT comma_list(label_list). {
     };
 
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::ExportOpcode(exported_labels )
+        new galaxy::jupiter::opcodes::ExportOpcode(exported_labels)
     );
 }
 
@@ -128,6 +128,8 @@ statement ::= DOT IMPORT comma_list(label_list). {
 
     opcodes->emplace_back(
         new galaxy::jupiter::opcodes::ImportOpcode(imported_labels)
+    );
+}
 
 comma_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
 comma_list(A) ::= LABEL_NAME(B) comma_list_clause(C). {
