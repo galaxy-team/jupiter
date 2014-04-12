@@ -184,7 +184,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         std::string getType() { return "FillOpcode"; }
         std::string repr() {
             std::stringstream ss;
-            ss << "of " << length << " for \"" << contents << "\"";
+            ss << "for " << length << " of \"" << contents << "\"";
             return makeRepr(ss.str());
         }
 
