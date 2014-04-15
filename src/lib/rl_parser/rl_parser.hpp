@@ -24,6 +24,19 @@ private:
     void* lparser;
 };
 
+class syntax_error : public std::exception {
+public:
+    virtual ~syntax_error() {};
+    syntax_error(std::string msg) : msg(msg) {};
+    std::string msg;
+
+    virtual const char* what() const noexcept {
+        return msg.c_str();
+    }
+};
+
+
+
 opcode_vector parse(std::string input);
 
 }}}

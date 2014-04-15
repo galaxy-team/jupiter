@@ -23,14 +23,16 @@
 }
 
 %syntax_error {
-    std::cout << "Syntax error ";
+    std::stringstream ss;
+
+    ss << "Syntax error ";
 
     #ifndef NDEBUG
-    std::cout << "at token " << yyTokenName[yymajor] << " ";
+    ss << "at token " << yyTokenName[yymajor] << " ";
     #endif
 
-    std::cout << "on line " << TOKEN->line_no << std::endl;
-
+    ss << "on line " << TOKEN->line_no << std::endl;
+/*
     #ifndef NDEBUG
 
     for(int i=1; i<=yypParser->yyidx; i++)
@@ -42,8 +44,8 @@
     std::cout << "'" << std::endl;
 
     #endif
-
-    exit(1);
+*/
+    throw galaxy::jupiter::parser::syntax_error(ss.str());
 }
 
 %token_destructor { ParseARG_STORE; }
