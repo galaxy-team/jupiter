@@ -1,3 +1,6 @@
 [submodule "lib/asteroid"]
 	path = lib/asteroid
 	url = git://github.com/galaxy-team/asteroid.git 
+[submodule "lib/glog"]
+	path = lib/glog
+	url = git://github.com/emzeat/google-glog.git
