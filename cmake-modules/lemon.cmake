@@ -13,6 +13,10 @@ MACRO(LEMON SRC DST VAR)
         #     COMMAND cmake -E ${COPY_OR_LINK} ${CMAKE_SOURCE_DIR}/lemon/lempar.c ${CMAKE_CURRENT_BINARY_DIR}/lempar.c
         #     MAIN_DEPENDENCY ${CMAKE_SOURCE_DIR}/lemon/lempar.c
         # )
+
+        get_filename_component(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/${DST} PATH)
+        file(MAKE_DIRECTORY ${OUTPUT_DIR})
+
         ADD_CUSTOM_COMMAND(
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${DST}.c ${CMAKE_CURRENT_BINARY_DIR}/${DST}.cpp ${CMAKE_CURRENT_BINARY_DIR}/${DST}.h
             COMMAND cmake -E ${COPY_OR_LINK} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.lemon ${CMAKE_CURRENT_BINARY_DIR}/${DST}.lemon
