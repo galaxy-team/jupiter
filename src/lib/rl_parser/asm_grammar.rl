@@ -8,7 +8,15 @@
     dot = ".";
     newline = "\n\r" | "\n";
 
-    basic_opcode_prim = "ADD"i | "SET"i;
+    basic_opcode_prim =
+        "SET"i | "ADD"i | "SUB"i | "MUL"i |
+        "MLI"i | "DIV"i | "DVI"i | "MOD"i |
+        "MDI"i | "AND"i | "BOR"i | "XOR"i |
+        "SHR"i | "ASR"i | "SHL"i | "IFB"i |
+        "IFC"i | "IFE"i | "IFN"i | "IFG"i |
+        "IFA"i | "IFL"i | "IFU"i | "ADX"i |
+        "SBX"i | "STI"i | "STD"i;
+
     special_opcode_prim = "JSR"i | "INT"i;
 
     dat = "DAT"i;
