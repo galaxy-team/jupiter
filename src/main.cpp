@@ -70,13 +70,13 @@ int main(int argc, char** argv)
 
     // We use the second argument as the output filename.
     if (args.size() == 1){
-         // If the output filename is unspecified, use a modified form of
-         // the input filename.
-         //
-         // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
+        // If the output filename is unspecified, use a modified form of
+        // the input filename.
+        //
+        // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
 
-         // Strip the last file extension, and replace with ".o"
-         out = in.substr(0, in.find_last_of('.')) + ".o";
+        // Strip the last file extension, and replace with ".o"
+        out = in.substr(0, in.find_last_of('.')) + ".o";
 
     } else {
         // Otherwise, we use the second argument as the output filename.
