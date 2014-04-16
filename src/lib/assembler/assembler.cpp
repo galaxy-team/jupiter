@@ -61,13 +61,11 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
 
 
 opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol_map symbols){
-    galaxy::jupiter::opcodes::Opcode* op = NULL;
     std::string opcode_type;
     opcode_vector new_opcodes;
 
-
     for (auto opcode : opcodes) {
-        op = NULL;
+        galaxy::jupiter::opcodes::Opcode* op = NULL;
         opcode_type = opcode->getType();
 
         LOG(INFO) << "Opcode: " << opcode->repr();
@@ -106,12 +104,11 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
 galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector opcodes, symbol_map symbols) {
     galaxy::asteroid objfile;
     std::string opcode_type;
-    galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;
 
     LOG(INFO) << "Processing " << opcodes.size();
 
     for (auto opcode : opcodes) {
-        op = NULL;
+        galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;
         LOG(INFO) << "Opcode: " << opcode->repr();
         opcode_type = opcode->getType();
 
