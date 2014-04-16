@@ -36,6 +36,7 @@ file named "LICENSE.txt".
 /* third party */
 #include "OptionParser.h"
 
+#include <glog/logging.h>
 
 int main(int argc, char** argv)
 {
@@ -52,6 +53,9 @@ int main(int argc, char** argv)
     std::string in;
     std::string out;
 
+    // enable color logging
+    FLAGS_logtostderr = true;
+    FLAGS_colorlogtostderr = true;
 
     // Test that we have the right number of arguments
     if (args.empty()) {

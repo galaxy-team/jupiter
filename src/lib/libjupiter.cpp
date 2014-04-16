@@ -24,6 +24,8 @@ file named "LICENSE-LGPL.txt".
 
 #include <iostream>
 
+#include <glog/logging.h>
+
 #include <libasteroid.hpp>
 #include <rl_parser/rl_parser.hpp>
 #include <assembler/assembler.hpp>
@@ -40,10 +42,14 @@ galaxy::asteroid galaxy::jupiter::assemble(
     );
 
     for (auto it = opcodes.begin(); it != opcodes.end(); ++it){
-        std::cout << (**it).repr() << std::endl;
+        LOG(INFO) << (**it).repr() << std::endl;
     }
 
+    LOG(INFO) << "First pass";
     auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
+    LOG(INFO) << "Second pass: " << opcodes.size();
     opcodes = galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
+    LOG(INFO) << "Third pass: " << opcodes.size();
+
     return galaxy::jupiter::assembler::resolve_to_bytecode(opcodes, symbol_map);
 }

@@ -2,6 +2,8 @@
 #include <string>
 #include <bitset>
 
+#include <glog/logging.h>
+
 #include "opcodes.hpp"
 #include "assembler/assembler.hpp"
 
@@ -17,8 +19,11 @@ std::uint16_t galaxy::jupiter::opcodes::Part::resolve_as_value(symbol_map symbol
     }
 
     if (galaxy::jupiter::assembler::values.find(concatenated) != galaxy::jupiter::assembler::values.end()) {
-        std::cout << "Found " << concatenated << " as value: " << galaxy::jupiter::assembler::values.at(concatenated) << std::endl;
-        return galaxy::jupiter::assembler::values.at(concatenated);
+        auto value = galaxy::jupiter::assembler::values.at(concatenated);
+
+        LOG(INFO) << "Found " << concatenated << " as value: " << value;
+
+        return value;
     } else {
         return 0;
     }
@@ -59,22 +64,22 @@ galaxy::jupiter::opcodes::LiteralOpcode* galaxy::jupiter::opcodes::BasicOpcode::
     std::uint16_t opcode;
     std::vector<std::uint16_t> words;
 
-    std::cout << "Accessing: " << name << std::endl;
+    LOG(INFO) << "Accessing: " << name;
     if (galaxy::jupiter::assembler::basic_opcodes.find(name) == galaxy::jupiter::assembler::basic_opcodes.end()) {
         throw galaxy::jupiter::assembler::UnknownOpcode(name);
     } else {
         opcode = galaxy::jupiter::assembler::basic_opcodes.at(name);
-        std::cout << "Opcode: 0x" << std::hex << opcode << std::endl;
+        LOG(INFO) << "Opcode: 0x" << std::hex << opcode;
     }
 
     std::uint16_t final = a->resolve_as_value(symbols);
-    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+    LOG(INFO) << "0b" << std::bitset<16>(final);
     final ^= b->resolve_as_value(symbols);
-    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+    LOG(INFO) << "0b" << std::bitset<16>(final);
     final ^= opcode;
-    std::cout << "0b" << std::bitset<16>(final) << std::endl;
+    LOG(INFO) << "0b" << std::bitset<16>(final);
 
-    std::cout << "0b1000100000000001 <- reference" << std::endl;
+    LOG(INFO) << "0b1000100000000001 <- reference";
 
     words.push_back(final);
 

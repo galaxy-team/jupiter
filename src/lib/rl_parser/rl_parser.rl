@@ -37,11 +37,14 @@ void emit(void* lparser,
     );
 
     #ifndef NDEBUG
-    std::cout << yyTokenName[token_type] << "\t\t\t== \"" << token->contents <<  "\"" << std::endl;
-    #else
-    std::cout << "Emiting: " << token->repr() << std::endl;
-    #endif
+    LOG(INFO) << yyTokenName[token_type];
+    int length = 20 - std::string(yyTokenName[token_type]).length();
 
+    std::stringstream ss;
+    for (int i = 0; i < length; ++i) ss << " ";
+    LOG(INFO) << ss.str() << " == \"" << token->contents <<  "\"";
+
+    #endif
 
     // tell the parser what we've got
     Parse(

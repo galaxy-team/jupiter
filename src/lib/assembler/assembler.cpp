@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+#include <glog/logging.h>
+
 #include <libasteroid.hpp>
 #include <opcodes/opcodes.hpp>
 
@@ -20,12 +22,15 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
     std::string opcode_type;
 
     for (auto opcode : opcodes) {
-        std::cout << "Opcode: ";
-        std::cout << opcode->repr() << std::endl;
+        LOG(INFO) << "Opcode: " << opcode->repr();
         opcode_type = opcode->getType();
 
         if (opcode_type == "LabelOpcode"){
             auto label_opcode = CAST_OPCODE_AS(LabelOpcode)(opcode);
+            LOG(INFO) <<
+                "Label " << label_opcode->label <<
+                " at address 0x" << std::hex << address;
+
             symbols[label_opcode->label] = address;
 
         } else if (opcode_type == "OrigOpcode"){
@@ -65,8 +70,7 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
         op = NULL;
         opcode_type = opcode->getType();
 
-        std::cout << "Opcode: ";
-        std::cout << opcode->repr() << std::endl;
+        LOG(INFO) << "Opcode: " << opcode->repr();
 
         if (opcode_type == "LabelOpcode" || opcode_type == "OrigOpcode"){
             // handled in the first pass
@@ -92,7 +96,7 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
             throw UnknownOpcode(opcode_type);
         }
 
-        std::cout << op->repr() << std::endl;
+        LOG(INFO) << op->repr();
         new_opcodes.push_back(op);
     }
 
@@ -104,11 +108,11 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
     std::string opcode_type;
     galaxy::jupiter::opcodes::LiteralOpcode* op = NULL;
 
-    std::cout << "Processing " << opcodes.size() << std::endl;
+    LOG(INFO) << "Processing " << opcodes.size();
 
     for (auto opcode : opcodes) {
-        std::cout << "Opcode: " << opcode->repr() << std::endl;
         op = NULL;
+        LOG(INFO) << "Opcode: " << opcode->repr();
         opcode_type = opcode->getType();
 
         if (opcode_type == "LiteralOpcode") {

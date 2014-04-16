@@ -11,6 +11,8 @@
     #include <algorithm>
     #include <iterator>
 
+    #include <glog/logging.h>
+
     #include "parser.h"
     #include "opcodes/opcodes.hpp"
     //#define NDEBUG
@@ -36,12 +38,12 @@
     #ifndef NDEBUG
 
     for(int i=1; i<=yypParser->yyidx; i++)
-        std::cout << " " << yyTokenName[yypParser->yystack[i].major] << std::endl;
+        LOG(INFO) << " " << yyTokenName[yypParser->yystack[i].major] << std::endl;
 
-    std::cout << " | " << yyTokenName[yymajor];
-    std::cout << " ] unexpected '";
-    std::cout << (yymajor != 0 && TOKEN != NULL) ? TOKEN->repr() : "$ (EOF)";
-    std::cout << "'" << std::endl;
+    LOG(INFO) << " | " << yyTokenName[yymajor];
+    LOG(INFO) << " ] unexpected '";
+    LOG(INFO) << (yymajor != 0 && TOKEN != NULL) ? TOKEN->repr() : "$ (EOF)";
+    LOG(INFO) << "'" << std::endl;
 
     #endif
 */
@@ -55,11 +57,11 @@
 }
 
 %parse_failure {
-    std::cout << "Giving up. Parser is hopelessly lost..." << std::endl;
+    LOG(INFO) << "Giving up. Parser is hopelessly lost..." << std::endl;
 }
 
 %stack_overflow {
-    std::cout << "Giving up. Parser stack overflow" << std::endl;
+    LOG(INFO) << "Giving up. Parser stack overflow" << std::endl;
 }
 
 

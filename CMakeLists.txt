@@ -15,6 +15,11 @@ set(THIRD-PARTY ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/FindGlog.cmake)
+if (NOT GLOG_FOUND)
+    message(FATAL_ERROR "GLog not found")
+endif()
+
 # setup OptionParser
 set(OPTIONPARSER_DIR ${THIRD-PARTY}/optparse/)
 add_library(optionparser
@@ -41,6 +46,7 @@ add_library(libjupiter
 )
 # we dont want liblibjupiter :P
 set_target_properties(libjupiter PROPERTIES PREFIX "")
+target_link_libraries(libjupiter ${GLOG_LIBRARIES})
 
 # build the lexer
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/src/lib/rl_parser)

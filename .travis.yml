@@ -4,7 +4,14 @@ install:
     # install dependencies
     - "sudo apt-add-repository -y \"deb http://ubuntu.mirror.cambrium.nl/ubuntu/ quantal main\""
     - "sudo apt-get update"
-    - "sudo apt-get install gcc g++ build-essential"
+    - "sudo apt-get install 
+        gcc g++
+        build-essential
+        libgoogle-glog-dev
+        libgoogle-glog0
+        libgoogle-gflags-dev
+        libgoogle-gflags2
+     "
 
 before_script:
     # check submodules are available
