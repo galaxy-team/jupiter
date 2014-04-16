@@ -17,7 +17,10 @@
         "IFA"i | "IFL"i | "IFU"i | "ADX"i |
         "SBX"i | "STI"i | "STD"i;
 
-    special_opcode_prim = "JSR"i | "INT"i;
+    special_opcode_prim =
+        "JSR"i | "HCF"i | "INT"i | "IAG"i |
+        "IAS"i | "IAP"i | "HWN"i | "HQN"i |
+        "HWI"i;
 
     dat = "DAT"i;
     export_token = "EXPORT"i; # "export" seems to be reserved
