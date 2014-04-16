@@ -87,7 +87,8 @@ int main(int argc, char** argv)
     std::ifstream inf(in);
 
     if (!inf.good()){
-        std::cerr << "Bad file" << std::endl;
+        std::cerr << "Valid input file required\n" << std::endl;
+        parser.print_help();
         return -1;
     }
 
