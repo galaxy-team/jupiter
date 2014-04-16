@@ -27,9 +27,6 @@ add_library(optionparser
 )
 include_directories(${OPTIONPARSER_DIR})
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/FindRagel.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/lemon.cmake)
-
 # setup libjupiter
 set(JUPITER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
 
@@ -48,6 +45,9 @@ add_library(libjupiter
 set_target_properties(libjupiter PROPERTIES PREFIX "")
 target_link_libraries(libjupiter ${GLOG_LIBRARIES})
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/FindRagel.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/lemon.cmake)
+
 # build the lexer
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/src/lib/rl_parser)
 include_directories(${JUPITER_SOURCE_DIR}/rl_parser)
@@ -61,7 +61,11 @@ set_source_files_properties(
 # lexer done
 
 # generate the parser
-LEMON(src/lib/rl_parser/parser src/lib/rl_parser/parser LEMON_FILES)
+LEMON(
+    src/lib/rl_parser/parser
+    src/lib/rl_parser/parser
+    LEMON_FILES
+)
 add_custom_target(lemon_files DEPENDS ${LEMON_FILES})
 # parser done
 
