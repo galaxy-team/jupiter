@@ -37,3 +37,32 @@ TEST_CASE("Test basic opcodes", "[basic_opcode]") {
         0x8803
     });
 }
+
+#include "rl_parser/rl_parser.hpp"
+#include "rl_parser/parser.h"
+
+#define T(token_type, contents) \
+    new galaxy::jupiter::Token(token_type, contents)
+
+#define P(token_type, contents) \
+    new galaxy::jupiter::opcodes::Part(\
+        T(token_type, contents)  \
+    )
+
+#define REQUIRE_OPCODES(a, b) REQUIRE(a->repr() == a->repr())
+
+TEST_CASE("Test basic parsing", "[parsing]") {
+    std::string input = "ADD A, A";
+
+    auto opcodes = galaxy::jupiter::parser::parse(input);
+
+    opcode_vector correct = {
+        new galaxy::jupiter::opcodes::BasicOpcode(
+            "ADD",
+            P(REGISTER, "A"),
+            P(REGISTER, "A")
+        )
+    };
+
+    REQUIRE_OPCODES(opcodes[0], correct[0]);
+}
