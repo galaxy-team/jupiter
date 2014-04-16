@@ -14,6 +14,11 @@ MACRO(LEMON SRC DST VAR)
         #     MAIN_DEPENDENCY ${CMAKE_SOURCE_DIR}/lemon/lempar.c
         # )
 
+        find_program(LEMON lemon)
+        if (NOT LEMON)
+            message(FATAL_ERROR "Could not find lemon; ${LEMON}")
+        endif()
+
         get_filename_component(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/${DST} PATH)
         file(MAKE_DIRECTORY ${OUTPUT_DIR})
 
