@@ -52,10 +52,7 @@
 
 %token_destructor { ParseARG_STORE; }
 
-%parse_accept {
-    std::cout << "Parsing completed" << std::endl;
-}
-
+%parse_accept {} // silently succeed
 %parse_failure {
     LOG(INFO) << "Giving up. Parser is hopelessly lost..." << std::endl;
 }
