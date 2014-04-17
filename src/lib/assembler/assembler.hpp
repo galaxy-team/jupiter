@@ -11,10 +11,10 @@
 namespace galaxy {
     namespace jupiter {
         namespace assembler {
-            class UnknownOpcode : public std::exception {
+            class unknown_opcode : public std::exception {
             public:
-                virtual ~UnknownOpcode() {};
-                UnknownOpcode(std::string msg) : msg(msg) {};
+                virtual ~unknown_opcode() {};
+                unknown_opcode(std::string msg) : msg(msg) {};
                 std::string msg;
 
                 virtual const char* what() const noexcept {
@@ -24,10 +24,10 @@ namespace galaxy {
                 }
             };
 
-            class UnknownLabel : public std::exception {
+            class unknown_label : public std::exception {
             public:
-                virtual ~UnknownLabel() {};
-                UnknownLabel(std::string msg) : msg(msg) {};
+                virtual ~unknown_label() {};
+                unknown_label(std::string msg) : msg(msg) {};
                 std::string msg;
 
                 virtual const char* what() const noexcept {

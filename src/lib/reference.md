@@ -13,16 +13,17 @@ Pass 2;
 Revised;
 
 Pass 1;
- Input: std::vector<Opcode*> without LiteralOpcode's
- Process: parse everything that can be into LiteralOpcode's, without label values
- Output: std::vector<Opcode*> with LiteralOpcode replacing those which can
+ Input: std::vector<opcode*> without literal_opcode's
+ Process: parse everything that can be into literal_opcode's, without label values
+ Output: std::vector<opcode*> with literal_opcode replacing those which can
 
-Pass 2;
- Input: std::vector<Opcode*> with LiteralOpcode's
+
+Pass 1;
+ Input: std::vector<opcode*> with literal_opcode's
  Process: collect labels, locations (returns the symbol_map)
  Output: symbol_map
 
-Pass 3;
- Input: std::vector<Opcode*>, symbol_map
- Process: recalculate LiteralOpcode's using the source attribute with the label values
+Pass 2;
+ Input: std::vector<opcode*>, symbol_map
+ Process: recalculate literal_opcode's using the source attribute with the label values
  Output: object file

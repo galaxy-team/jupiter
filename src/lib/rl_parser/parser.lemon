@@ -1,4 +1,4 @@
-%token_type {galaxy::jupiter::Token*}
+%token_type {galaxy::jupiter::token*}
 %extra_argument { opcode_vector *opcodes }
 
 %include {
@@ -71,19 +71,19 @@ statement_list ::= statement_list statement.
 statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
     NN(name); NN(b); NN(a);
 
-    opcodes->emplace_back(new galaxy::jupiter::opcodes::BasicOpcode(
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::basic_opcode(
             name->contents,
-            new galaxy::jupiter::opcodes::Part(a),
-            new galaxy::jupiter::opcodes::Part(b)
+            new galaxy::jupiter::opcodes::part(a),
+            new galaxy::jupiter::opcodes::part(b)
     ));
 }
 
 statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     NN(name); NN(b);
 
-    opcodes->emplace_back(new galaxy::jupiter::opcodes::SpecialOpcode(
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::special_opcode(
             name->contents,
-            new galaxy::jupiter::opcodes::Part(b)
+            new galaxy::jupiter::opcodes::part(b)
         )
     );
 }
@@ -91,14 +91,14 @@ statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
 statement ::= COLON LABEL_NAME(name). {
     NN(name);
 
-    opcodes->emplace_back(new galaxy::jupiter::opcodes::LabelOpcode(name->contents));
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::label_opcode(name->contents));
 }
 
 statement ::= DOT DAT dat_content(con). {
     NN(con);
 
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::DATOpcode(con->contents)
+        new galaxy::jupiter::opcodes::dat_opcode(con->contents)
     );
 }
 
@@ -113,7 +113,7 @@ statement ::= DOT EXPORT comma_list(label_list). {
     };
 
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::ExportOpcode(exported_labels)
+        new galaxy::jupiter::opcodes::export_opcode(exported_labels)
     );
 }
 
@@ -128,7 +128,7 @@ statement ::= DOT IMPORT comma_list(label_list). {
     };
 
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::ImportOpcode(imported_labels)
+        new galaxy::jupiter::opcodes::import_opcode(imported_labels)
     );
 }
 
@@ -147,7 +147,7 @@ statement ::= DOT FILL number(content) number(number). {
     int num = strtol(number->contents.c_str(), NULL, 0);
     int filler = strtol(content->contents.c_str(), NULL, 0);
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::FillOpcode(filler, num)
+        new galaxy::jupiter::opcodes::fill_opcode(filler, num)
     );
 }
 
@@ -156,7 +156,7 @@ statement ::= DOT ORIG number(position). {
 
     int position_num = strtol(position->contents.c_str(), NULL, 0);
     opcodes->emplace_back(
-        new galaxy::jupiter::opcodes::OrigOpcode(position_num)
+        new galaxy::jupiter::opcodes::orig_opcode(position_num)
     );
 }
 

@@ -12,18 +12,18 @@
 
 // forward declare the opcodes
 namespace galaxy { namespace jupiter { namespace opcodes {
-    class BasicOpcode;
-    class DATOpcode;
-    class ExportOpcode;
-    class FillOpcode;
-    class LabelOpcode;
-    class LiteralOpcode;
-    class Opcode;
-    class OrigOpcode;
-    class Part;
-    class SpecialOpcode;
+    class basic_opcode;
+    class dat_opcode;
+    class export_opcode;
+    class fill_opcode;
+    class label_opcode;
+    class literal_opcode;
+    class opcode;
+    class orig_opcode;
+    class part;
+    class special_opcode;
 }}}
-typedef std::vector<galaxy::jupiter::opcodes::Opcode*> opcode_vector;
+typedef std::vector<galaxy::jupiter::opcodes::opcode*> opcode_vector;
 typedef std::unordered_map<std::string, std::uint16_t> symbol_map;
 
 // before the includes that use them :P
@@ -32,27 +32,27 @@ typedef std::unordered_map<std::string, std::uint16_t> symbol_map;
 
 
 namespace galaxy { namespace jupiter { namespace opcodes {
-    class Opcode {
+    class opcode {
     public:
-        Opcode() {};
+        opcode() {};
 
-        virtual ~Opcode() {};
+        virtual ~opcode() {};
         virtual std::string getType() = 0;
         virtual std::string repr() = 0;
 
         std::string makeRepr(std::string vars);
     };
 
-    // the BasicOpcode, DATOpcode, and SpecialOpcode all end up
-    // being one of these (LiteralOpcodes)
-    class LiteralOpcode : public Opcode {
+    // the basic_opcode, dat_opcode, and special_opcode all end up
+    // being one of these (literal_opcodes)
+    class literal_opcode : public opcode {
     public:
-        LiteralOpcode(std::vector<std::uint16_t> contents, Opcode* source) : contents(contents), source(source) {};
+        literal_opcode(std::vector<std::uint16_t> contents, opcode* source) : contents(contents), source(source) {};
 
-        virtual ~LiteralOpcode() {};
+        virtual ~literal_opcode() {};
 
         std::uint16_t size() { return contents.size(); }
-        std::string getType() { return "LiteralOpcode"; }
+        std::string getType() { return "literal_opcode"; }
 
         std::string repr() {
             std::stringstream ss;
@@ -67,14 +67,14 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         }
 
         std::vector<std::uint16_t> contents;
-        Opcode* source = NULL;
+        opcode* source = NULL;
     };
 
-    class Part {
+    class part {
     public:
-        virtual ~Part() {};
-        Part(token_vector sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
-        Part(galaxy::jupiter::Token* token) : is_reference(false) {
+        virtual ~part() {};
+        part(token_vector sub_tokens, bool is_reference) : sub_tokens(sub_tokens), is_reference(is_reference) {};
+        part(galaxy::jupiter::token* token) : is_reference(false) {
             sub_tokens.push_back(token);
         };
 
@@ -93,95 +93,97 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         }
     };
 
-    class LabelOpcode : public Opcode {
+    class label_opcode : public opcode {
     public:
-        LabelOpcode(std::string label) : label(label) {};
+        label_opcode(std::string label) : label(label) {};
         std::string label;
 
-        virtual ~LabelOpcode() {};
+        virtual ~label_opcode() {};
 
-        std::string getType(){ return "LabelOpcode"; }
+        std::string getType(){ return "label_opcode"; }
         std::string repr();
     };
 
-    class SpecialOpcode : public Opcode {
+    class special_opcode : public opcode {
     public:
-        SpecialOpcode(std::string name, Part* a) : name(name), a(a) {};
+        special_opcode(std::string name, part* a) : name(name), a(a) {};
         std::string name;
-        Part* a;
+        part* a;
 
-        virtual ~SpecialOpcode(){};
+        virtual ~special_opcode(){};
 
-        LiteralOpcode* assemble(symbol_map symbols);
-        std::string getType(){ return "SpecialOpcode"; };
+        literal_opcode* assemble(symbol_map symbols);
+        std::string getType(){ return "special_opcode"; };
         std::string repr();
     };
 
-    class BasicOpcode : public Opcode {
+    class basic_opcode : public opcode {
     public:
-        BasicOpcode(std::string name, Part* a, Part* b)
+        basic_opcode(std::string name, part* a, part* b)
             : name(galaxy::stoupper(name)), a(a), b(b) {};
         std::string name;
-        Part* a;
-        Part* b;
+        part* a;
+        part* b;
 
-        virtual ~BasicOpcode() {};
+        virtual ~basic_opcode() {};
 
-        LiteralOpcode* assemble(symbol_map symbols);
-        std::string getType(){ return "BasicOpcode"; }
+        literal_opcode* assemble(symbol_map symbols);
+        std::string getType(){ return "basic_opcode"; }
         std::string repr();
+
+
     };
 
-    class OrigOpcode : public Opcode {
+    class orig_opcode : public opcode {
     public:
-        OrigOpcode(int location) : location(location) {};
+        orig_opcode(int location) : location(location) {};
         int location;
 
-        virtual ~OrigOpcode() {};
+        virtual ~orig_opcode() {};
 
-        std::string getType(){ return "OrigOpcode"; }
+        std::string getType(){ return "orig_opcode"; }
         std::string repr();
     };
 
-    class DATOpcode : public Opcode {
+    class dat_opcode : public opcode {
     public:
-        DATOpcode(std::string contents) : contents(contents) {};
+        dat_opcode(std::string contents) : contents(contents) {};
         std::string contents;
 
-        virtual ~DATOpcode() {};
+        virtual ~dat_opcode() {};
 
-        std::string getType(){ return "DATOpcode"; }
+        std::string getType(){ return "dat_opcode"; }
         std::string repr();
-        LiteralOpcode* format();
+        literal_opcode* format();
     };
 
-    class ExportOpcode : public Opcode {
+    class export_opcode : public opcode {
     public:
-        ExportOpcode(std::vector<std::string> label_names) : label_names(label_names) {};
+        export_opcode(std::vector<std::string> label_names) : label_names(label_names) {};
         std::vector<std::string> label_names;
 
-        virtual ~ExportOpcode() {};
+        virtual ~export_opcode() {};
 
-        std::string getType(){ return "ExportOpcode"; }
+        std::string getType(){ return "export_opcode"; }
         std::string repr();
     };
 
-    // functionally identical to ExportOpcode
-    class ImportOpcode : public ExportOpcode {
+    // functionally identical to export_opcode
+    class import_opcode : public export_opcode {
     public:
-        ImportOpcode(std::vector<std::string> label_names) : ExportOpcode(label_names) {};
-        std::string getType(){ return "ImportOpcode"; }
+        import_opcode(std::vector<std::string> label_names) : export_opcode(label_names) {};
+        std::string getType(){ return "import_opcode"; }
     };
 
-    class FillOpcode : public Opcode {
+    class fill_opcode : public opcode {
     public:
-        FillOpcode(std::uint16_t contents, std::uint16_t length) : length(length), contents(contents) {};
+        fill_opcode(std::uint16_t contents, std::uint16_t length) : length(length), contents(contents) {};
         std::uint16_t length;
         std::uint16_t contents;
 
-        virtual ~FillOpcode() {};
+        virtual ~fill_opcode() {};
 
-        std::string getType() { return "FillOpcode"; }
+        std::string getType() { return "fill_opcode"; }
         std::string repr() {
             std::stringstream ss;
             ss << "for " << length << " of \"" << contents << "\"";
@@ -191,7 +193,7 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         // if fill just generates a sequence of sixteen bit numbers,
         // then the size is just the length
         std::uint16_t size() { return length; }
-        LiteralOpcode* format();
+        literal_opcode* format();
     };
 }}}
 

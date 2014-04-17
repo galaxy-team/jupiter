@@ -28,7 +28,7 @@ void emit(void* lparser,
           int token_type, opcode_vector *opcodes,
           std::uint16_t newlines) {
 
-    auto token = new galaxy::jupiter::Token(
+    auto token = new galaxy::jupiter::token(
         token_type, newlines, getStr(ts, te)
 
         #ifndef NDEBUG
