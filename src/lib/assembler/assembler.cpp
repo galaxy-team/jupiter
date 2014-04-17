@@ -70,9 +70,13 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
 
         LOG(INFO) << "Opcode: " << opcode->repr();
 
-        if (opcode_type == "LabelOpcode" || opcode_type == "OrigOpcode"){
+        if (opcode_type == "LabelOpcode") {
             // handled in the first pass
             continue;
+
+        } else if (opcode_type == "OrigOpcode"){
+            // used in the first and last pass
+            op = opcode;
 
         } else if (opcode_type == "FillOpcode"){
             auto fill_opcode = CAST_OPCODE_AS(Fill)(opcode);
@@ -114,6 +118,23 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
 
         if (opcode_type == "LiteralOpcode") {
             op = CAST_OPCODE_AS(Literal)(opcode);
+
+        } else if (opcode_type == "OrigOpcode") {
+            auto orig_opcode = CAST_OPCODE_AS(Orig)(opcode);
+
+            std::uint16_t distance_to_cover = (
+                orig_opcode->location - objfile.object_code.size()
+            );
+
+            if (distance_to_cover < 0) {
+                throw new galaxy::jupiter::assembler::bad_origin(
+                    orig_opcode->location
+                );
+            }
+
+            for (int i=0; i < distance_to_cover; i++) {
+                objfile.object_code.push_back(0x0);
+            }
 
         } else if (opcode_type == "ExportOpcode") {
             // put the exported labels into the object file
