@@ -122,7 +122,7 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
         } else if (opcode_type == "OrigOpcode") {
             auto orig_opcode = CAST_OPCODE_AS(Orig)(opcode);
 
-            std::uint16_t distance_to_cover = (
+            int distance_to_cover = (
                 orig_opcode->location - objfile.object_code.size()
             );
 
