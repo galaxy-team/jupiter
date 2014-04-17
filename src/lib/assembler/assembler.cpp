@@ -12,7 +12,7 @@
 #include "assembler.hpp"
 
 
-#define CAST_OPCODE_AS(type) dynamic_cast<galaxy::jupiter::opcodes::type*>
+#define CAST_OPCODE_AS(type) dynamic_cast<galaxy::jupiter::opcodes::type##Opcode*>
 
 
 symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
@@ -26,7 +26,7 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
         opcode_type = opcode->getType();
 
         if (opcode_type == "LabelOpcode"){
-            auto label_opcode = CAST_OPCODE_AS(LabelOpcode)(opcode);
+            auto label_opcode = CAST_OPCODE_AS(Label)(opcode);
             LOG(INFO) <<
                 "Label " << label_opcode->label <<
                 " at address 0x" << std::hex << address;
@@ -34,19 +34,19 @@ symbol_map galaxy::jupiter::assembler::find_symbols(opcode_vector opcodes){
             symbols[label_opcode->label] = address;
 
         } else if (opcode_type == "OrigOpcode"){
-            auto orig_opcode = CAST_OPCODE_AS(OrigOpcode)(opcode);
+            auto orig_opcode = CAST_OPCODE_AS(Orig)(opcode);
             address = orig_opcode->location;
 
         } else if (opcode_type == "FillOpcode"){
-            auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
+            auto fill_opcode = CAST_OPCODE_AS(Fill)(opcode);
             address += fill_opcode->size();
 
         } else if (opcode_type == "BasicOpcode"){
-            auto basic_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
+            auto basic_opcode = CAST_OPCODE_AS(Basic)(opcode);
             address += basic_opcode->assemble(symbols)->size();
 
         } else if (opcode_type == "DATOpcode") {
-            auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
+            auto dat_opcode = CAST_OPCODE_AS(DAT)(opcode);
             address += dat_opcode->format()->contents.size();
 
         } else if (opcode_type == "ExportOpcode" || opcode_type == "ImportOpcode"){
@@ -75,15 +75,15 @@ opcode_vector galaxy::jupiter::assembler::pass_two(opcode_vector opcodes, symbol
             continue;
 
         } else if (opcode_type == "FillOpcode"){
-            auto fill_opcode = CAST_OPCODE_AS(FillOpcode)(opcode);
+            auto fill_opcode = CAST_OPCODE_AS(Fill)(opcode);
             op = fill_opcode->format();
 
         } else if (opcode_type == "BasicOpcode"){
-            auto instruction_opcode = CAST_OPCODE_AS(BasicOpcode)(opcode);
+            auto instruction_opcode = CAST_OPCODE_AS(Basic)(opcode);
             op = instruction_opcode->assemble(symbols);
 
         } else if (opcode_type == "DATOpcode") {
-            auto dat_opcode = CAST_OPCODE_AS(DATOpcode)(opcode);
+            auto dat_opcode = CAST_OPCODE_AS(DAT)(opcode);
             op = dat_opcode->format();
 
         } else if (opcode_type == "ExportOpcode" || opcode_type == "ImportOpcode" ){
@@ -113,11 +113,11 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
         opcode_type = opcode->getType();
 
         if (opcode_type == "LiteralOpcode") {
-            op = CAST_OPCODE_AS(LiteralOpcode)(opcode);
+            op = CAST_OPCODE_AS(Literal)(opcode);
 
         } else if (opcode_type == "ExportOpcode") {
             // put the exported labels into the object file
-            auto export_opcode = CAST_OPCODE_AS(ExportOpcode)(opcode);
+            auto export_opcode = CAST_OPCODE_AS(Export)(opcode);
 
             for (auto label_name: export_opcode->label_names) {
                 if (symbols.find(label_name) == symbols.end()) {
@@ -129,7 +129,7 @@ galaxy::asteroid galaxy::jupiter::assembler::resolve_to_bytecode(opcode_vector o
 
         } else if (opcode_type == "ImportOpcode") {
             // put the imported labels into the object file
-            auto import_opcode = CAST_OPCODE_AS(ImportOpcode)(opcode);
+            auto import_opcode = CAST_OPCODE_AS(Import)(opcode);
             for (auto label_name : import_opcode->label_names)
                 objfile.imported_labels.emplace(symbols[label_name], label_name);
 
