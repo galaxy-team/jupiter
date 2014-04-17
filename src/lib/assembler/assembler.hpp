@@ -11,10 +11,11 @@
 namespace galaxy {
     namespace jupiter {
         namespace assembler {
-            class unknown_opcode : public std::exception {
+            class assembler_exception : public std::exception {
             public:
-                virtual ~unknown_opcode() {};
-                unknown_opcode(std::string msg) : msg(msg) {};
+                virtual ~assembler_exception() {};
+                assembler_exception() {};
+                assembler_exception(std::string msg) : msg(msg) {};
                 std::string msg;
 
                 virtual const char* what() const noexcept {
@@ -24,15 +25,40 @@ namespace galaxy {
                 }
             };
 
-            class unknown_label : public std::exception {
+            class unknown_opcode : public assembler_exception {
+            public:
+                virtual ~unknown_opcode() {};
+                unknown_opcode(std::string msg) : assembler_exception(msg) {};
+
+                virtual const char* what() const noexcept {
+                    std::stringstream ss;
+                    ss << "No such opcode: " << msg;
+                    return ss.str().c_str();
+                }
+            };
+
+            class unknown_label : public assembler_exception {
             public:
                 virtual ~unknown_label() {};
-                unknown_label(std::string msg) : msg(msg) {};
+                unknown_label(std::string msg) : assembler_exception(msg) {};
                 std::string msg;
 
                 virtual const char* what() const noexcept {
                     std::stringstream ss;
                     ss << "No such label: " << msg;
+                    return ss.str().c_str();
+                }
+            };
+
+            class bad_origin : public assembler_exception {
+            public:
+                bad_origin(std::uint16_t address) : address(address) {};
+                std::uint16_t address;
+
+                virtual const char* what() const noexcept {
+                    std::stringstream ss;
+                    ss << "Program has already advanced past address 0x";
+                    ss << std::hex << address;
                     return ss.str().c_str();
                 }
             };
