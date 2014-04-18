@@ -11,12 +11,16 @@ set(THIRD-PARTY ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/asteroid)
 
-# setup OptionParser
 set(OPTIONPARSER_DIR ${THIRD-PARTY}/optparse/)
-add_library(optionparser
-    ${OPTIONPARSER_DIR}/OptionParser.cpp
-)
 include_directories(${OPTIONPARSER_DIR})
+if (TARGET optionparser)
+    message(STATUS "OptionParser already built as part of another part of Galaxy")
+else()
+    # setup OptionParser
+    add_library(optionparser
+        ${OPTIONPARSER_DIR}/OptionParser.cpp
+    )
+endif()
 
 # setup libjupiter
 set(JUPITER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
