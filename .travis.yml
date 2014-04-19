@@ -8,6 +8,7 @@ install:
     - "sudo apt-get install
         gcc g++
         build-essential
+        lemon ragel
         libgoogle-glog-dev
         libgoogle-glog0
         libgflags2
