@@ -5,15 +5,13 @@ install:
     - "sudo apt-add-repository -y \"deb http://ubuntu.mirror.cambrium.nl/ubuntu/ quantal main\""
     - "sudo apt-add-repository -y ppa:tuleu/precise-backports"
     - "sudo apt-get update"
-    - "apt-cache search gflag"
     - "sudo apt-get install
         gcc g++
         build-essential
         libgoogle-glog-dev
         libgoogle-glog0
         libgflags2
-        libgoogle-gflags-dev
-        libgoogle-gflags2
+        libgflags-dev
      "
 
 before_script:
