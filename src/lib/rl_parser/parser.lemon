@@ -60,15 +60,20 @@
 %stack_overflow {
     LOG(INFO) << "Giving up. Parser stack overflow" << std::endl;
 }
+*/
 
 
+program ::= lines.
 
-program ::= statement_list.
+lines ::= /* empty */.
+lines ::= lines line.
 
-statement_list ::= /* empty */.
-statement_list ::= statement_list statement.
 
-statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
+line ::= line_content NEWLINE.
+line ::= line_content.
+
+
+line_content ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
     NN(name); NN(b); NN(a);
 
     opcodes->emplace_back(new galaxy::jupiter::opcodes::basic_opcode(
@@ -78,7 +83,7 @@ statement ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
     ));
 }
 
-statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
+line_content ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     NN(name); NN(b);
 
     opcodes->emplace_back(new galaxy::jupiter::opcodes::special_opcode(
@@ -88,13 +93,13 @@ statement ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     );
 }
 
-statement ::= COLON LABEL_NAME(name). {
+line_content ::= COLON LABEL_NAME(name). {
     NN(name);
 
     opcodes->emplace_back(new galaxy::jupiter::opcodes::label_opcode(name->contents));
 }
 
-statement ::= DOT DAT dat_content(con). {
+line_content ::= DOT DAT dat_content(con). {
     NN(con);
 
     opcodes->emplace_back(
@@ -102,7 +107,7 @@ statement ::= DOT DAT dat_content(con). {
     );
 }
 
-statement ::= DOT EXPORT comma_list(label_list). {
+line_content ::= DOT EXPORT comma_list(label_list). {
     NN(label_list);
 
     // break up the list
@@ -117,7 +122,7 @@ statement ::= DOT EXPORT comma_list(label_list). {
     );
 }
 
-statement ::= DOT IMPORT comma_list(label_list). {
+line_content ::= DOT IMPORT comma_list(label_list). {
     NN(label_list);
 
     // break up the list
@@ -141,7 +146,7 @@ comma_list(A) ::= LABEL_NAME(B) comma_list_clause(C). {
 }
 comma_list_clause(A) ::= COMMA comma_list(B). { NN(B); A=B; }
 
-statement ::= DOT FILL number(content) number(number). {
+line_content ::= DOT FILL number(content) number(number). {
     NN(content); NN(number);
 
     int num = strtol(number->contents.c_str(), NULL, 0);
@@ -151,7 +156,7 @@ statement ::= DOT FILL number(content) number(number). {
     );
 }
 
-statement ::= DOT ORIG number(position). {
+line_content ::= DOT ORIG number(position). {
     NN(position);
 
     int position_num = strtol(position->contents.c_str(), NULL, 0);
