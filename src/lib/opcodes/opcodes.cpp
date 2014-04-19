@@ -64,13 +64,8 @@ galaxy::jupiter::opcodes::literal_opcode* galaxy::jupiter::opcodes::basic_opcode
     std::uint16_t opcode;
     std::vector<std::uint16_t> words;
 
-    LOG(INFO) << "Accessing: " << name;
-    if (galaxy::jupiter::assembler::basic_opcodes.find(name) == galaxy::jupiter::assembler::basic_opcodes.end()) {
-        throw galaxy::jupiter::assembler::unknown_opcode(name);
-    } else {
-        opcode = galaxy::jupiter::assembler::basic_opcodes.at(name);
-        LOG(INFO) << "opcode: 0x" << std::hex << opcode;
-    }
+    opcode = galaxy::jupiter::assembler::basic_opcodes.at(name);
+    LOG(INFO) << "opcode: 0x" << std::hex << opcode;
 
     std::uint16_t final = a->resolve_as_value(symbols);
     LOG(INFO) << "0b" << std::bitset<16>(final);

@@ -37,12 +37,11 @@ void emit(void* lparser,
     );
 
     #ifndef NDEBUG
-    LOG(INFO) << yyTokenName[token_type];
     int length = 20 - std::string(yyTokenName[token_type]).length();
 
     std::stringstream ss;
     for (int i = 0; i < length; ++i) ss << " ";
-    LOG(INFO) << ss.str() << " == \"" << token->contents <<  "\"";
+    LOG(INFO) << yyTokenName[token_type] << ss.str() << " == \"" << token->contents <<  "\"";
 
     #endif
 
@@ -63,8 +62,8 @@ void emit(void* lparser,
         newline =>              { newlines++; };
 
         not_colon registers =>  {
-            // get rid of whatever the not_colon char is
-            ts += 1;
+            // get rid of whatever the not_colon and not_comma chars are
+            ts++;
             EMIT(REGISTER);
         };
         hexadecimal =>          { EMIT(HEXADECIMAL); };
