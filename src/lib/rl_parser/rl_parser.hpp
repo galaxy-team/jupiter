@@ -26,7 +26,7 @@ private:
 
 class syntax_error : public std::exception {
 public:
-    virtual ~syntax_error() {};
+    virtual ~syntax_error() {} noexcept(true);
     syntax_error(std::string msg) : msg(msg) {};
     std::string msg;
 
