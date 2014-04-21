@@ -94,7 +94,10 @@ line_content ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
     );
 }
 
-line_content ::= LABEL_NAME(name) COLON. {
+label_format(A) ::= LABEL_NAME(B) COLON. { A=B; }
+label_format(A) ::= COLON LABEL_NAME(B). { A=B; }
+
+line_content ::= label_format(name). {
     NN(name);
 
     opcodes->emplace_back(new galaxy::jupiter::opcodes::label_opcode(name->contents));
