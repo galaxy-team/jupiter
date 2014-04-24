@@ -8,6 +8,7 @@ install:
  - 'sudo apt-get update'
  - 'sudo apt-get install gcc-4.8 g++-4.8 build-essential lemon ragel libgoogle-glog-dev libgoogle-glog0 libgflags2 libgflags-dev'
  - 'sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50'
+ - 'sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50'
 
 before_script:
     # check submodules are available
@@ -17,7 +18,7 @@ before_script:
 
 script:
     # configure w/ cmake, make
-   - "cmake .. -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_CC_COMPILER=gcc-4.8"
+   - "cmake . -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_CC_COMPILER=gcc-4.8"
    - "make"
 
 notifications:
