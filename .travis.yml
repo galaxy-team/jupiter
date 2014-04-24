@@ -1,17 +1,29 @@
 language: cpp
-# install dependencies
+
 install:
+    # install dependencies
     - "sudo apt-add-repository -y \"deb http://ubuntu.mirror.cambrium.nl/ubuntu/ quantal main\""
+    - "sudo apt-add-repository -y ppa:tuleu/precise-backports"
     - "sudo apt-get update"
-    - "sudo apt-get install gcc g++ build-essential" # python3-dev"
-# check submodules are available
+    - "sudo apt-get install
+        gcc g++
+        build-essential
+        lemon ragel
+        libgoogle-glog-dev
+        libgoogle-glog0
+        libgflags2
+        libgflags-dev
+     "
+
 before_script:
+    # check submodules are available
    - "git submodule update --init"
    - "gcc --version"
+
 script:
+    # configure w/ cmake, make
    - "cmake ."
    - "make"
-
 
 notifications:
   irc: "irc.freenode.net#0x10c-galaxy"

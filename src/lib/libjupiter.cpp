@@ -20,41 +20,36 @@ file named "LICENSE-LGPL.txt".
 
 */
 
-#include "libjupiter.hpp"
+#include <libjupiter.hpp>
 
-#include <algorithm>
-#include <iterator>
-#include <sstream>
-#include <vector>
+#include <iostream>
+
+#include <glog/logging.h>
 
 #include <libasteroid.hpp>
-
-template<typename Iter, typename OutIter>
-void tokenise(Iter begin, Iter end, OutIter dest);
+#include <rl_parser/rl_parser.hpp>
+#include <assembler/assembler.hpp>
 
 galaxy::asteroid galaxy::jupiter::assemble(
     std::string::const_iterator begin,
     std::string::const_iterator end
 )
 {
-    std::vector<std::string> tokens;
-    tokenise(begin, end, std::back_inserter(tokens));
-    for(auto iter = tokens.begin(); iter != tokens.end(); ++iter) {
+    opcode_vector opcodes;
 
+    opcodes = galaxy::jupiter::parser::parse(
+        std::string(begin, end)
+    );
+
+    for (auto it = opcodes.begin(); it != opcodes.end(); ++it){
+        LOG(INFO) << (**it).repr() << std::endl;
     }
 
-    galaxy::asteroid obj;
-    return obj;
-}
+    LOG(INFO) << "First pass";
+    auto symbol_map = galaxy::jupiter::assembler::find_symbols(opcodes);
+    LOG(INFO) << "Second pass: " << opcodes.size();
+    opcodes = galaxy::jupiter::assembler::pass_two(opcodes, symbol_map);
+    LOG(INFO) << "Third pass: " << opcodes.size();
 
-template<typename Iter, typename OutIter>
-void tokenise(Iter begin, Iter end, OutIter dest)
-{
-    std::stringstream ss;
-    std::copy(begin, end, std::ostream_iterator<char>(ss));
-    std::copy(
-        std::istream_iterator<std::string>(ss),
-        std::istream_iterator<std::string>(),
-        dest
-    );
+    return galaxy::jupiter::assembler::resolve_to_bytecode(opcodes, symbol_map);
 }

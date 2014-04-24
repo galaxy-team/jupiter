@@ -24,12 +24,7 @@ file named "LICENSE-LGPL.txt".
 #define LIBJUPITER_HPP
 
 #include <cstdint>
-
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
 #include <libasteroid.hpp>
 
 namespace galaxy {

@@ -1,0 +1,190 @@
+%token_type {galaxy::jupiter::token*}
+%extra_argument { opcode_vector *opcodes }
+
+%include {
+    #include <cassert>
+    #include <cstdlib>
+
+    #include <iostream>
+    #include <string>
+    #include <sstream>
+    #include <algorithm>
+    #include <iterator>
+
+    #include <glog/logging.h>
+
+    #include "parser.h"
+    #include "opcodes/opcodes.hpp"
+    //#define NDEBUG
+
+    // fail on first error
+    #define YYNOERRORRECOVERY
+
+    // NN == NOT NULL
+    #define NN(x) assert(x != NULL);
+}
+
+%syntax_error {
+    std::stringstream ss;
+
+    ss << "Syntax error ";
+
+    #ifndef NDEBUG
+    ss << "at token " << yyTokenName[yymajor] << " ";
+    #endif
+
+    ss << "on line " << TOKEN->line_no << std::endl;
+/*
+    #ifndef NDEBUG
+
+    for(int i=1; i<=yypParser->yyidx; i++)
+        LOG(INFO) << " " << yyTokenName[yypParser->yystack[i].major] << std::endl;
+
+    LOG(INFO) << " | " << yyTokenName[yymajor];
+    LOG(INFO) << " ] unexpected '";
+    LOG(INFO) << (yymajor != 0 && TOKEN != NULL) ? TOKEN->repr() : "$ (EOF)";
+    LOG(INFO) << "'" << std::endl;
+
+    #endif
+*/
+    throw galaxy::jupiter::parser::syntax_error(ss.str());
+}
+
+%token_destructor { ParseARG_STORE; }
+
+%parse_accept {} // silently succeed
+/*
+%parse_failure {
+    LOG(INFO) << "Giving up. Parser is hopelessly lost..." << std::endl;
+}
+
+%stack_overflow {
+    LOG(INFO) << "Giving up. Parser stack overflow" << std::endl;
+}
+*/
+
+
+program ::= lines.
+
+lines ::= /* empty */.
+lines ::= lines line.
+
+
+line ::= line_content NEWLINE.
+line ::= line_content.
+
+
+line_content ::= BASIC_OPCODE_LITERAL(name) part(b) COMMA part(a). {
+    NN(name); NN(b); NN(a);
+
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::basic_opcode(
+            name->contents,
+            new galaxy::jupiter::opcodes::part(a),
+            new galaxy::jupiter::opcodes::part(b)
+    ));
+}
+
+line_content ::= SPECIAL_OPCODE_LITERAL(name) part(b). {
+    NN(name); NN(b);
+
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::special_opcode(
+            name->contents,
+            new galaxy::jupiter::opcodes::part(b)
+        )
+    );
+}
+
+label_format(A) ::= LABEL_NAME(B) COLON. { A=B; }
+label_format(A) ::= COLON LABEL_NAME(B). { A=B; }
+
+line_content ::= label_format(name). {
+    NN(name);
+
+    opcodes->emplace_back(new galaxy::jupiter::opcodes::label_opcode(name->contents));
+}
+
+line_content ::= DOT DAT dat_content(con). {
+    NN(con);
+
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::dat_opcode(con->contents)
+    );
+}
+
+line_content ::= DOT EXPORT comma_list(label_list). {
+    NN(label_list);
+
+    // break up the list
+    std::istringstream iss(label_list->contents);
+    std::vector<std::string> exported_labels {
+        std::istream_iterator<std::string>{iss},
+        std::istream_iterator<std::string>{}
+    };
+
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::export_opcode(exported_labels)
+    );
+}
+
+line_content ::= DOT IMPORT comma_list(label_list). {
+    NN(label_list);
+
+    // break up the list
+    std::istringstream iss(label_list->contents);
+    std::vector<std::string> imported_labels {
+        std::istream_iterator<std::string>{iss},
+        std::istream_iterator<std::string>{}
+    };
+
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::import_opcode(imported_labels)
+    );
+}
+
+comma_list(A) ::= LABEL_NAME(B). { NN(B); A=B; }
+comma_list(A) ::= LABEL_NAME(B) comma_list_clause(C). {
+    NN(B); NN(C);
+
+    A=B;
+    B->contents += " " + C->contents + " ";
+}
+comma_list_clause(A) ::= COMMA comma_list(B). { NN(B); A=B; }
+
+line_content ::= DOT FILL number(content) number(number). {
+    NN(content); NN(number);
+
+    int num = strtol(number->contents.c_str(), NULL, 0);
+    int filler = strtol(content->contents.c_str(), NULL, 0);
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::fill_opcode(filler, num)
+    );
+}
+
+line_content ::= DOT ORIG number(position). {
+    NN(position);
+
+    int position_num = strtol(position->contents.c_str(), NULL, 0);
+    opcodes->emplace_back(
+        new galaxy::jupiter::opcodes::orig_opcode(position_num)
+    );
+}
+
+// if we don't pass on the string, it gets destroyed
+dat_content(A) ::= quoted_string(B).    { NN(B); A=B; }
+dat_content(A) ::= number(B).           { NN(B); A=B; }
+
+quoted_string(A) ::= QUOTED_STRING(B). {
+    NN(B);
+
+    A=B;
+    A->contents = B->contents.substr(
+        1, B->contents.length() - 2
+    );
+}
+
+part(A) ::= REGISTER(B).    { A=B; }
+part(A) ::= number(B).      { A=B; }
+part(A) ::= LABEL_NAME(B).  { A=B; }
+
+number(A) ::= DECIMAL(B).       { A=B; }
+number(A) ::= HEXADECIMAL(B).   { A=B; }

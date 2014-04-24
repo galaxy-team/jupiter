@@ -36,6 +36,7 @@ file named "LICENSE.txt".
 /* third party */
 #include "OptionParser.h"
 
+#include <glog/logging.h>
 
 int main(int argc, char** argv)
 {
@@ -48,26 +49,49 @@ int main(int argc, char** argv)
     optparse::Values options = parser.parse_args(argc, argv);
     std::vector<std::string> args = parser.args();
 
-    /// DECLARE INPUT AND OUTPUT FILENAMES.
+    // declare input and output filenames.
     std::string in;
     std::string out;
 
-    /// GET INPUT AND OUTPUT FILENAMES FROM COMMAND LINE ARGUMENTS
+    // enable color logging
+    FLAGS_logtostderr = true;
+    FLAGS_colorlogtostderr = true;
+
     // Test that we have the right number of arguments
     if (args.empty()) {
         // if no positional (required) arguments were provided, print help and exit
         parser.print_help();
         return -1;
-    } else {
-        // The input filename is always the first argument.
-        in = args[0];
+    }
 
-        // We use the second argument as the output filename.
+    // get input and output filenames from command line arguments
+    // The input filename is always the first argument.
+    in = args[0];
+
+    // We use the second argument as the output filename.
+    if (args.size() == 1){
+        // If the output filename is unspecified, use a modified form of
+        // the input filename.
+        //
+        // e.g. "jupiter boot.asm" is equivalent to "jupiter boot.asm boot.o"
+
+        // Strip the last file extension, and replace with ".o"
+        out = in.substr(0, in.find_last_of('.')) + ".o";
+
+    } else {
+        // Otherwise, we use the second argument as the output filename.
         out = args[1];
     }
 
-    /// READ IN THE INPUT FILE
+    // read in the input file
     std::ifstream inf(in);
+
+    if (!inf.good()){
+        std::cerr << "Valid input file required\n" << std::endl;
+        parser.print_help();
+        return -1;
+    }
+
     std::string asm_code;
     {
         char ch;
@@ -76,38 +100,13 @@ int main(int argc, char** argv)
         }
     }
 
-    /// ASSEMBLE THE ASM
-    galaxy::asteroid objfile = galaxy::jupiter::assemble(asm_code.begin(), asm_code.end());
+    // assemble the asm
+    galaxy::asteroid objfile = galaxy::jupiter::assemble(
+        asm_code.begin(),
+        asm_code.end()
+    );
 
-    /// WRITE OUT TO OUTPUT FILE - sorry about the mess
     std::ofstream outf(out);
-    std::uint16_t size;
-    // write out object_file.exported_labels
-    size = objfile.exported_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
-    for (std::pair<std::string, std::uint16_t> pair : objfile.exported_labels) {
-        const char *s = pair.first.c_str();
-        outf.write(s, pair.first.size()+1);
-        outf.write(reinterpret_cast<char*>(&pair.second), sizeof(std::uint16_t));
-    }
-    // write out object_file.imported_labels
-    size = objfile.imported_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
-    for (std::pair<std::uint16_t, std::string> pair : objfile.imported_labels) {
-        const char *s = pair.second.c_str();
-        outf.write(s, pair.second.size()+1);
-        outf.write(reinterpret_cast<char*>(&pair.first), sizeof(std::uint16_t));
-    }
-    // write out object_file.used_labels
-    size = objfile.used_labels.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
-    for (std::uint16_t address : objfile.used_labels) {
-        outf.write(reinterpret_cast<char*>(&address), sizeof address);
-    }
-    // write out object_file.object_code
-    size = objfile.object_code.size();
-    outf.write(reinterpret_cast<char*>(&size), sizeof(std::uint16_t));
-    for (std::uint16_t byte : objfile.object_code) {
-        outf.write(reinterpret_cast<char*>(&byte), sizeof byte);
-    }
+    galaxy::asteroid_belt::write_obj(objfile, outf);
+    outf.close();
 }
