@@ -2,18 +2,12 @@ language: cpp
 
 install:
     # install dependencies
-    - "sudo apt-add-repository -y \"deb http://ubuntu.mirror.cambrium.nl/ubuntu/ quantal main\""
-    - "sudo apt-add-repository -y ppa:tuleu/precise-backports"
-    - "sudo apt-get update"
-    - "sudo apt-get install
-        gcc g++
-        build-essential
-        lemon ragel
-        libgoogle-glog-dev
-        libgoogle-glog0
-        libgflags2
-        libgflags-dev
-     "
+ - 'sudo apt-add-repository -y "deb http://ubuntu.mirror.cambrium.nl/ubuntu/ quantal main"'
+ - 'sudo apt-add-repository -y ppa:tuleu/precise-backports'
+ - 'sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test'
+ - 'sudo apt-get update'
+ - 'sudo apt-get install gcc-4.8 g++-4.8 build-essential lemon ragel libgoogle-glog-dev libgoogle-glog0 libgflags2 libgflags-dev'
+ - 'sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50'
 
 before_script:
     # check submodules are available
