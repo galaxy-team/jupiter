@@ -13,10 +13,11 @@ before_script:
     # check submodules are available
    - "git submodule update --init"
    - "gcc --version"
+   - "g++ --version"
 
 script:
     # configure w/ cmake, make
-   - "cmake ."
+   - "cmake .. -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_CC_COMPILER=gcc-4.8"
    - "make"
 
 notifications:
