@@ -5,6 +5,9 @@
 
 namespace galaxy { namespace jupiter {
 
+class token; // forward declare
+typedef std::vector<galaxy::jupiter::token*> token_vector;
+
 class token {
 public:
     int token_type;
@@ -33,6 +36,5 @@ public:
 
 }}
 
-typedef std::vector<galaxy::jupiter::token*> token_vector;
 
 #endif
