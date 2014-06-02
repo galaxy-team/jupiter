@@ -24,10 +24,10 @@ private:
     void* lparser;
 };
 
-class syntax_error : public std::exception {
+class syntax_error : public std::runtime_error {
 public:
-    virtual ~syntax_error() noexcept(true) {};
-    syntax_error(std::string msg) : msg(msg) {};
+    virtual ~syntax_error() {};
+    syntax_error(std::string msg) : std::runtime_error(msg.c_str()) {};
     std::string msg;
 
     virtual const char* what() const noexcept {
