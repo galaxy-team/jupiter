@@ -41,6 +41,10 @@ namespace galaxy { namespace jupiter { namespace opcodes {
         virtual std::string repr() = 0;
 
         std::string makeRepr(std::string vars);
+
+        bool operator== (opcode *Ref) {
+            return Ref->repr() == repr();
+        }
     };
 
     // the basic_opcode, dat_opcode, and special_opcode all end up
