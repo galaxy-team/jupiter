@@ -13,6 +13,7 @@ public:
     int token_type;
     std::uint16_t line_no;
     std::string contents;
+    token_vector contents_vector;
     std::string token_name = "";
 
     token(int token_type, std::uint16_t line_num, std::string contents) :
