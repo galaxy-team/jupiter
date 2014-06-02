@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include "utils.hpp"
 
 #include "libjupiter.hpp"
 
