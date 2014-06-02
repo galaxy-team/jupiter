@@ -83,7 +83,7 @@ void emit(void* lparser,
             EMIT(QUOTED_STRING);
         };
 
-        semicolon not_newline* newline => {}; # ignore comments
+        semicolon not_newline* newline => { EMIT(NEWLINE) }; # ignore comments
 
         label_name =>           { EMIT(LABEL_NAME); };
 
