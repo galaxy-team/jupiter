@@ -33,7 +33,13 @@
     ss << "at token " << yyTokenName[yymajor] << " ";
     #endif
 
-    ss << "on line " << TOKEN->line_no << std::endl;
+    ss << "on line ";
+
+    if (TOKEN == NULL) {
+        ss << " unknown";
+    } else {
+        ss << TOKEN->line_no;
+    }
 /*
     #ifndef NDEBUG
 
