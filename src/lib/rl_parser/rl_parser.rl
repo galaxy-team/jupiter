@@ -30,13 +30,11 @@ void emit(void* lparser,
 
     auto token = new galaxy::jupiter::token(
         token_type, newlines, getStr(ts, te)
-
-        #ifndef NDEBUG
-        ,yyTokenName[token_type]
-        #endif
     );
 
     #ifndef NDEBUG
+    token->set_token_name(yyTokenName[token_type]);
+
     int length = 20 - std::string(yyTokenName[token_type]).length();
 
     std::stringstream ss;
