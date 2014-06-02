@@ -11,11 +11,11 @@
 namespace galaxy {
     namespace jupiter {
         namespace assembler {
-            class assembler_exception : public std::exception {
+            class assembler_exception : public std::runtime_error {
             public:
                 virtual ~assembler_exception() {};
-                assembler_exception() {};
-                assembler_exception(std::string msg) : msg(msg) {};
+                assembler_exception() : std::runtime_error("") {};
+                assembler_exception(std::string msg) : assembler_exception(msg) {};
                 std::string msg;
 
                 virtual const char* what() const noexcept {
