@@ -3,12 +3,16 @@
 
 #include <bitset>
 #include <vector>
+#include "libasteroid.hpp"
 
 std::vector<std::bitset<16>> bitset_assemble(
     std::string::const_iterator begin,
     std::string::const_iterator end
 );
 void REQUIRE_ASM(std::string input_string, std::vector<std::bitset<16>> vector_required);
+
+std::vector<std::bitset<16>> asteroid_to_bitsets(galaxy::asteroid in_aster);
+
 
 #define T(token_type, contents) \
     new galaxy::jupiter::token(token_type, contents)
