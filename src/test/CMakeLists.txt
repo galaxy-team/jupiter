@@ -7,6 +7,7 @@ add_executable(test_jupiter
     utils.cpp
 
     tests/parsing.cpp
+    tests/assembling.cpp
 )
 
 target_link_libraries(test_jupiter libjupiter)
