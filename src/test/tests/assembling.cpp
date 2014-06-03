@@ -38,14 +38,14 @@
 //     );
 // }
 
-TEST_CASE("Test fill directive assembling", "[parsing,fill_directive]") {
+TEST_CASE("Test fill directive assembling", "[assembling,fill_directive]") {
     REQUIRE_OPS_TO_ASM(
         {O(fill)(0xCAFE, 0x5)},
         {0xCAFE, 0xCAFE, 0xCAFE, 0xCAFE, 0xCAFE}
     );
 }
 
-TEST_CASE("Test orig directive assembling", "[parsing,orig_directive]") {
+TEST_CASE("Test orig directive assembling", "[assembling,orig_directive]") {
     REQUIRE_OPS_TO_ASM(
         {O(orig)(0x05), O(dat)("w")},
         {0x0, 0x0, 0x0, 0x0, 0x0, 0x77}
