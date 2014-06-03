@@ -38,6 +38,13 @@
 //     );
 // }
 
+TEST_CASE("Test dat opcode assembling", "[assembling,dat_directive") {
+    REQUIRE_OPS_TO_ASM(
+        {O(dat)("w")},
+        {0x77}
+    );
+}
+
 TEST_CASE("Test fill directive assembling", "[assembling,fill_directive]") {
     REQUIRE_OPS_TO_ASM(
         {O(fill)(0xCAFE, 0x5)},
