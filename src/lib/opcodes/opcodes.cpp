@@ -42,6 +42,9 @@ std::string galaxy::jupiter::opcodes::basic_opcode::repr(){
     );
 }
 
+typedef std::uint16_t word;
+typedef std::vector<word> word_vector;
+
 // Does the actual parsing and assembling
 galaxy::jupiter::opcodes::literal_opcode* galaxy::jupiter::opcodes::basic_opcode::assemble(symbol_map symbols) {
 
