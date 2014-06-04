@@ -15,6 +15,17 @@ TEST_CASE("Test basic parsing", "[parsing,basic_opcode]") {
     );
 }
 
+TEST_CASE("Test basic reference parsing", "[parsing,basic_opcode]") {
+    REQUIRE_OPCODE_SINGLE(
+        "ADD A, [A]",
+        O(basic)(
+            "ADD",
+            P(REGISTER, "A"),
+            P(REGISTER, "[A]")
+        )
+    );
+}
+
 TEST_CASE("Test special opcode parsing", "[parsing,special_opcode]") {
     REQUIRE_OPCODE_SINGLE(
         "INT 0",
