@@ -3,6 +3,6 @@ jupiter [![Build Status](https://travis-ci.org/galaxy-team/jupiter.svg?branch=de
 
 Galaxy's assembler.
 
-Requires;
+Requires:
  * lemon
  * ragel
